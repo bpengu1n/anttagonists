@@ -1,0 +1,14 @@
+Class Diagram Changes Needed
+----------------------------
+ParameterSet.adjustParameters() has changed
+  same with ParameterArea
+View.actionPerformed(e) is now public
+View implements ActionListener
+all of the Timer functions need renaming to match javax.swing.Timer
+Simulation needs to be an observable, not Field
+
+
+Prototyping not finished
+------------------------
+View still needs to be an Observer, and Simulation an observable
+PopupWindow still needs to be created
