@@ -1,6 +1,7 @@
 package antsimulation.view;
+import javax.swing.*;
 
-public class ParameterArea {
+public class ParameterArea extends JPanel {
     private boolean editable;
     //private ParameterSet activeParameterSet;
         //we will probably use a GUI rather than the OBJECT ParameterSet.  We will see.

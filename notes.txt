@@ -6,20 +6,18 @@ View.actionPerformed(e) is now public
 View implements ActionListener
 all of the Timer functions need renaming to match javax.swing.Timer
 Simulation needs to be an observable, not Field
+Ant.followPheromones() name and parameter change
+Ant.stuff : change public/private ; add update()
+  -same for Predator and Colony
+GridUnit:
+ - this stays on the diagram, but only "Pheromone" stays connected to it
+ - colony and foodpile need to have location, now
+ - update Field accordingly
+ add the Field get/set/decay parameters methods
 
 
 Prototyping not finished
 ------------------------
 View still needs to be an Observer, and Simulation an observable
 PopupWindow still needs to be created
-
-
-GridUnit
---------
-This system sucks.
-  We should make Foodpiles and Colonies like Ants and Predators, with a location
-  We can make pheromones into an array under Field: int pheromones[faction][width][height];  Use examples:
-    Field.decayParameters();
-	Ant.dropPheromone() -> Field.setPheromone(ant.x,ant.y,ant.faction,strength)
-    Ant.followPheromone() -> checks Field.pheromoneAt(someX,someY,ant.faction) for a few locations to decide where to go
 

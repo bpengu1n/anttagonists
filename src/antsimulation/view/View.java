@@ -1,7 +1,8 @@
 package antsimulation.view;
 import java.awt.event.*;
+import javax.swing.*;
 
-public class View implements ActionListener, ItemListener {
+public class View extends JPanel implements ActionListener, ItemListener {
     private boolean simulationRunning;
     private antsimulation.ParameterSet scenario;
     private ParameterArea parameterArea;

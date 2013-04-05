@@ -5,7 +5,8 @@ public class Predator {
     private Field.Dir dir;
     private int xLoc, yLoc; //Location
     
-    public void eatAnt(Ant ant) {}
-    public void leave() {}
-    public void wander() {}
+    public void update() {}
+    private void eatAnt(Ant ant) {}
+    private void leave() {}
+    private void wander() {}
 }
