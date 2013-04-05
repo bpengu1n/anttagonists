@@ -12,3 +12,14 @@ Prototyping not finished
 ------------------------
 View still needs to be an Observer, and Simulation an observable
 PopupWindow still needs to be created
+
+
+GridUnit
+--------
+This system sucks.
+  We should make Foodpiles and Colonies like Ants and Predators, with a location
+  We can make pheromones into an array under Field: int pheromones[faction][width][height];  Use examples:
+    Field.decayParameters();
+	Ant.dropPheromone() -> Field.setPheromone(ant.x,ant.y,ant.faction,strength)
+    Ant.followPheromone() -> checks Field.pheromoneAt(someX,someY,ant.faction) for a few locations to decide where to go
+
