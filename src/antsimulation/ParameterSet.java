@@ -1,8 +1,78 @@
+/**
+ * PARAMETER LIST
+PARAMETER:			DESCRIPTION
+Ant curiosity:		Indicates the tendency of ants to leave the pheromone trails and wander the field at random.
+Ant starvation:		Indicates the time a ant can live without food.
+Ant hunger:			Indicates the time a ant will go before trying to eat food, if possible.
+Ant lifetime:		Indicates the maximum time that a ant can live.
+Reproduction rate:	Indicates the tendency of the colony to produce new ants.
+Reproduction cost:	Indicates the amount of food required to produce a new ant.
+Pheromone strength:	Indicates the initial strength of pheromones.
+Pheromone decay:	Indicates how quickly pheromones decay.
+Predator hunger:	Indicates how much a predator will eat before leaving the field.
+Predator skill:		Indicates the probability of a predator successfully eating a ant.
+Predator frequency:	Indicates how likely it is for a predator to appear on the field.
+ */
+
 package antsimulation;
+import java.util.Arrays;
 
 public class ParameterSet {
-    private Parameter[] parameters;
+    
+	private static Boolean EDITABLE = true;
+	
+	private static String[] PARAMETER_NAMES = {
+		"AntCuriosity",
+		"AntStarvation",
+		"AntHunger",
+		"AntLifetime",
+		"ReproductionRate",
+		"ReproductionCost",
+		"PheromoneStrength",
+		"PheromoneDecay",
+		"PredatorHunger",
+		"PredatorSkill",
+		"PredatorFrequency"
+	};	
 
-    public void adjustParameter(String name, double val, boolean edit) {}
-    public double checkParameter(String name) { return 1; }
+	private static float PARAMETER_DEFAULT_VALUE = .5f;
+	/*private static float[] PARAMETER_DEFAULT_VALUES = {
+		.5f,
+		.5f,
+		.5f,
+		.5f,
+		.5f,
+		.5f,
+		.5f,
+		.5f,
+		.5f,
+		.5f,
+		.5f,
+	};*/
+	
+	private Parameter[] parameters;
+	
+	public ParameterSet()
+	{
+		for(int i = 0; i < ParameterSet.PARAMETER_NAMES.length; i++)
+			parameters[0] = new Parameter(
+					ParameterSet.PARAMETER_NAMES[i],
+					ParameterSet.PARAMETER_DEFAULT_VALUE,
+					ParameterSet.EDITABLE);
+	}
+	
+    public void adjustParameter(String name, double val, boolean editable) 
+    {
+    	int parameterIndex = Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf(name);
+    	
+    	if(editable)
+    		this.parameters[parameterIndex].setValue(val);
+    }
+    
+    public double checkParameter(String name) 
+    {
+    	int parameterIndex = Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf(name);
+    	
+    	return parameters[parameterIndex].getValue();
+    }
 }
