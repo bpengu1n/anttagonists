@@ -19,9 +19,9 @@ import java.util.Arrays;
 
 public class ParameterSet {
     
-	private static Boolean EDITABLE = true;
+	public static Boolean EDITABLE = true;
 	
-	private static String[] PARAMETER_NAMES = {
+	public static String[] PARAMETER_NAMES = {
 		"AntCuriosity",
 		"AntStarvation",
 		"AntHunger",
@@ -35,7 +35,7 @@ public class ParameterSet {
 		"PredatorFrequency"
 	};	
 
-	private static float PARAMETER_DEFAULT_VALUE = .5f;
+	public static float PARAMETER_DEFAULT_VALUE = .5f;
 	/*private static float[] PARAMETER_DEFAULT_VALUES = {
 		.5f,
 		.5f,
@@ -54,8 +54,10 @@ public class ParameterSet {
 	
 	public ParameterSet()
 	{
+		parameters = new Parameter[ParameterSet.PARAMETER_NAMES.length];
+		
 		for(int i = 0; i < ParameterSet.PARAMETER_NAMES.length; i++)
-			parameters[0] = new Parameter(
+			parameters[i] = new Parameter(
 					ParameterSet.PARAMETER_NAMES[i],
 					ParameterSet.PARAMETER_DEFAULT_VALUE,
 					ParameterSet.EDITABLE);
@@ -63,6 +65,12 @@ public class ParameterSet {
 	
     public void adjustParameter(String name, double val, boolean editable) 
     {
+    	if(this.parameters==null)
+    	{
+    		System.err.println("Parameter " + name + " was adjusted without ParameterList instantiation!");
+    		return;
+    	}
+    	
     	int parameterIndex = Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf(name);
     	
     	if(editable)
@@ -75,4 +83,11 @@ public class ParameterSet {
     	
     	return parameters[parameterIndex].getValue();
     }
+
+	public void print() 
+	{
+		for(int i = 0; i < ParameterSet.PARAMETER_NAMES.length; i++)
+			System.out.println(parameters[i].toString());
+		
+	}
 }

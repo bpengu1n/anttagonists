@@ -15,4 +15,8 @@ public class Parameter {
     public double getValue() { return value; }
     public boolean isEditable() { return isEditable; }
     public void setValue(double val) { value = val; }
+    public String toString()
+	{
+		return name + " = " + value;
+	}
 }
