@@ -18,7 +18,6 @@ package antsimulation;
 import java.util.Arrays;
 
 public class ParameterSet {
-    
 	public static Boolean EDITABLE = true;
 	
 	public static String[] PARAMETER_NAMES = {

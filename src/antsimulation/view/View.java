@@ -1,9 +1,11 @@
 package antsimulation.view;
+import antsimulation.ParameterSet;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.event.*;
 
-public class View extends JPanel implements ActionListener, ItemListener {
+public class View extends JPanel implements ActionListener, ItemListener, ChangeListener {
     private boolean simulationRunning;
     private antsimulation.ParameterSet scenario;
     private ParameterArea parameterArea;
@@ -19,6 +21,7 @@ public class View extends JPanel implements ActionListener, ItemListener {
         controlArea = new ControlArea(this);
         parameterArea = new ParameterArea(this);
         displayArea = new SimulationDisplay();
+        scenario = new ParameterSet();
         status = new JLabel("status");
         loadMI = new JMenuItem("Load Scenario");
         loadMI.addActionListener(this);
@@ -44,23 +47,44 @@ public class View extends JPanel implements ActionListener, ItemListener {
         saveMI.setEnabled(false);
     }
     
-    public void updateSimulationDisplay(antsimulation.model.Simulation s) {}
-    
+    public void updateSimulationDisplay(antsimulation.model.Field f) {
+        displayArea.update(f);
+    }
+
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == exitMI)
             System.exit(0);
-        if (e.getSource() == controlArea.startButton)
+        if (e.getSource() == controlArea.startButton) {
+            ParameterSet p = parameterArea.getParameterSet();
+            controller.startSimulation(p);
             System.out.println("Start");
-        if (e.getSource() == controlArea.stopButton)
+        }
+        if (e.getSource() == controlArea.stopButton) {
+            controller.stopSimulation();
             System.out.println("Stop");
-        if (e.getSource() == controlArea.generateOutput)
+        }
+        if (e.getSource() == controlArea.generateOutput) {
+            controller.generateOutputFile("Output.txt");
             System.out.println("Output");
-        if (e.getSource() == controlArea.loadScenarioButton || e.getSource() == loadMI)
+        }
+        if (e.getSource() == controlArea.loadScenarioButton || e.getSource() == loadMI) {
+            //ask which file to load, and load it
             System.out.println("Load");
-        if (e.getSource() == controlArea.resetParametersButton)
+        }
+        if (e.getSource() == controlArea.resetParametersButton) {
+            parameterArea.resetParameters(scenario);
             System.out.println("Restart");
+        }
     }
-    public void itemStateChanged(ItemEvent e) {}
+
+    public void itemStateChanged(ItemEvent e) {
+        System.out.println("Item State Changed");
+        controller.updateSimulation();
+    }
+    
+    public void stateChanged(ChangeEvent e) {
+        System.out.println("Slider Moved.");
+    }
     
     private void loadScenario(String filename) {}
     private void resetParameterArea() {}

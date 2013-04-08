@@ -14,6 +14,7 @@ GridUnit:
  - colony and foodpile need to have location, now
  - update Field accordingly
  add the Field get/set/decay parameters methods
+-update(Simulation) is now update(Field)
 
 
 Prototyping not finished
