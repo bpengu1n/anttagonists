@@ -11,7 +11,11 @@ public class Field {
     
     public void initialize() {
         // Initialize colonies, ants, predators, foodpiles, randomized by width, height
+        // TODO - create skeleton of constructor for each object (ant, colony, etc.)
         // Set parameters, e.g. ants time to die,
+    }
+    public void update() {
+        // Iterate through all lists, call .update() on each object
     }
     public void spawnPredator() {}
     public double getPheromoneAt(int faction, int x, int y) { return 1; }
