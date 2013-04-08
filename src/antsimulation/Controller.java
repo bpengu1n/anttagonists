@@ -1,4 +1,6 @@
 package antsimulation;
+import antsimulation.model.*;
+import antsimulation.view.*;
 import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -17,7 +19,7 @@ public class Controller extends Applet {
         applet.init();
         applet.start();
         window.add(applet);
-        window.setResizable(false);
+//        window.setResizable(false);
         window.pack();
         window.setVisible(true);
     } 
@@ -29,9 +31,22 @@ public class Controller extends Applet {
         ((FlowLayout)getLayout()).setHgap(0);
         add(view);
     }
+
+    public void startSimulation(ParameterSet p) {
+        model = new Simulation(p, view);
+    }
     
-    public void startSimulation(ParameterSet p) {}
-    public void updateSimulation() {}
-    public void generateOutputFile(String filename) {}
-    public void stopSimulation() {}
+    public void updateSimulation() {
+        if (model != null)
+            model.update();
+    }
+    
+    public void generateOutputFile(String filename) {
+        if (model != null)
+            model.generateOutputFile(filename);
+    }
+    
+    public void stopSimulation() {
+        model = null;
+    }
 }

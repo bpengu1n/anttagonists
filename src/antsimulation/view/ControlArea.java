@@ -1,6 +1,7 @@
 package antsimulation.view;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemListener;
 
 public class ControlArea extends JPanel {
     public JButton startButton, stopButton, generateOutput, loadScenarioButton, resetParametersButton;
@@ -14,5 +15,9 @@ public class ControlArea extends JPanel {
         startButton = new JButton("Start Simulation");
         startButton.addActionListener(listener);
         add(startButton);
+        
+        JCheckBox cbox = new JCheckBox("Test Update");
+        cbox.addItemListener((ItemListener)listener);
+        add(cbox);
     }
 }
