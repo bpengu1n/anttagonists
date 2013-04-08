@@ -10,7 +10,7 @@ public class Field {
     private double[][][] pheromones;    //pheromones[faction][x][y]
     
     public void initialize() {
-        // Initialize ants, predators, foodpiles, and colonies, randomized by width, height
+        // Initialize colonies, ants, predators, foodpiles, randomized by width, height
         // Set parameters, e.g. ants time to die,
     }
     public void spawnPredator() {}
