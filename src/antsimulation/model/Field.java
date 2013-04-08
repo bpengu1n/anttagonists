@@ -3,10 +3,10 @@ package antsimulation.model;
 public class Field {
     public enum Dir {UP, DOWN, LEFT, RIGHT};
     private int width, height;
-    private java.util.List<Ant> ants;
-    private java.util.List<Predator> predators;
-    private java.util.List<Foodpile> foodpiles;
-    private Colony[] colonies;
+    public java.util.List<Ant> ants;
+    public java.util.List<Predator> predators;
+    public java.util.List<Foodpile> foodpiles;
+    public Colony[] colonies;
     private double[][][] pheromones;    //pheromones[faction][x][y]
     
     public void initialize() {}
