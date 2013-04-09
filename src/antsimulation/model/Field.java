@@ -36,7 +36,7 @@ public class Field {
         
         // Loop to create foodpiles
         for (int x = 0; x < parameters.checkParameter("StartFoodPiles"); x++) {
-            foodpiles.add(new Foodpile(generator.nextInt(width), generator.nextInt(height), this));
+            foodpiles.add(new Foodpile(generator.nextInt(width), generator.nextInt(height), (int)parameters.checkParameter("StartFoodPileSize"), this));
         }
         
         // Loop to create predators

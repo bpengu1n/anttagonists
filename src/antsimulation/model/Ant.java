@@ -5,7 +5,7 @@ public class Ant {
     private boolean hasFood;
     private int framesSinceAte, framesToLive;
     private Field.Dir dir;
-    private int faction;
+    public int faction;
     
     public Ant(int theFaction, int theX, int theY, int framesofLife){
         faction=theFaction;

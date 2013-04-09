@@ -11,5 +11,6 @@ public class HUD {
     public void paint(Graphics g) {
         g.setColor(Color.BLACK);
         g.drawRect(0,0,60,60);
+        g.drawString("HUD", 5, 15);
     }
 }

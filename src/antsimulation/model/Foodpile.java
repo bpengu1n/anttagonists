@@ -2,13 +2,14 @@ package antsimulation.model;
 
 public class Foodpile {
     public int xLoc, yLoc; //Location
-    private int foodCount;
+    public int foodCount;
     private Field field;
 
-    public Foodpile(int theX, int theY, Field f) {
+    public Foodpile(int theX, int theY, int food, Field f) {
         field = f;
         xLoc = theX;
         yLoc = theY;
+        foodCount = food;
     }
     
     public void decrement() {

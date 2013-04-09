@@ -18,7 +18,13 @@ package antsimulation;
 import java.util.Arrays;
 
 public class ParameterSet {
-	public static Boolean EDITABLE = true;
+	public static Boolean EDITABLE = true;	
+	
+	public static float PARAMETER_DEFAULT_VALUE = 4.5f;
+	public static int SIMULATION_WIDTH = 250;
+	public static int SIMULATION_HEIGHT = 300;
+	
+	public static float START_FOODPILE_SIZE = 10;
 	
 	public static String[] PARAMETER_NAMES = {
 		"AntCuriosity",
@@ -36,22 +42,29 @@ public class ParameterSet {
 		"ySize",
 		"MaxColonies",
 		"StartAntsPerColony",
-                "StartFoodPiles",
-                "StartPredators"
-	};	
-
-	public static float PARAMETER_DEFAULT_VALUE = 4.5f;
+        "StartFoodPiles",
+        "StartFoodPileSize",
+        "StartPredators"
+	};
 	
 	public Parameter[] parameters;
 	
 	public ParameterSet() {
 		parameters = new Parameter[ParameterSet.PARAMETER_NAMES.length];
 		
+		//Set all params to default
 		for(int i = 0; i < ParameterSet.PARAMETER_NAMES.length; i++)
 			parameters[i] = new Parameter(
 					ParameterSet.PARAMETER_NAMES[i],
 					ParameterSet.PARAMETER_DEFAULT_VALUE,
 					ParameterSet.EDITABLE);
+		
+		//Set Custom Values
+		this.parameters[Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf("xSize")].setValue(SIMULATION_WIDTH);
+		this.parameters[Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf("ySize")].setValue(SIMULATION_HEIGHT);
+		this.parameters[Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf("StartFoodPileSize")].setValue(START_FOODPILE_SIZE);
+		
+		
 	}
 	
     public void adjustParameter(String name, double val, boolean editable) 
@@ -65,6 +78,8 @@ public class ParameterSet {
     	
     	if(editable)
     		this.parameters[parameterIndex].setValue(val);
+    	else
+    		System.err.println("Parameter " + name + " is not editable.");
     }
     
     public double checkParameter(String name) {

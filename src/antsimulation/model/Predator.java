@@ -6,7 +6,8 @@ import java.util.Random;
 public class Predator {
     private double hunger;
     private Field.Dir dir;
-    private int xLoc, yLoc; //Location
+    public int xLoc; //Location
+	public int yLoc;
     private Field field;
 
     public Predator(int iniHunger, int theX, int theY, Field f) {
