@@ -2,9 +2,41 @@ package antsimulation.model;
 
 public class Colony {
     private int framesSinceAntBorn;
-    private int faction;
-    private int xLoc, yLoc; //Location
+    public int faction;
+    public int xLoc, yLoc; //Location
+    public int foodCount;
+    private Field field;
+
+    public Colony(Field f) {
+        field = f;
+    }
     
-    public void update() {}
-    private void birthAnt() {}
+    //initializes the location and faction of the colony
+    public Colony(int theFaction, int theX, int theY)
+    {
+    	faction=theFaction;
+    	xLoc=theX;
+    	yLoc=theY;
+    	framesSinceAntBorn=10;
+    	foodCount=100;
+    }
+    //update checks to see if conditions are filled for ant birthing
+    //it also adjusts the framesSinceAntBorn appropriately
+    public void update() {
+    	if(framesSinceAntBorn==0 && foodCount >10)
+    	{
+    		foodCount-=10;
+    		birthAnt();
+    		framesSinceAntBorn=10;//This maybe should be tied to a parameter
+    	}
+    	else
+    	{
+    		--framesSinceAntBorn;
+    	}
+    	
+    	
+    }
+    private void birthAnt() {
+    	field.ants.add(new Ant (faction, xLoc, yLoc, /*parameters.framesofLife*/100));
+    }
 }
