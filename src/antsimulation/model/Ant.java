@@ -7,11 +7,13 @@ public class Ant {
     private int xLoc, yLoc; //Location
     private int faction;
     
-    public Ant(int thisX, int thisY, int thisFact, int ftl) {
-        this.xLoc = thisX;
-        this.yLoc = thisY;
-        this.faction = thisFact;
-        this.framesToLive = ftl;
+    public Ant(int theFaction, int theX, int theY, int framesofLife){
+        faction=theFaction;
+    	xLoc=theX;
+    	yLoc=theY;
+    	framesToLive=framesofLife;
+    	hasFood=false;
+    	framesSinceAte=0;
     }
     public void update() {}
     public void die() {}
