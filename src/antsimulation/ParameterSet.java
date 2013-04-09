@@ -49,7 +49,7 @@ public class ParameterSet {
 		.5f,
 	};*/
 	
-	private Parameter[] parameters;
+	public Parameter[] parameters;
 	
 	public ParameterSet()
 	{

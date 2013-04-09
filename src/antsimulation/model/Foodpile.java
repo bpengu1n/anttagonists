@@ -2,7 +2,18 @@ package antsimulation.model;
 
 public class Foodpile {
     private int foodCount;
-    private int xLoc, yLoc; //Location
+    public int xLoc, yLoc; //Location
+    private Field field;
+
+    public Foodpile(Field f) {
+        field = f;
+    }
     
-    public void decrement() {}
+    public void decrement() {
+    	foodCount--;
+    	if(foodCount==0)
+    	{
+    		field.foodpiles.remove(this);
+    	}
+    }
 }
