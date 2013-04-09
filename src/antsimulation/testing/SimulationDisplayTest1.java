@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import java.util.Date;
 import java.util.Random;
+import antsimulation.ParameterSet;
 import antsimulation.model.*;
 import antsimulation.view.SimulationDisplay;
 
@@ -28,7 +29,8 @@ public class SimulationDisplayTest1 {
 	@Test
 	public void testParameter() {
             SimulationDisplay disp = new SimulationDisplay();
-            disp.update(new Field());
+            ParameterSet p = new ParameterSet();
+            disp.update(new Field(p));
 //            if (disp.dispImage == null)
 //                fail(disp.dispImage + " was not correctly initialized");
 	}

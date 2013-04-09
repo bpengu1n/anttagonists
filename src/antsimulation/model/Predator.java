@@ -9,16 +9,12 @@ public class Predator {
     private int xLoc, yLoc; //Location
     private Field field;
 
-    public Predator(int iniHunger, int theX, int theY)
-    {
+    public Predator(int iniHunger, int theX, int theY, Field f) {
+        field = f;
     	hunger=iniHunger;
     	xLoc=theX;
     	yLoc=theY;
     	dir=Field.Dir.UP;
-    }
-    
-    public Predator(Field f) {
-        field = f;
     }
     
     public void update() {
@@ -50,23 +46,16 @@ public class Predator {
     	int xRand=generator.nextInt(2)-1;
     	int yRand=generator.nextInt(2)-1;
     	xLoc+=xRand;
-    	xLoc+=yRand;
-    	if(xRand==1)
-    	{
+    	yLoc+=yRand;
+    	if(xRand==1) {
     		dir=Field.Dir.RIGHT;
-    	}
-    	else if(xRand==-1)
-    	{
+    	} else if(xRand==-1) {
     		dir=Field.Dir.LEFT;
-    	}
-    	else
-    	{
+    	} else {
     		if(yRand==1)
-    		{
-    			dir=Field.Dir.UP;
-    		}
+                    dir=Field.Dir.UP;
     		else
-    			dir=Field.Dir.DOWN;
+                    dir=Field.Dir.DOWN;
     	}
     }
 }

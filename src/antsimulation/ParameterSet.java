@@ -35,28 +35,16 @@ public class ParameterSet {
 		"xSize",
 		"ySize",
 		"MaxColonies",
-		"StartAntsPerColony"
+		"StartAntsPerColony",
+                "StartFoodPiles",
+                "StartPredators"
 	};	
 
-	public static float PARAMETER_DEFAULT_VALUE = .5f;
-	/*private static float[] PARAMETER_DEFAULT_VALUES = {
-		.5f,
-		.5f,
-		.5f,
-		.5f,
-		.5f,
-		.5f,
-		.5f,
-		.5f,
-		.5f,
-		.5f,
-		.5f,
-	};*/
+	public static float PARAMETER_DEFAULT_VALUE = 4.5f;
 	
 	public Parameter[] parameters;
 	
-	public ParameterSet()
-	{
+	public ParameterSet() {
 		parameters = new Parameter[ParameterSet.PARAMETER_NAMES.length];
 		
 		for(int i = 0; i < ParameterSet.PARAMETER_NAMES.length; i++)
@@ -68,8 +56,7 @@ public class ParameterSet {
 	
     public void adjustParameter(String name, double val, boolean editable) 
     {
-    	if(this.parameters==null)
-    	{
+    	if(this.parameters==null) {
     		System.err.println("Parameter " + name + " was adjusted without ParameterList instantiation!");
     		return;
     	}
@@ -80,15 +67,12 @@ public class ParameterSet {
     		this.parameters[parameterIndex].setValue(val);
     }
     
-    public double checkParameter(String name) 
-    {
+    public double checkParameter(String name) {
     	int parameterIndex = Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf(name);
-    	
     	return parameters[parameterIndex].getValue();
     }
 
-	public void print() 
-	{
+	public void print()  {
 		for(int i = 0; i < ParameterSet.PARAMETER_NAMES.length; i++)
 			System.out.println(parameters[i].toString());
 		

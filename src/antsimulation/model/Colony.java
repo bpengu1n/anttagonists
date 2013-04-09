@@ -7,13 +7,10 @@ public class Colony {
     public int foodCount;
     private Field field;
 
-    public Colony(Field f) {
-        field = f;
-    }
-    
     //initializes the location and faction of the colony
-    public Colony(int theFaction, int theX, int theY)
+    public Colony(int theFaction, int theX, int theY, Field f)
     {
+        field = f;
     	faction=theFaction;
     	xLoc=theX;
     	yLoc=theY;

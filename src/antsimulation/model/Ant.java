@@ -1,10 +1,10 @@
 package antsimulation.model;
 
 public class Ant {
+    public int xLoc, yLoc; //Location
     private boolean hasFood;
     private int framesSinceAte, framesToLive;
     private Field.Dir dir;
-    private int xLoc, yLoc; //Location
     private int faction;
     
     public Ant(int theFaction, int theX, int theY, int framesofLife){

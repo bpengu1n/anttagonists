@@ -17,7 +17,7 @@ public class SimulationDisplay extends JPanel {
     
     public void update(antsimulation.model.Field field) {
         if (dispImage == null)
-            dispImage = new BufferedImage(150,150, BufferedImage.TYPE_INT_RGB);
+            dispImage = new BufferedImage(250,250, BufferedImage.TYPE_INT_RGB);
         Graphics g = dispImage.getGraphics();
 
         
@@ -34,8 +34,9 @@ public class SimulationDisplay extends JPanel {
     
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (dispImage != null)
+        if (dispImage != null) {
             g.drawImage(dispImage, 0,0, 150,150, this);
-        hud.paint(g);
+            hud.paint(g);
+        }
     }
 }
