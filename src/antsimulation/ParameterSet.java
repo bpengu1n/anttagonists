@@ -31,7 +31,11 @@ public class ParameterSet {
 		"PheromoneDecay",
 		"PredatorHunger",
 		"PredatorSkill",
-		"PredatorFrequency"
+		"PredatorFrequency",
+		"xSize",
+		"ySize",
+		"MaxColonies",
+		"StartAntsPerColony"
 	};	
 
 	public static float PARAMETER_DEFAULT_VALUE = .5f;
