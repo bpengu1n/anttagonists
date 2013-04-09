@@ -4,3 +4,8 @@ bin
 .project
 .gitignore
 /dist/
+/nbproject/
+applet.policy
+build.xml
+manifest.mf
+master-applet.jnlp
