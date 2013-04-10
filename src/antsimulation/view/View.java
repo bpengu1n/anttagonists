@@ -78,7 +78,6 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
             System.out.println("Restart");
         }
         if (e.getSource() == timer) {
-            System.out.println("Timer Rang!");
             controller.updateSimulation();
         }
     }
