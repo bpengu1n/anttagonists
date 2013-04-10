@@ -2,7 +2,7 @@ package antsimulation.model;
 
 import java.util.*;
 
-public class Field {
+public class Field extends java.util.Observable {
     public enum Dir {UP, DOWN, LEFT, RIGHT};
     public int width, height;
     public java.util.List<Ant> ants;
@@ -106,6 +106,9 @@ public class Field {
         
         //if (ants.size() != 0)
         //   ants.remove(0);
+
+        setChanged();
+        notifyObservers();
     }
     
     public void spawnPredator() {
@@ -114,5 +117,5 @@ public class Field {
     
     public double getPheromoneAt(int faction, int x, int y) { return 1; }
     public void setPheromoneAt(int faction, int x, int y, double value) { pheromones[faction][x][y] = value; }
-    public void decayParameters() {}
+    private void decayPheromones() {}
 }

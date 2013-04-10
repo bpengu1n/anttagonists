@@ -6,8 +6,7 @@ import javax.swing.event.*;
 
 public class ParameterArea extends JPanel {
     private boolean editable;
-    //private ParameterSet activeParameterSet;
-        //we will probably use a GUI rather than the OBJECT ParameterSet.  We will see.
+    //Note: ParameterSet activeParameterSet is represented by JSliders, rather than an actual object
     
     public ParameterArea(ActionListener listener) {
         add(new JButton("Parameters"));

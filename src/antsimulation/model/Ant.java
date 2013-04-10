@@ -86,6 +86,7 @@ public class Ant {
     	--framesToLive;
     	
     }
+
     public void die() {
     	//field.ants.remove(this);
     	killme=true;
@@ -95,18 +96,22 @@ public class Ant {
     private boolean predatorNear(){
     	return false;
     }
+
     private void takeFood(Foodpile pile) {
     	hasFood=true;
 		pile.decrement();
     }
+
     private void eatFood(Colony home) {
     	home.foodCount--;
     	framesSinceAte=0;
     }
+    
     private void giveFood(Colony home) {
     	home.foodCount++;
     	hasFood=false;
     }
+    
     private void wander() {
     	Random generator = new Random();
     	int xRand=generator.nextInt(3)-1;
@@ -131,15 +136,17 @@ public class Ant {
     			dir=Field.Dir.DOWN;
     	}
     }
+    
     private void flee() {
     	System.out.println("error! this has not yet been implemented!");
     }
+    
     private void layPheromone() {
     	//Does nothing as it has yet to be implemented
     	//field.pheromones[faction][xLoc][yLoc]=100;
     }
+    
     private void followPheromones() {
     	wander();//pheromones not yet fully implemented
     }
 }
-
