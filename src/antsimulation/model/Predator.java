@@ -18,6 +18,7 @@ public class Predator {
     	dir=Field.Dir.UP;
     }
     
+    //update causes the Predator to wander and then eat all ants within its grid
     public void update() {
     	wander();
     	for(Iterator<Ant> i = field.ants.iterator(); i.hasNext(); ) {
@@ -34,6 +35,8 @@ public class Predator {
 			
 		}
     }
+    
+    //predator reduces hunger and destroys the ant
     private void eatAnt(Ant ant) {
     	--hunger;
     	ant.die();
@@ -42,18 +45,21 @@ public class Predator {
     	//This will find nearest edge and head that direction
     	//probably will need a leaving boolean implemented
     }
+    
+    //Wander randomly moves by adding a number from -2 to 2 to the location of the predator
+    //It also sets the direction first based off of its x movement and then the y
     private void wander() {
     	Random generator = new Random();
-    	int xRand=generator.nextInt(2)-1;
-    	int yRand=generator.nextInt(2)-1;
+    	int xRand=generator.nextInt(5)-2;
+    	int yRand=generator.nextInt(5)-2;
     	xLoc+=xRand;
     	yLoc+=yRand;
-    	if(xRand==1) {
+    	if(xRand>0) {
     		dir=Field.Dir.RIGHT;
-    	} else if(xRand==-1) {
+    	} else if(xRand<0) {
     		dir=Field.Dir.LEFT;
     	} else {
-    		if(yRand==1)
+    		if(yRand>0)
                     dir=Field.Dir.UP;
     		else
                     dir=Field.Dir.DOWN;

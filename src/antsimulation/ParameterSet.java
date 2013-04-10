@@ -27,6 +27,7 @@ public class ParameterSet {
 	public static float START_FOODPILE_SIZE = 10;
 	public static float MAX_COLONIES = 4;
 	public static float ANT_LIFETIME = 30;
+	public static float ANT_STARVATION = 10;
 	
 	public static String[] PARAMETER_NAMES = {
 		"AntCuriosity",
@@ -62,6 +63,7 @@ public class ParameterSet {
 					ParameterSet.EDITABLE);
 		
 		//Set Custom Values
+		this.parameters[Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf("AntStarvation")].setValue(ANT_STARVATION);
 		this.parameters[Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf("xSize")].setValue(SIMULATION_WIDTH);
 		this.parameters[Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf("ySize")].setValue(SIMULATION_HEIGHT);
 		this.parameters[Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf("StartFoodPileSize")].setValue(START_FOODPILE_SIZE);

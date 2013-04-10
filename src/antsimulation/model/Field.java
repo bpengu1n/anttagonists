@@ -30,7 +30,7 @@ public class Field {
         for (int x = 0; x < parameters.checkParameter("MaxColonies"); x++) {
             colonies.add(new Colony(x, generator.nextInt(width), generator.nextInt(height), this));
             for (int y = 0; y < parameters.checkParameter("StartAntsPerColony"); y++) {
-                ants.add(new Ant(x, generator.nextInt(width), generator.nextInt(height), (int)(parameters.checkParameter("AntLifetime"))));
+                ants.add(new Ant(x, generator.nextInt(width), generator.nextInt(height), (int)(parameters.checkParameter("AntLifetime")),this));
             }
         }
         
@@ -65,8 +65,8 @@ public class Field {
             nextColony.update();
         }
         
-        if (ants.size() != 0)
-            ants.remove(0);
+        //if (ants.size() != 0)
+        //   ants.remove(0);
     }
     
     public void spawnPredator() {

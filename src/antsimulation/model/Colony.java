@@ -14,7 +14,7 @@ public class Colony {
     	faction=theFaction;
     	xLoc=theX;
     	yLoc=theY;
-    	framesSinceAntBorn=10;
+    	framesSinceAntBorn=0;
     	foodCount=100;
     }
     //update checks to see if conditions are filled for ant birthing
@@ -34,6 +34,6 @@ public class Colony {
     	
     }
     private void birthAnt() {
-    	field.ants.add(new Ant (faction, xLoc, yLoc, (int) field.parameters.checkParameter("AntLifetime")));
+    	field.ants.add(new Ant (faction, xLoc, yLoc, (int) field.parameters.checkParameter("AntLifetime"), field));
     }
 }
