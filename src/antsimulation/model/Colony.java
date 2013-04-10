@@ -20,20 +20,20 @@ public class Colony {
     //update checks to see if conditions are filled for ant birthing
     //it also adjusts the framesSinceAntBorn appropriately
     public void update() {
-    	if(framesSinceAntBorn==0 && foodCount >10)
+    	if(framesSinceAntBorn==10 && foodCount >10)
     	{
     		foodCount-=10;
     		birthAnt();
-    		framesSinceAntBorn=10;//This maybe should be tied to a parameter
+    		framesSinceAntBorn=0;//This maybe should be tied to a parameter
     	}
     	else
     	{
-    		--framesSinceAntBorn;
+    		++framesSinceAntBorn;
     	}
     	
     	
     }
     private void birthAnt() {
-    	field.ants.add(new Ant (faction, xLoc, yLoc, /*parameters.framesofLife*/100));
+    	field.ants.add(new Ant (faction, xLoc, yLoc, (int) field.parameters.checkParameter("AntLifetime")));
     }
 }
