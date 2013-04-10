@@ -8,13 +8,14 @@ public class Simulation {
     public Simulation (antsimulation.ParameterSet p, antsimulation.view.View v) {
         field = new Field(p);
         view = v;
-        view.updateSimulationDisplay(field);
+        field.addObserver(view);
+        view.update(field,null);
     }
 
     public void update() {
         field.update();
-        view.updateSimulationDisplay(field);
     }
+
     public boolean generateOutputFile(String filename) {
         return true;
     }

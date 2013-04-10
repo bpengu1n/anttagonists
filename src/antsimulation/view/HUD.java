@@ -4,13 +4,8 @@ import java.awt.*;
 import antsimulation.model.Field;
 
 public class HUD {
-    public void update(antsimulation.model.Field field) {
-        System.out.println("Ants: " + field.ants.size());
-        System.out.println("Predators: " + field.predators.size());
-        System.out.println("Foodpiles: " + field.foodpiles.size());
-    }
-    
-    public void paint(Graphics g, antsimulation.model.Field field) {
+    public void paint(Graphics g, java.util.Observable o) {
+        antsimulation.model.Field field = (antsimulation.model.Field)o;
         g.setColor(Color.BLACK);
         Font oldFont = g.getFont();
         g.setFont(new Font("serif", Font.BOLD, 14));

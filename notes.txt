@@ -1,24 +1,22 @@
 Class Diagram Changes Needed
 ----------------------------
-ParameterSet.adjustParameters() has changed
-  same with ParameterArea
-View.actionPerformed(e) is now public
-View implements ActionListener
-all of the Timer functions need renaming to match javax.swing.Timer
-Simulation needs to be an observable, not Field
-Ant.followPheromones() name and parameter change
-Ant.stuff : change public/private ; add update()
-  -same for Predator and Colony
-GridUnit:
- - this stays on the diagram, but only "Pheromone" stays connected to it
- - colony and foodpile need to have location, now
- - update Field accordingly
- add the Field get/set/decay parameters methods
--update(Simulation) is now update(Field)
-
+--none currently
 
 Prototyping not finished
 ------------------------
-View still needs to be an Observer, and Simulation an observable
 PopupWindow still needs to be created
 
+
+
+JUnit Testing needed
+--------------------
+-setting the status label
+
+
+WORK NEEDED:
+-add conrols and parameter area
+-add timer
+-(don't add popup windows, yet.  THose features come later)
+-JUnitTesting
+-update old docs
+ -class diagrams are already fine, Sequence Diagrams are not

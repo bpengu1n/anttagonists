@@ -12,6 +12,12 @@ Pheromone decay:	Indicates how quickly pheromones decay.
 Predator hunger:	Indicates how much a predator will eat before leaving the field.
 Predator skill:		Indicates the probability of a predator successfully eating a ant.
 Predator frequency:	Indicates how likely it is for a predator to appear on the field.
+xSize, ySize:           Gives the size of the field
+MaxColonies:            Gives the number of colonies on the field
+StartAntsPerColony:     Gives the initial number of ants per colony initially on the field
+StartFoodPiles:         Gives the initial number of food piles
+StartFoodPileSize:      Gives the initial number of food units per food pile
+StartPredators:         Gives the initial number of predators
  */
 
 package antsimulation;
@@ -45,9 +51,9 @@ public class ParameterSet {
 		"ySize",
 		"MaxColonies",
 		"StartAntsPerColony",
-        "StartFoodPiles",
-        "StartFoodPileSize",
-        "StartPredators"
+            "StartFoodPiles",
+            "StartFoodPileSize",
+            "StartPredators"
 	};
 	
 	public Parameter[] parameters;

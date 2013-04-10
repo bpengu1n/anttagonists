@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-public class View extends JPanel implements ActionListener, ItemListener, ChangeListener {
+public class View extends JPanel implements java.util.Observer, ActionListener, ItemListener, ChangeListener {
     private boolean simulationRunning;
     private antsimulation.ParameterSet scenario;
     private ParameterArea parameterArea;
@@ -13,16 +13,17 @@ public class View extends JPanel implements ActionListener, ItemListener, Change
     private SimulationDisplay displayArea;
     private javax.swing.Timer timer;
     private antsimulation.Controller controller;
-    private JLabel status;
+    private JLabel statusLabel;
     private JMenuItem saveMI, loadMI, exitMI;
-    
-    public View(antsimulation.Controller c) {
+
+    public View(antsimulation.Controller c, boolean isInBrowser) {
         controller = c;
         controlArea = new ControlArea(this);
         parameterArea = new ParameterArea(this);
         displayArea = new SimulationDisplay();
+        timer = new javax.swing.Timer(1000, this);
         scenario = new ParameterSet();
-        status = new JLabel("status");
+        statusLabel = new JLabel("status");
         loadMI = new JMenuItem("Load Scenario");
         loadMI.addActionListener(this);
         saveMI = new JMenuItem("Save Scenario");
@@ -41,27 +42,35 @@ public class View extends JPanel implements ActionListener, ItemListener, Change
         add(controlArea, BorderLayout.WEST);
         add(displayArea, BorderLayout.CENTER);
         add(parameterArea, BorderLayout.EAST);
-        add(status, BorderLayout.SOUTH);
-        //temporary
-        loadMI.setEnabled(false);
-        saveMI.setEnabled(false);
-    }
-    
-    public void updateSimulationDisplay(antsimulation.model.Field f) {
-        displayArea.update(f);
+        add(statusLabel, BorderLayout.SOUTH);
+        //finalize
+        parameterArea.resetParameters(scenario);
+        if (isInBrowser)
+            exitMI.setEnabled(false);
     }
 
+    public void setStatus(String s) {
+        statusLabel.setText(s);
+    }
+    
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == exitMI)
             System.exit(0);
         if (e.getSource() == controlArea.startButton) {
             ParameterSet p = parameterArea.getParameterSet();
             controller.startSimulation(p);
-            System.out.println("Start");
+            timer.start();
         }
         if (e.getSource() == controlArea.stopButton) {
             controller.stopSimulation();
-            System.out.println("Stop");
+            displayArea.clearImage();
+            timer.stop();
+        }
+        if (e.getSource() == controlArea.pauseButton) {
+            timer.stop();
+        }
+        if (e.getSource() == controlArea.resumeButton) {
+            timer.start();
         }
         if (e.getSource() == controlArea.generateOutput) {
             controller.generateOutputFile("Output.txt");
@@ -75,6 +84,9 @@ public class View extends JPanel implements ActionListener, ItemListener, Change
             parameterArea.resetParameters(scenario);
             System.out.println("Restart");
         }
+        if (e.getSource() == timer) {
+            controller.updateSimulation();
+        }
     }
 
     public void itemStateChanged(ItemEvent e) {
@@ -84,11 +96,15 @@ public class View extends JPanel implements ActionListener, ItemListener, Change
     
     public void stateChanged(ChangeEvent e) {
         System.out.println("Slider Moved.");
+        //we will make speed changes here
+    }
+    
+    public void update(java.util.Observable o, Object arg) {
+        displayArea.update(o);
     }
     
     private void loadScenario(String filename) {}
     private void resetParameterArea() {}
-    private void timerFired() {}
     private void adjustRate(double speed) {}
     private void pauseSimulation() {}
     private void resumeSimulation() {}    
