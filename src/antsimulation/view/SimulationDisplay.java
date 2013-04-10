@@ -9,17 +9,20 @@ public class SimulationDisplay extends JPanel {
     private boolean hudVisible, numbersVisible;
     private HUD hud;
     private BufferedImage dispImage;
+    protected antsimulation.model.Field field;
 
     public SimulationDisplay() {
         setPreferredSize(new Dimension(250, 300));
         setBackground(Color.GREEN);
         
         hud = new HUD();
+        hudVisible = true;
     }
     
-    public void update(antsimulation.model.Field field) {
+    public void update(antsimulation.model.Field f) {
         if (dispImage == null)
             dispImage = new BufferedImage(250,300, BufferedImage.TYPE_INT_RGB);
+        field = f;
         Graphics g = dispImage.getGraphics();
 
         
@@ -27,6 +30,22 @@ public class SimulationDisplay extends JPanel {
         {
         	g.setColor(Color.white);
         	g.fillRect(0,0, dispImage.getWidth(), dispImage.getHeight());
+        	
+        	//Draw Colonies
+        	{
+	        	int x, y, colonySize = 15;
+	        	Colony colony;
+	        	for(int i = 0; i < field.colonies.size(); i++)
+	        	{
+	        		colony = field.colonies.get(i);
+	        		
+	        		x = colony.xLoc;
+	        		y = colony.yLoc;
+	        		g.setColor(Color.orange);
+	        			        		
+	        		g.fillArc(x-(colonySize/2), y-(colonySize), colonySize, colonySize*2, 0, 180);
+	        	}
+        	} // END Draw Colonies
         	
         	//Draw Ants
         	{
@@ -91,22 +110,6 @@ public class SimulationDisplay extends JPanel {
 	        	}
         	} // END Draw Predators
         	
-        	//Draw Colonies
-        	{
-	        	int x, y, colonySize = 15;
-	        	Colony colony;
-	        	for(int i = 0; i < field.colonies.size(); i++)
-	        	{
-	        		colony = field.colonies.get(i);
-	        		
-	        		x = colony.xLoc;
-	        		y = colony.yLoc;
-	        		g.setColor(Color.orange);
-	        			        		
-	        		g.fillArc(x-(colonySize/2), y-(colonySize), colonySize, colonySize*2, 0, 180);
-	        	}
-        	} // END Draw Colonies
-        	
         } 
         //end Cameron area
 
@@ -119,7 +122,8 @@ public class SimulationDisplay extends JPanel {
         super.paintComponent(g);
         if (dispImage != null) {
             g.drawImage(dispImage, 0,0, 250,300, this);
-            hud.paint(g);
+            if(hudVisible)
+            	hud.paint(g, field);
         }
     }
 }
