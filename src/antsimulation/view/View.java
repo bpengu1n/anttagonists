@@ -21,6 +21,7 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
         controlArea = new ControlArea(this);
         parameterArea = new ParameterArea(this);
         displayArea = new SimulationDisplay();
+        timer = new javax.swing.Timer(1000, this);
         scenario = new ParameterSet();
         statusLabel = new JLabel("status");
         loadMI = new JMenuItem("Load Scenario");
@@ -58,11 +59,11 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
         if (e.getSource() == controlArea.startButton) {
             ParameterSet p = parameterArea.getParameterSet();
             controller.startSimulation(p);
-            System.out.println("Start");
+            timer.start();
         }
         if (e.getSource() == controlArea.stopButton) {
             controller.stopSimulation();
-            System.out.println("Stop");
+            timer.stop();
         }
         if (e.getSource() == controlArea.generateOutput) {
             controller.generateOutputFile("Output.txt");
@@ -76,6 +77,10 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
             parameterArea.resetParameters(scenario);
             System.out.println("Restart");
         }
+        if (e.getSource() == timer) {
+            System.out.println("Timer Rang!");
+            controller.updateSimulation();
+        }
     }
 
     public void itemStateChanged(ItemEvent e) {
@@ -85,6 +90,7 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
     
     public void stateChanged(ChangeEvent e) {
         System.out.println("Slider Moved.");
+        //we will make speed changes here
     }
     
     public void update(java.util.Observable o, Object arg) {

@@ -114,7 +114,7 @@ public class Field extends java.util.Observable {
     public void spawnPredator() {
         predators.add(new Predator((int)parameters.checkParameter("PredatorHunger"), generator.nextInt(width), generator.nextInt(height), this));
     }
-    
+
     public double getPheromoneAt(int faction, int x, int y) { return 1; }
     public void setPheromoneAt(int faction, int x, int y, double value) { pheromones[faction][x][y] = value; }
     private void decayPheromones() {}

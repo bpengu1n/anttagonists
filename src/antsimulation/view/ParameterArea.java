@@ -2,6 +2,7 @@ package antsimulation.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.border.BevelBorder;
 import javax.swing.event.*;
 
 public class ParameterArea extends JPanel {
@@ -11,7 +12,8 @@ public class ParameterArea extends JPanel {
     public ParameterArea(ActionListener listener) {
         add(new JButton("Parameters"));
         setPreferredSize(new Dimension(150, 300));
-        setBackground(Color.BLUE);
+        setBackground(Color.GRAY);
+        setBorder(new BevelBorder(BevelBorder.RAISED));
         
         JSlider speedSlider = new JSlider(JSlider.HORIZONTAL);
         speedSlider.addChangeListener((ChangeListener)listener);

@@ -11,3 +11,12 @@ PopupWindow still needs to be created
 JUnit Testing needed
 --------------------
 -setting the status label
+
+
+WORK NEEDED:
+-add conrols and parameter area
+-add timer
+-(don't add popup windows, yet.  THose features come later)
+-JUnitTesting
+-update old docs
+ -class diagrams are already fine, Sequence Diagrams are not
