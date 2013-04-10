@@ -63,7 +63,14 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
         }
         if (e.getSource() == controlArea.stopButton) {
             controller.stopSimulation();
+            displayArea.clearImage();
             timer.stop();
+        }
+        if (e.getSource() == controlArea.pauseButton) {
+            timer.stop();
+        }
+        if (e.getSource() == controlArea.resumeButton) {
+            timer.start();
         }
         if (e.getSource() == controlArea.generateOutput) {
             controller.generateOutputFile("Output.txt");

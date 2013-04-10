@@ -19,6 +19,11 @@ public class SimulationDisplay extends JPanel {
         hudVisible = true;
     }
     
+    public void clearImage() {
+        dispImage = null;
+        repaint();
+    }
+    
     public void update(java.util.Observable o) {
         field = (antsimulation.model.Field)o;
         if (dispImage == null)

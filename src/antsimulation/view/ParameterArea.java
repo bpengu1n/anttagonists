@@ -10,7 +10,6 @@ public class ParameterArea extends JPanel {
     //Note: ParameterSet activeParameterSet is represented by JSliders, rather than an actual object
     
     public ParameterArea(ActionListener listener) {
-        add(new JButton("Parameters"));
         setPreferredSize(new Dimension(150, 300));
         setBackground(Color.GRAY);
         setBorder(new BevelBorder(BevelBorder.RAISED));

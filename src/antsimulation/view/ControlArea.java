@@ -5,11 +5,10 @@ import java.awt.event.ItemListener;
 import javax.swing.border.BevelBorder;
 
 public class ControlArea extends JPanel {
-    public JButton startButton, stopButton, generateOutput, loadScenarioButton, resetParametersButton;
+    public JButton startButton, stopButton, generateOutput, loadScenarioButton, resetParametersButton, pauseButton, resumeButton;
     public JSlider speedSlider;
     
     public ControlArea(java.awt.event.ActionListener listener) {
-        add(new JButton("Controls"));
         setPreferredSize(new Dimension(150, 300));
         setBackground(Color.GRAY);
         setBorder(new BevelBorder(BevelBorder.RAISED)); 
@@ -21,6 +20,14 @@ public class ControlArea extends JPanel {
         stopButton = new JButton("Stop Simulation");
         stopButton.addActionListener(listener);
         add(stopButton);
+        
+        pauseButton = new JButton("Pause Simulation");
+        pauseButton.addActionListener(listener);
+        add(pauseButton);
+                
+        resumeButton = new JButton("Resume Simulation");
+        resumeButton.addActionListener(listener);
+        add(resumeButton);
         
         generateOutput = new JButton("Generate Output Data");
         generateOutput.addActionListener(listener);
