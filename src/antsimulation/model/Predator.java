@@ -9,6 +9,7 @@ public class Predator {
     public int xLoc; //Location
 	public int yLoc;
     private Field field;
+    public boolean killme=false;
 
     public Predator(int iniHunger, int theX, int theY, Field f) {
         field = f;
@@ -44,6 +45,8 @@ public class Predator {
     private void leave() {
     	//This will find nearest edge and head that direction
     	//probably will need a leaving boolean implemented
+    	//when it has reached the edge it will need the following:
+    	killme=true;
     }
     
     //Wander randomly moves by adding a number from -2 to 2 to the location of the predator

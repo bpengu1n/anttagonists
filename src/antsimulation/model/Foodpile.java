@@ -4,7 +4,8 @@ public class Foodpile {
     public int xLoc, yLoc; //Location
     public int foodCount;
     private Field field;
-
+    public boolean killme=false;
+    
     public Foodpile(int theX, int theY, int food, Field f) {
         field = f;
         xLoc = theX;
@@ -15,7 +16,7 @@ public class Foodpile {
     public void decrement() {
     	foodCount--;
     	if(foodCount==0) {
-    		field.foodpiles.remove(this);
+    		killme=true;
     	}
     }
 }

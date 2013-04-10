@@ -10,7 +10,8 @@ public class Ant {
     private Field.Dir dir;
     public int faction;
     private Field field;
-    
+    public boolean killme=false;
+    //constructor
     public Ant(int theFaction, int theX, int theY, int framesofLife, Field f){
         faction=theFaction;
     	xLoc=theX;
@@ -20,6 +21,14 @@ public class Ant {
     	framesSinceAte=0;
     	field = f;
     }
+    
+    //update does a lot
+    //1. it figures out if it's time to die of natural causes (non predator murder)
+    //2. figures out whether or not to flee
+    //3. checks to see if has food and then sees if it can place it in its colony. It will also lay pheromone
+    //4. wanders and sees if it can pick up food
+    //needs to implement some follow pheromone logic
+    //
     public void update() {
     	if(framesSinceAte==(int)field.parameters.checkParameter("AntStarvation") || framesToLive==0)
     	{
@@ -50,15 +59,26 @@ public class Ant {
     			else
     			{
     				followPheromones();//This does nothing right now except call wander()
-    				for(Iterator<Foodpile> i = field.foodpiles.iterator(); i.hasNext(); ) {
-        				Foodpile food = i.next();
-        				if(food.xLoc ==xLoc && food.yLoc ==yLoc)
+    				for(int i=0; i<field.foodpiles.size();++i)
+    		        {
+    		        	Foodpile nextPile=field.foodpiles.get(i);
+    		        	if(nextPile.xLoc ==xLoc && nextPile.yLoc ==yLoc)
         				{
-        					takeFood(food);
+        					takeFood(nextPile);
         					break;
         				}
-        			  
-        			}
+    		        	if(nextPile.killme)
+    		    		{
+    		        		if(i+1 <field.foodpiles.size())
+    		        		{
+    		        			Foodpile findNext = field.foodpiles.get(i+1);
+    		        			field.foodpiles.remove(nextPile);
+    		        			i = field.foodpiles.indexOf(findNext)-1;
+    		        		}
+    		        		else
+    		        			field.foodpiles.remove(nextPile);
+    		    		}
+    		        }
     			}
     		}
     	}
@@ -67,7 +87,8 @@ public class Ant {
     	
     }
     public void die() {
-    	field.ants.remove(this);
+    	//field.ants.remove(this);
+    	killme=true;
     }
     
     //This will eventually check for nearby predators
@@ -92,17 +113,17 @@ public class Ant {
     	int yRand=generator.nextInt(3)-1;
     	xLoc+=xRand;
     	yLoc+=yRand;
-    	if(xRand==1)
+    	if(xRand>0)
     	{
     		dir=Field.Dir.RIGHT;
     	}
-    	else if(xRand==-1)
+    	else if(xRand<0)
     	{
     		dir=Field.Dir.LEFT;
     	}
     	else
     	{
-    		if(yRand==1)
+    		if(yRand>0)
     		{
     			dir=Field.Dir.UP;
     		}
@@ -111,7 +132,7 @@ public class Ant {
     	}
     }
     private void flee() {
-    	System.out.println("error! this should has not yet been implemented!");
+    	System.out.println("error! this has not yet been implemented!");
     }
     private void layPheromone() {
     	//Does nothing as it has yet to be implemented

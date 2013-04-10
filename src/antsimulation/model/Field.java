@@ -47,18 +47,57 @@ public class Field {
     }
     
     public void update() {
-        Iterator<Ant> antIter = ants.listIterator();
-        Iterator<Predator> predatorIter = predators.listIterator();
+        //Iterator<Ant> antIter = ants.listIterator();
+        //Iterator<Predator> predatorIter = predators.listIterator();
         Iterator<Colony> colonyIter = colonies.listIterator();
         
-        // Iterate through all lists, call .update() on each object        
-        while (antIter.hasNext()) {
-            Ant nextAnt = antIter.next();
-            nextAnt.update();
+        // Iterate through all lists, call .update() on each object
+        /*if(antIter.hasNext()){
+        	Ant nextAnt = antIter.next();
+        	while (antIter.hasNext()) {
+        		nextAnt.update();
+        		if(nextAnt.killme)
+        		{
+        			Ant deadAnt=nextAnt;
+        			nextAnt = antIter.next();
+        			ants.remove(deadAnt);
+        			
+        		}
+        		else
+        			nextAnt = antIter.next();
+        	}
+    	}*/
+        for(int i=0; i<ants.size();++i)
+        {
+        	Ant nextAnt=ants.get(i);
+        	nextAnt.update();
+        	if(nextAnt.killme)
+    		{
+        		if(i+1 <ants.size())
+        		{
+        			Ant findNext = ants.get(i+1);
+        			ants.remove(nextAnt);
+        			i = ants.indexOf(findNext)-1;
+        		}
+        		else
+        			ants.remove(nextAnt);
+    		}
         }
-        while (predatorIter.hasNext()) {
-            Predator nextPredator = predatorIter.next();
-            nextPredator.update();
+        for(int i=0; i<predators.size();++i)
+        {
+        	Predator nextPred=predators.get(i);
+        	nextPred.update();
+        	if(nextPred.killme)
+    		{
+        		if(i+1 <predators.size())
+        		{
+        			Predator findNext = predators.get(i+1);
+        			predators.remove(nextPred);
+        			i = predators.indexOf(findNext)-1;
+        		}
+        		else
+        			ants.remove(nextPred);
+    		}
         }
         while(colonyIter.hasNext()) {
             Colony nextColony = colonyIter.next();
