@@ -6,7 +6,7 @@ import java.util.Random;
 public class Ant {
     public int xLoc, yLoc; //Location
     private boolean hasFood;
-    private int framesSinceAte, framesToLive;
+    public int framesSinceAte, framesToLive;
     private Field.Dir dir;
     public int faction;
     private Field field;
