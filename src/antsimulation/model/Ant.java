@@ -112,7 +112,7 @@ public class Ant {
     	hasFood=false;
     }
     
-    private void wander() {
+    public void wander() {
     	Random generator = new Random();
     	int xRand=generator.nextInt(3)-1;
     	int yRand=generator.nextInt(3)-1;
