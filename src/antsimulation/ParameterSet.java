@@ -75,7 +75,6 @@ public class ParameterSet {
 		this.parameters[Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf("StartFoodPileSize")].setValue(START_FOODPILE_SIZE);
 		this.parameters[Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf("MaxColonies")].setValue(MAX_COLONIES);
 		this.parameters[Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf("AntLifetime")].setValue(ANT_LIFETIME);
-		
 	}
 	
     public void adjustParameter(String name, double val, boolean editable) 
@@ -96,6 +95,11 @@ public class ParameterSet {
     public double checkParameter(String name) {
     	int parameterIndex = Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf(name);
     	return parameters[parameterIndex].getValue();
+    }
+    
+    public boolean checkForEditable(String name) {
+        int parameterIndex = Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf(name);
+    	return parameters[parameterIndex].isEditable();
     }
 
 	public void print()  {
