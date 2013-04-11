@@ -59,12 +59,14 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
         if (e.getSource() == controlArea.startButton) {
             ParameterSet p = parameterArea.getParameterSet();
             controller.startSimulation(p);
+            parameterArea.lock();
             timer.start();
         }
         if (e.getSource() == controlArea.stopButton) {
+            timer.stop();
             controller.stopSimulation();
             displayArea.clearImage();
-            timer.stop();
+            parameterArea.unlock();
         }
         if (e.getSource() == controlArea.pauseButton) {
             timer.stop();

@@ -1,17 +1,17 @@
 /**
  * PARAMETER LIST
 PARAMETER:			DESCRIPTION
-Ant curiosity:		Indicates the tendency of ants to leave the pheromone trails and wander the field at random.
-Ant starvation:		Indicates the time a ant can live without food.
-Ant hunger:		Indicates the time a ant will go before trying to eat food, if possible.
-Ant lifetime:		Indicates the maximum time that a ant can live.
-Reproduction rate:	Indicates the tendency of the colony to produce new ants.
-Reproduction cost:	Indicates the amount of food required to produce a new ant.
-Pheromone strength:	Indicates the initial strength of pheromones.
-Pheromone decay:	Indicates how quickly pheromones decay.
-Predator hunger:	Indicates how much a predator will eat before leaving the field.
-Predator skill:		Indicates the probability of a predator successfully eating a ant.
-Predator frequency:	Indicates how likely it is for a predator to appear on the field.
+AntCuriosity:		Indicates the tendency of ants to leave the pheromone trails and wander the field at random.
+AntStarvation:		Indicates the time a ant can live without food.
+AntHunger:		Indicates the time a ant will go before trying to eat food, if possible.
+AntLifetime:		Indicates the maximum time that a ant can live.
+ReproductionRate:	Indicates the tendency of the colony to produce new ants.
+ReproductionCost:	Indicates the amount of food required to produce a new ant.
+PheromoneStrength:	Indicates the initial strength of pheromones.
+PheromoneDecay: 	Indicates how quickly pheromones decay.
+PredatorHunger:         Indicates how much a predator will eat before leaving the field.
+PredatorSkill:		Indicates the probability of a predator successfully eating a ant.
+PredatorFrequency:	Indicates how likely it is for a predator to appear on the field.
 xSize, ySize:           Gives the size of the field
 MaxColonies:            Gives the number of colonies on the field
 StartAntsPerColony:     Gives the initial number of ants per colony initially on the field
