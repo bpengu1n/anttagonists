@@ -4,11 +4,11 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class Predator {
-    private double hunger;
+    public double hunger;
     private Field.Dir dir;
     public int xLoc; //Location
-	public int yLoc;
-    private Field field;
+    public int yLoc;
+    public Field field;
     public boolean killme=false;
 
     public Predator(int iniHunger, int theX, int theY, Field f) {
