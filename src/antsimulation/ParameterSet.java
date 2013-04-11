@@ -3,7 +3,7 @@
 PARAMETER:			DESCRIPTION
 Ant curiosity:		Indicates the tendency of ants to leave the pheromone trails and wander the field at random.
 Ant starvation:		Indicates the time a ant can live without food.
-Ant hunger:			Indicates the time a ant will go before trying to eat food, if possible.
+Ant hunger:		Indicates the time a ant will go before trying to eat food, if possible.
 Ant lifetime:		Indicates the maximum time that a ant can live.
 Reproduction rate:	Indicates the tendency of the colony to produce new ants.
 Reproduction cost:	Indicates the amount of food required to produce a new ant.
@@ -51,9 +51,9 @@ public class ParameterSet {
 		"ySize",
 		"MaxColonies",
 		"StartAntsPerColony",
-            "StartFoodPiles",
-            "StartFoodPileSize",
-            "StartPredators"
+                "StartFoodPiles",
+                "StartFoodPileSize",
+                "StartPredators"
 	};
 	
 	public Parameter[] parameters;
