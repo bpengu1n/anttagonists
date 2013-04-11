@@ -5,9 +5,9 @@ import java.util.Random;
 
 public class Ant {
     public int xLoc, yLoc; //Location
-    private boolean hasFood;
+    public boolean hasFood;
     public int framesSinceAte, framesToLive;
-    private Field.Dir dir;
+    public Field.Dir dir;
     public int faction;
     private Field field;
     public boolean killme=false;
@@ -36,6 +36,7 @@ public class Ant {
     	}
     	else
     	{
+    		//This is not ever going to be called until flee has been implemented
     		if(predatorNear())
     		{
     			flee();
@@ -51,7 +52,8 @@ public class Ant {
         				if(colony.xLoc ==xLoc && colony.yLoc ==yLoc && colony.faction == faction)
         				{
         					giveFood(colony);
-        					eatFood(colony);
+        					if(framesSinceAte>20)
+        						eatFood(colony);
         					break;
         				}
         			}
@@ -97,17 +99,17 @@ public class Ant {
     	return false;
     }
 
-    private void takeFood(Foodpile pile) {
+    public void takeFood(Foodpile pile) {
     	hasFood=true;
 		pile.decrement();
     }
 
-    private void eatFood(Colony home) {
+    public void eatFood(Colony home) {
     	home.foodCount--;
     	framesSinceAte=0;
     }
     
-    private void giveFood(Colony home) {
+    public void giveFood(Colony home) {
     	home.foodCount++;
     	hasFood=false;
     }
