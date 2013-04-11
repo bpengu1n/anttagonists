@@ -38,11 +38,11 @@ public class Predator {
     }
     
     //predator reduces hunger and destroys the ant
-    private void eatAnt(Ant ant) {
+    public void eatAnt(Ant ant) {
     	--hunger;
     	ant.die();
     }
-    private void leave() {
+    public void leave() {
     	//This will find nearest edge and head that direction
     	//probably will need a leaving boolean implemented
     	//when it has reached the edge it will need the following:
@@ -51,7 +51,7 @@ public class Predator {
     
     //Wander randomly moves by adding a number from -2 to 2 to the location of the predator
     //It also sets the direction first based off of its x movement and then the y
-    private void wander() {
+    public void wander() {
     	Random generator = new Random();
     	int xRand=generator.nextInt(5)-2;
     	int yRand=generator.nextInt(5)-2;
