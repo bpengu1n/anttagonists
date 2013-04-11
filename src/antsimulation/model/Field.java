@@ -11,6 +11,7 @@ public class Field extends java.util.Observable {
     public java.util.List<Colony> colonies;
     public double[][][] pheromones;    //pheromones[faction][x][y]
     public antsimulation.ParameterSet parameters;
+    public boolean changed = false;;
     private Random generator;
     
     public Field(antsimulation.ParameterSet thisParams) {
@@ -47,6 +48,7 @@ public class Field extends java.util.Observable {
     }
     
     public void update() {
+        changed = false;
         //Iterator<Ant> antIter = ants.listIterator();
         //Iterator<Predator> predatorIter = predators.listIterator();
         Iterator<Colony> colonyIter = colonies.listIterator();
@@ -71,6 +73,7 @@ public class Field extends java.util.Observable {
         {
         	Ant nextAnt=ants.get(i);
         	nextAnt.update();
+                changed = true;
         	if(nextAnt.killme)
     		{
         		if(i+1 <ants.size())
@@ -87,6 +90,7 @@ public class Field extends java.util.Observable {
         {
         	Predator nextPred=predators.get(i);
         	nextPred.update();
+                changed = true;
         	if(nextPred.killme)
     		{
         		if(i+1 <predators.size())
@@ -102,13 +106,14 @@ public class Field extends java.util.Observable {
         while(colonyIter.hasNext()) {
             Colony nextColony = colonyIter.next();
             nextColony.update();
+            changed = true;
         }
         
         //if (ants.size() != 0)
         //   ants.remove(0);
 
         setChanged();
-        notifyObservers();
+        notifyObservers();  // Sets hasChanged() to false
     }
     
     public void spawnPredator() {

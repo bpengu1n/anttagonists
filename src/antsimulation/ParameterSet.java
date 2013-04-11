@@ -33,7 +33,7 @@ public class ParameterSet {
 	public static float START_FOODPILE_SIZE = 10;
 	public static float MAX_COLONIES = 4;
 	public static float ANT_LIFETIME = 30;
-	public static float ANT_STARVATION = 10;
+	public static float ANT_STARVATION = 30;
 	
 	public static String[] PARAMETER_NAMES = {
 		"AntCuriosity",
