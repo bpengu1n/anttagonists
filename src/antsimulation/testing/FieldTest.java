@@ -7,7 +7,7 @@ import org.junit.Test;
 import antsimulation.ParameterSet;
 import antsimulation.model.*;
 
-public class FoodpileTest {
+public class FieldTest {
   
 	private static int RUN_COUNT = 100;
 

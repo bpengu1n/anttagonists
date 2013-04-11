@@ -40,9 +40,5 @@ public class ControlArea extends JPanel {
         resetParametersButton = new JButton("Reset Parameters");
         resetParametersButton.addActionListener(listener);
         add(resetParametersButton);
-        
-        JCheckBox cbox = new JCheckBox("Test Update");
-        cbox.addItemListener((ItemListener)listener);
-        add(cbox);
     }
 }

@@ -77,8 +77,7 @@ public class ParameterSet {
 		this.parameters[Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf("AntLifetime")].setValue(ANT_LIFETIME);
 	}
 	
-    public void adjustParameter(String name, double val, boolean editable) 
-    {
+    public void adjustParameter(String name, double val, boolean editable) {
     	if(this.parameters==null) {
     		System.err.println("Parameter " + name + " was adjusted without ParameterList instantiation!");
     		return;
@@ -86,10 +85,8 @@ public class ParameterSet {
     	
     	int parameterIndex = Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf(name);
     	
-    	if(editable)
-    		this.parameters[parameterIndex].setValue(val);
-    	else
-    		System.err.println("Parameter " + name + " is not editable.");
+    	this.parameters[parameterIndex].setValue(val);
+    	this.parameters[parameterIndex].setEditable(editable);
     }
     
     public double checkParameter(String name) {
@@ -102,9 +99,8 @@ public class ParameterSet {
     	return parameters[parameterIndex].isEditable();
     }
 
-	public void print()  {
-		for(int i = 0; i < ParameterSet.PARAMETER_NAMES.length; i++)
-			System.out.println(parameters[i].toString());
-		
-	}
+    public void print()  {
+        for(int i = 0; i < ParameterSet.PARAMETER_NAMES.length; i++)
+            System.out.println(parameters[i].toString());
+    }
 }
