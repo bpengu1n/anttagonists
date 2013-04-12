@@ -6,13 +6,15 @@ import java.awt.*;
 import java.awt.image.*;
 
 public class SimulationDisplay extends JPanel {
+    private static int PREFERREDSIZE = 600;
+    
     private boolean hudVisible, numbersVisible;
     private HUD hud;
     private BufferedImage dispImage;
     protected antsimulation.model.Field field;
 
     public SimulationDisplay() {
-        setPreferredSize(new Dimension(250, 300));
+        setPreferredSize(new Dimension(PREFERREDSIZE, PREFERREDSIZE));
         setBackground(Color.GREEN);
         
         hud = new HUD();
@@ -27,48 +29,51 @@ public class SimulationDisplay extends JPanel {
     public void update(java.util.Observable o) {
         field = (antsimulation.model.Field)o;
         if (dispImage == null)
-            dispImage = new BufferedImage(250,300, BufferedImage.TYPE_INT_RGB);
+            dispImage = new BufferedImage(PREFERREDSIZE,PREFERREDSIZE, BufferedImage.TYPE_INT_RGB);
         Graphics g = dispImage.getGraphics();
         g.setColor(Color.white);
         g.fillRect(0,0, dispImage.getWidth(), dispImage.getHeight());
         //begin drawing
-        drawColonies(g);
-        drawAnts(g);
-        drawFoodpiles(g);
-        drawPredators(g);
+        int unitWidth = dispImage.getWidth() / field.width;
+        int unitHeight = dispImage.getHeight() / field.width;
+        int unitSize = (unitWidth<unitHeight) ? unitWidth : unitHeight;
+        drawColonies(g, unitSize);
+        drawAnts(g, unitSize);
+        drawFoodpiles(g, unitSize);
+        drawPredators(g, unitSize);
         repaint();
     }
     
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (dispImage != null) {
-            g.drawImage(dispImage, 0,0, 250,300, this);
+            g.drawImage(dispImage, 0,0, PREFERREDSIZE,PREFERREDSIZE, this);
             if(hudVisible)
             	hud.paint(g, field);
         }
     }
 
-    private void drawColonies(Graphics g) {
+    private void drawColonies(Graphics g, int unitSize) {
         int x, y, colonySize = 15;
         Colony colony;
         for(int i = 0; i < field.colonies.size(); i++)
         {
                 colony = field.colonies.get(i);
 
-                x = colony.xLoc;
-                y = colony.yLoc;
+                x = colony.xLoc * unitSize;;
+                y = colony.yLoc * unitSize;;
                 g.setColor(Color.orange);
 
                 g.fillArc(x-(colonySize/2), y-(colonySize), colonySize, colonySize*2, 0, 180);
         }
     }
 
-    private void drawAnts(Graphics g) {
+    private void drawAnts(Graphics g, int unitSize) {
         int x, y, antSize=6;
         for(int i = 0; i < field.ants.size(); i++)
         {
-                x = field.ants.get(i).xLoc;
-                y = field.ants.get(i).yLoc;
+                x = field.ants.get(i).xLoc * unitSize;
+                y = field.ants.get(i).yLoc * unitSize;
 
                 switch(field.ants.get(i).faction)
                 {
@@ -92,15 +97,15 @@ public class SimulationDisplay extends JPanel {
         }
     }
 
-    private void drawFoodpiles(Graphics g) {
+    private void drawFoodpiles(Graphics g, int unitSize) {
         int x, y, pileSize;
         Foodpile foodPile;
         for(int i = 0; i < field.foodpiles.size(); i++)
         {
                 foodPile = field.foodpiles.get(i);
 
-                x = foodPile.xLoc;
-                y = foodPile.yLoc;
+                x = foodPile.xLoc * unitSize;;
+                y = foodPile.yLoc * unitSize;;
                 g.setColor(Color.green);
                 pileSize = foodPile.foodCount;
 
@@ -108,15 +113,15 @@ public class SimulationDisplay extends JPanel {
         }
     }
 
-    private void drawPredators(Graphics g) {
+    private void drawPredators(Graphics g, int unitSize) {
         int x, y, predatorSize = 8;
         Predator predator;
         for(int i = 0; i < field.predators.size(); i++)
         {
                 predator = field.predators.get(i);
 
-                x = predator.xLoc;
-                y = predator.yLoc;
+                x = predator.xLoc * unitSize;;
+                y = predator.yLoc * unitSize;;
                 g.setColor(Color.black);
 
                 g.fillRect(x-(predatorSize/2), y-(predatorSize), predatorSize, predatorSize);

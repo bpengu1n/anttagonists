@@ -21,7 +21,7 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
         controlArea = new ControlArea(this);
         parameterArea = new ParameterArea(this);
         displayArea = new SimulationDisplay();
-        timer = new javax.swing.Timer(1000, this);
+        timer = new javax.swing.Timer(50, this);
         scenario = new ParameterSet();
         statusLabel = new JLabel("status");
         loadMI = new JMenuItem("Load Scenario");
