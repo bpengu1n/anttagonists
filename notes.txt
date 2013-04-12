@@ -1,0 +1,28 @@
+Class Diagram Changes Needed
+----------------------------
+--none currently
+
+Prototyping not finished
+------------------------
+PopupWindow still needs to be created
+
+
+
+JUnit Testing needed
+--------------------
+-setting the status label
+
+
+WORK NEEDED:
+-add parameter area
+-JUnitTesting
+-update old docs
+ -class diagrams are already fine, Sequence Diagrams are not
+ 
+ 
+ FUTURE WORK:
+ -add min/max for each parameter to ParameterSet.  Static checks thereof
+ -add consts for window size
+ -handle the appropriate disabling when the simulation starts
+ 
+ 
