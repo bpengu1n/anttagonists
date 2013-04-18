@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.image.*;
 
 public class SimulationDisplay extends JPanel {
-    private static int PREFERREDSIZE = 600;
+    private static int PREFERREDSIZE = 500;
     
     private boolean hudVisible, numbersVisible;
     private HUD hud;

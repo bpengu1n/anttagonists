@@ -3,81 +3,162 @@ import antsimulation.ParameterSet;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Set;
+import java.util.HashSet;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.*;
 
 public class ParameterArea extends JPanel {
-    private boolean editable;
-    private JSlider AntCuriosity, AntStarvation, AntHunger, AntLifetime, ReproductionRate;
-    //Note: ParameterSet activeParameterSet is represented by JSliders, rather than an actual object
+    private final int LABELWIDTH = 115;
+    private final int CONTROLWIDTH = 60;
+    private final int PREFERREDHEIGHT = 500;
+    private View master;
+    //our value-storing elements
+    private JSlider[] sliders;
+    private boolean[] slidersEditable;
+    private JTextField[] boxes;
+    private boolean[] boxesEditable;
+
+    private final String[] SLIDERNAMES = {
+	"AntCuriosity", "ReproductionRate", "PredatorSkill", "PredatorFrequency"
+    };
+    private final String[] BOXNAMES = {
+	"AntStarvation", "AntHunger", "AntLifetime", "ReproductionCost", "PheromoneStrength",
+        "PheromoneDecay", "PredatorHunger", "Size", "MaxColonies", "StartAntsPerColony",
+        "StartFoodPiles", "StartFoodPileSize", "StartPredators"
+    };
     
-    public ParameterArea(ActionListener listener) {
-        setPreferredSize(new Dimension(150, 300));
+    public ParameterArea(View mstr) {
+        master = mstr;
+        setPreferredSize(new Dimension(LABELWIDTH+CONTROLWIDTH+15, PREFERREDHEIGHT));
         setBackground(Color.GRAY);
         setBorder(new BevelBorder(BevelBorder.RAISED));
+        
+        sliders = new JSlider[SLIDERNAMES.length];
+        slidersEditable = new boolean[SLIDERNAMES.length];
+        boxes = new JTextField[BOXNAMES.length];
+        boxesEditable = new boolean[BOXNAMES.length];
 
-        JLabel curiosity = new JLabel("Ant Curiosity");
-        add(curiosity);
-        AntCuriosity = new JSlider(JSlider.HORIZONTAL);
-        AntCuriosity.setPreferredSize(new Dimension(140,20));
-        add(AntCuriosity);
+        JLabel label = new JLabel("Parameters");
+        label.setPreferredSize(new Dimension(LABELWIDTH+CONTROLWIDTH,25));
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setFont(new Font("Serif", Font.PLAIN,20));
+        add(label);
         
-        
-        JLabel starvation = new JLabel("Ant Starvation");
-        add(starvation);
-        AntStarvation = new JSlider(JSlider.HORIZONTAL);
-        AntStarvation.setPreferredSize(new Dimension(140,20));
-        add(AntStarvation);
-        
-        
-        JLabel hunger = new JLabel("Ant Hunger");
-        add(hunger);
-        AntHunger = new JSlider(JSlider.HORIZONTAL);
-        AntHunger.setPreferredSize(new Dimension(140,20));
-        add(AntHunger);
-        
-        
-        JLabel lifetime = new JLabel("Ant Lifetime");
-        add(lifetime);
-        AntLifetime = new JSlider(JSlider.HORIZONTAL);
-        AntLifetime.setPreferredSize(new Dimension(140,20));
-        add(AntLifetime);
-        
-        
-        JLabel reproduction = new JLabel("Reproduction Rate");
-        add(reproduction);
-        ReproductionRate = new JSlider(JSlider.HORIZONTAL);
-        ReproductionRate.setPreferredSize(new Dimension(140,20));
-        add(ReproductionRate);
-        
+        for (int i=0; i<SLIDERNAMES.length; i++) {
+            label = new JLabel(SLIDERNAMES[i]);
+            label.setPreferredSize(new Dimension(LABELWIDTH,16));
+            sliders[i] = new JSlider(JSlider.HORIZONTAL);
+            sliders[i].setPreferredSize(new Dimension(CONTROLWIDTH,20));
+            add(label);
+            add(sliders[i]);
+            slidersEditable[i] = true;
+        }
+        for (int i=0; i<BOXNAMES.length; i++) {
+            label = new JLabel(BOXNAMES[i]);
+            label.setPreferredSize(new Dimension(LABELWIDTH,16));
+            boxes[i] = new JTextField();
+            boxes[i].setPreferredSize(new Dimension(CONTROLWIDTH,20));
+            add(label);
+            add(boxes[i]);
+            boxesEditable[i] = true;
+        }
     }
 
-    public void resetParameters(ParameterSet s)
-    {
-        AntCuriosity.setValue((int)(s.checkParameter("AntCuriosity")*100/20));
-        AntStarvation.setValue((int)(s.checkParameter("AntStarvation")*100/20));
-        AntHunger.setValue((int)(s.checkParameter("AntHunger")*100/20));
-        AntLifetime.setValue((int)(s.checkParameter("AntLifetime")*100/20));
-        ReproductionRate.setValue((int)(s.checkParameter("ReproductionRate")*100/20));
-        ////handle disabling of parameters here
-        AntCuriosity.setEnabled(s.checkForEditable("AntCuriosity"));
-        AntStarvation.setEnabled(s.checkForEditable("AntStarvation"));
-        AntHunger.setEnabled(s.checkForEditable("AntHunger"));
-        AntLifetime.setEnabled(s.checkForEditable("AntLifetime"));
-        ReproductionRate.setEnabled(s.checkForEditable("ReproductionRate"));
+    public void resetParameters(ParameterSet s) {
+        for (int i=0; i<SLIDERNAMES.length; i++) {
+            int parameterIndex;
+            if (SLIDERNAMES[i]=="Size")   //this is an exception
+                parameterIndex = ParameterSet.indexOf("xSize");
+            else
+                parameterIndex = ParameterSet.indexOf(SLIDERNAMES[i]);
+            double min = ParameterSet.MIN_VALS[parameterIndex];
+            double max = ParameterSet.MAX_VALS[parameterIndex];
+            double val = s.checkParameter(ParameterSet.PARAMETER_NAMES[parameterIndex]);
+            double frac = (val-min)/(max-min);
+            sliders[i].setValue((int)(100*frac));
+            slidersEditable[i] = s.checkForEditable(ParameterSet.PARAMETER_NAMES[parameterIndex]);
+        }
+        for (int i=0; i<BOXNAMES.length; i++) {
+            int parameterIndex;
+            if (BOXNAMES[i]=="Size")   //this is an exception
+                parameterIndex = ParameterSet.indexOf("xSize");
+            else
+                parameterIndex = ParameterSet.indexOf(BOXNAMES[i]);
+            boolean mustBeInt = ParameterSet.MUSTBEINT[parameterIndex];
+            double val = s.checkParameter(ParameterSet.PARAMETER_NAMES[parameterIndex]);
+            if (mustBeInt)
+                boxes[i].setText(""+(int)val);
+            else
+                boxes[i].setText(""+val);
+            boxesEditable[i] = s.checkForEditable(ParameterSet.PARAMETER_NAMES[parameterIndex]);
+        }
+        unlock();
     }
 
     public ParameterSet getParameterSet() {
         ParameterSet p = new ParameterSet();
-        p.adjustParameter("AntCuriosity", AntCuriosity.getValue()*20/100, false);
-        p.adjustParameter("AntStarvation", AntStarvation.getValue()*20/100, false);
-        p.adjustParameter("AntHunger", AntHunger.getValue()*20/100, false);
-        p.adjustParameter("AntLifetime", AntLifetime.getValue()*20/100, false);
-        p.adjustParameter("ReproductionRate", ReproductionRate.getValue()*20/100, false);
+        for (int i=0; i<SLIDERNAMES.length; i++) {
+            int parameterIndex;
+            if (SLIDERNAMES[i]=="Size")   //this is an exception
+                parameterIndex = ParameterSet.indexOf("xSize");
+            else
+                parameterIndex = ParameterSet.indexOf(SLIDERNAMES[i]);
+            boolean mustBeInt = ParameterSet.MUSTBEINT[parameterIndex];
+            double min = ParameterSet.MIN_VALS[parameterIndex];
+            double max = ParameterSet.MAX_VALS[parameterIndex];
+            double frac = sliders[i].getValue()/100.0;
+            double val = frac*(max-min) + min;
+            if (mustBeInt)
+                val = (int)val;
+            p.adjustParameter(ParameterSet.PARAMETER_NAMES[parameterIndex], val, false);
+            if (SLIDERNAMES[i]=="Size") //set ySize, too
+                p.adjustParameter("ySize", val, false);
+        }
+        for (int i=0; i<BOXNAMES.length; i++) {
+            int parameterIndex;
+            if (BOXNAMES[i]=="Size")   //this is an exception
+                parameterIndex = ParameterSet.indexOf("xSize");
+            else
+                parameterIndex = ParameterSet.indexOf(BOXNAMES[i]);
+            boolean mustBeInt = ParameterSet.MUSTBEINT[parameterIndex];
+            double min = ParameterSet.MIN_VALS[parameterIndex];
+            double max = ParameterSet.MAX_VALS[parameterIndex];
+            double val;
+            try {
+                if (mustBeInt)
+                    val = Integer.parseInt(boxes[i].getText());
+                else
+                    val = Double.parseDouble(boxes[i].getText());
+            } catch (NumberFormatException e) {
+                ////
+                master.setStatus("Bad Format: "+BOXNAMES[i]+" must be a"+ (mustBeInt ? "n integer." :" number."));
+                System.out.println("Popup here-bad format");
+                return null;
+            }
+            if (val < min || val > max) {
+                ////
+                master.setStatus("Bad Value: "+BOXNAMES[i]+" must be"+(mustBeInt?" an integer":"")+" between "+min+" and "+max+".");
+                System.out.println("Popup here-out of range");
+                return null;
+            }
+            p.adjustParameter(ParameterSet.PARAMETER_NAMES[parameterIndex], val, false);
+            if (BOXNAMES[i]=="Size") //set ySize, too
+                p.adjustParameter("ySize", val, false);
+        }
         return p;
     }
 
-    public void lock() { editable = false; }
-    public void unlock() { editable = true; }
+    public void lock() {
+        for (int i=0; i<SLIDERNAMES.length; i++)
+            sliders[i].setEnabled(false);
+        for (int i=0; i<BOXNAMES.length; i++)
+            boxes[i].setEnabled(false);
+    }
+
+    public void unlock() {
+        for (int i=0; i<SLIDERNAMES.length; i++)
+            sliders[i].setEnabled(slidersEditable[i]);
+        for (int i=0; i<BOXNAMES.length; i++)
+            boxes[i].setEnabled(boxesEditable[i]);
+    }
 }
