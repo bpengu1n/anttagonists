@@ -1,10 +1,5 @@
 STUFF TO DO
 -----------
--the Scenario File
-	-this can be XML, OR just a file like this:
-		# NAME = VALUE , EDITABLE
-		AntStarvation = 400 , T
-		AntHunger = 200, F
 -add a toggle for HUD display, and possibly for Gridlines
 -improve dispaly
 	make ants scale with the grid
@@ -22,6 +17,7 @@ Diagram Changes Needed
 add +generateFromFile()
 everything under View
 ParameterArea.editable -> killed
+View and Parameterset: use File, not String
 
 JUnit Testing needed (/ideas)
 -----------------------------

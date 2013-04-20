@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.event.*;
+import java.io.*;
 
 public class View extends JPanel implements java.util.Observer, ActionListener, ChangeListener {
     private int MINMSPERTICK = 10;      //the smaller this is, the better the max speed
@@ -82,7 +83,11 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
         }
         if (e.getSource() == controlArea.loadScenarioButton || e.getSource() == loadMI) {
             //ask which file to load, and load it
-            loadScenario("TestFileName.xml");
+            JFileChooser fc = new JFileChooser();
+            fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            int returnVal = fc.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION)
+                loadScenario(fc.getSelectedFile());
         }
         if (e.getSource() == controlArea.freeplayButton) {
             //ask which file to load, and load it
@@ -109,16 +114,17 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
         displayArea.update(o);
     }
     
-    private void loadScenario(String filename) {
-        ////popup window here
-        ParameterSet newScenario = ParameterSet.generateFromFile(filename);
+    private void loadScenario(File file) {
+        if (!file.exists())
+            setStatus("Failed to load scenario file \""+ file.getPath() +"\".");
+        ParameterSet newScenario = ParameterSet.generateFromFile(file);
         if (newScenario != null) {
             scenario = newScenario;
             parameterArea.resetParameters(scenario);
-            setStatus("Loaded scenario \""+filename+"\" from file.");
+            setStatus("Loaded scenario \""+file.getPath()+"\".");
         } else {
-            setStatus("Failed to load scenario file \""+filename+"\".");
-        }
+            setStatus("Failed to load scenario file \""+file.getPath()+"\".");
+        }        
     }
 
     private void resetParameterArea() {

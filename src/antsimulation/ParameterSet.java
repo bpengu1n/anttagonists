@@ -21,7 +21,8 @@ StartPredators:         Gives the initial number of predators
  */
 
 package antsimulation;
-import java.util.Arrays;
+import java.util.*;
+import java.io.*;
 
 public class ParameterSet {
     //static contsants
@@ -55,6 +56,8 @@ public class ParameterSet {
         true, true, true, true, true,
         true, true, true
     };
+    
+    private static char COMMENTCHARACTER = '#';
 
     public Parameter[] parameters;
 
@@ -72,27 +75,49 @@ public class ParameterSet {
                 true);
     }
     
-    public static ParameterSet generateFromFile(String filename) {
-        System.out.println("Reading from "+filename+" ; returning defaults");
-        ParameterSet p = new ParameterSet();
-        ////reading stuff here
-        p.parameters[0].setEditable(false);
-        ////reading stuff here
-        return p;
+    public static ParameterSet generateFromFile(File file) {
+        try {
+            ParameterSet p = new ParameterSet();
+            Scanner in = new Scanner(new FileReader(file));
+            String line;
+            String name;
+            double val;
+            boolean canEdit;
+            while (in.hasNextLine()) {
+                line = in.nextLine();
+                if (line.charAt(0) != COMMENTCHARACTER) {
+                    String[] words = line.split("\\s+");
+                    if (words.length < 5)
+                        return null;
+                    name = words[0];
+                    val = Double.parseDouble(words[2]);
+                    canEdit = Boolean.parseBoolean(words[4]);
+                    p.adjustParameter(name, val, canEdit);
+                }
+            }
+            in.close();
+            return p;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
-	
-    public void adjustParameter(String name, double val, boolean editable) {
+
+    //returns true on cuccess
+    public boolean adjustParameter(String name, double val, boolean editable) {
     	if(this.parameters==null) {
             System.err.println("Parameter " + name + " was adjusted without ParameterList instantiation!");
-            return;
+            return false;
     	}
     	int parameterIndex = Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf(name);
         if (parameterIndex == -1) {
             System.err.println("\"" + name + "\" is not a valid parameter.");
-            return;
+            return false;
         }
     	this.parameters[parameterIndex].setValue(val);
     	this.parameters[parameterIndex].setEditable(editable);
+        return true;
     }
     
     public double checkParameter(String name) {

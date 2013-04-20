@@ -1,0 +1,21 @@
+# "TestScenario"
+# ANT SIMULATION SCENARIO FILE
+# NAME = VALUE , EDITABLE
+AntCuriosity = .5 , true
+AntStarvation = 400 , true
+AntHunger = 500 , true
+AntLifetime = 700 , true
+ReproductionRate = 100 , false
+ReproductionCost = 50 , false
+PheromoneStrength = 10 , false
+PheromoneDecay = 5 , true
+PredatorHunger = 30 , true
+PredatorSkill = .8 , false
+PredatorFrequency = 200 , true
+xSize = 10 , true
+ySize = 10 , true
+MaxColonies = 4 , true
+StartAntsPerColony = 10 , true
+StartFoodPiles = 6 , true
+StartFoodPileSize = 10 , true
+StartPredators = 2 , true
