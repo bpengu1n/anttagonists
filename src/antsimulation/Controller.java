@@ -28,7 +28,7 @@ public class Controller extends Applet {
     
     @Override
     public void init() {
-        view = new antsimulation.view.View(this, isInBrowser);
+        view = new antsimulation.view.View(this);
         ((FlowLayout)getLayout()).setVgap(0);
         ((FlowLayout)getLayout()).setHgap(0);
         add(view);

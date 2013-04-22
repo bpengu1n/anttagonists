@@ -1,10 +1,18 @@
 STUFF TO DO
 -----------
--add a toggle for HUD display, and possibly for Gridlines
+-drop and display pheromones
+-Add an output file
+    -see the input file stuff to get an idea how, or just look online.
+-make the HUD togglable
+-make Gridlines toggleable
+   -DON'T draw these in update().  Draw them in paintComponent().  That way, even if the simulation is paused, it can be updated
 -improve dispaly
 	make ants scale with the grid
--don't let ants wander off the grid
--drop and display pheromones
+
+-make the simulation stop itself when all ants are dead and all colonies depleted
+	(pass a new command to the controller?)
+-don't let ants wander off the grid (maybe they already don't, I don't know)
+
 
 -ParameterSetTest will need fixing (line 28 once read as follows):
 	public float expectedValue = ParameterSet.PARAMETER_DEFAULT_VALUE;

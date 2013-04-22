@@ -18,9 +18,8 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
     private javax.swing.Timer timer;
     private antsimulation.Controller controller;
     private JLabel statusLabel;
-    private JMenuItem saveMI, loadMI, exitMI;
 
-    public View(antsimulation.Controller c, boolean isInBrowser) {
+    public View(antsimulation.Controller c) {
         controller = c;
         controlArea = new ControlArea(this);
         parameterArea = new ParameterArea(this);
@@ -29,28 +28,12 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
         adjustRate(50);
         scenario = new ParameterSet();
         statusLabel = new JLabel("Ready");
-        loadMI = new JMenuItem("Load Scenario");
-        loadMI.addActionListener(this);
-        saveMI = new JMenuItem("Save Scenario");
-        saveMI.addActionListener(this);
-        exitMI = new JMenuItem("Exit");
-        exitMI.addActionListener(this);
         //layout management
         setLayout(new BorderLayout(2,0));
-        JMenuBar mbar = new JMenuBar();
-        JMenu fileM = new JMenu("File");        
-        fileM.add(loadMI);
-        fileM.add(saveMI);
-        fileM.add(exitMI);
-        mbar.add(fileM);
-        add(mbar, BorderLayout.NORTH);
         add(controlArea, BorderLayout.WEST);
         add(displayArea, BorderLayout.CENTER);
         add(parameterArea, BorderLayout.EAST);
         add(statusLabel, BorderLayout.SOUTH);
-        //finalize
-        if (isInBrowser)
-            exitMI.setEnabled(false);
         simulationRunning = false;
         paused = false;
         controlArea.updateEnabling(simulationRunning, paused);
@@ -63,8 +46,6 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
 
     //this is to handle button clicks and timer firing
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == exitMI)
-            System.exit(0);
         if (e.getSource() == controlArea.startStopButton) {
             if (simulationRunning)
                 stopSimulation();
@@ -81,7 +62,7 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
             controller.generateOutputFile("Output.txt");
             System.out.println("Output");
         }
-        if (e.getSource() == controlArea.loadScenarioButton || e.getSource() == loadMI) {
+        if (e.getSource() == controlArea.loadScenarioButton) {
             //ask which file to load, and load it
             JFileChooser fc = new JFileChooser();
             fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -97,6 +78,14 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
         }
         if (e.getSource() == controlArea.resetParametersButton)
             resetParameterArea();
+        if (e.getSource()==controlArea.showHudCB) {
+            displayArea.hudVisible = controlArea.showHudCB.isSelected();
+            displayArea.repaint();
+        }
+        if (e.getSource()==controlArea.showGridCB) {
+            displayArea.hudVisible = controlArea.showGridCB.isSelected();
+            displayArea.repaint();
+        }
         if (e.getSource() == timer)
             controller.updateSimulation();
         //finish up

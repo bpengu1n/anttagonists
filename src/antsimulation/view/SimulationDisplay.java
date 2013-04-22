@@ -8,7 +8,7 @@ import java.awt.image.*;
 public class SimulationDisplay extends JPanel {
     private static int PREFERREDSIZE = 500;
     
-    private boolean hudVisible, numbersVisible;
+    public boolean hudVisible, gridVisible;
     private HUD hud;
     private BufferedImage dispImage;
     protected antsimulation.model.Field field;

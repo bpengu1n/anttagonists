@@ -11,6 +11,7 @@ public class ControlArea extends JPanel {
     
     public JButton startStopButton, pauseResumeButton, generateOutput, loadScenarioButton, freeplayButton, resetParametersButton;
     public JSlider speedSlider;
+    public JCheckBox showHudCB, showGridCB;
     
     public ControlArea(java.awt.event.ActionListener listener) {
         setPreferredSize(new Dimension(BUTTONWIDTH+10, PREFERREDHEIGHT));
@@ -54,12 +55,26 @@ public class ControlArea extends JPanel {
         resetParametersButton.addActionListener(listener);
         add(resetParametersButton);
 
+        add(new JLabel());
+        
         JLabel speedLabel = new JLabel("Speed");
         add(speedLabel);
         speedSlider = new JSlider(JSlider.HORIZONTAL);
         speedSlider.setPreferredSize(new Dimension(140,20));
         speedSlider.addChangeListener((ChangeListener)listener);
         add(speedSlider);
+        
+        add(new JLabel());
+        
+        showHudCB = new JCheckBox("Show HUD");
+        showHudCB.setSelected(true);
+        showHudCB.addActionListener(listener);
+        add(showHudCB);
+        
+        showGridCB = new JCheckBox("Show grid");
+        showGridCB.setSelected(false);
+        showGridCB.addActionListener(listener);
+        add(showGridCB);
     }
 
     public void updateEnabling(boolean simRunning, boolean paused) {
