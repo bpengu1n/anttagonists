@@ -55,8 +55,12 @@ public class Predator {
     	Random generator = new Random();
     	int xRand=generator.nextInt(5)-2;
     	int yRand=generator.nextInt(5)-2;
-    	xLoc+=xRand;
-    	yLoc+=yRand;
+    	if(xRand+xLoc <= field.width && xRand+xLoc >= 0){
+    		xLoc= (xRand + xLoc)%field.width;
+    	}
+    	if(yRand+yLoc <= field.height && yRand+yLoc >= 0){
+    		yLoc= (yRand + yLoc)%field.height;
+    	}
     	if(xRand>0) {
     		dir=Field.Dir.RIGHT;
     	} else if(xRand<0) {

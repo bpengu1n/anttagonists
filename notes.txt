@@ -2,7 +2,7 @@ STUFF TO DO
 -----------
 Brian
 	-drop and display pheromones
-	
+    -don't let ants wander off the grid (maybe they already don't, I don't know)
 Cameron
 	-make the HUD togglable
 	-make Gridlines toggleable
@@ -20,7 +20,6 @@ OTHERS - Please Claim
 
 -make the simulation stop itself when all ants are dead and all colonies depleted
 	(pass a new command to the controller?)
--don't let ants wander off the grid (maybe they already don't, I don't know)
 
 
 Diagram Changes Needed
