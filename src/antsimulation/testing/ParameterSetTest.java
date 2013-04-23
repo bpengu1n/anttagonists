@@ -25,7 +25,7 @@ public class ParameterSetTest {
 	}
 	*/
 
-	public float expectedValue = 4.5f;
+	public static float expectedValue = 4.5f;
 	
 	@Test
 	public void testParameter() 
