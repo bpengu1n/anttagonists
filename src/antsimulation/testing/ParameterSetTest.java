@@ -25,7 +25,7 @@ public class ParameterSetTest {
 	}
 	*/
 
-	public static float expectedValue = 4.5f;
+	public float expectedValue = 4.5f;
 	
 	@Test
 	public void testParameter() 
@@ -35,7 +35,7 @@ public class ParameterSetTest {
 		for(int i = 0; i < ParameterSet.PARAMETER_NAMES.length; i++)
 		{
 			if( !(pSet.checkParameter(ParameterSet.PARAMETER_NAMES[i]) == expectedValue) )
-				fail(ParameterSet.PARAMETER_NAMES[i] + " was not correctly initialized");
+				fail(ParameterSet.PARAMETER_NAMES[i] + " was not initialized to default value.\nIt may have a custom value or was not initialized correctly.");
 		}
 	}
 	
