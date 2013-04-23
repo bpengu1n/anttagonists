@@ -78,12 +78,13 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
         }
         if (e.getSource() == controlArea.resetParametersButton)
             resetParameterArea();
+        
         if (e.getSource()==controlArea.showHudCB) {
             displayArea.hudVisible = controlArea.showHudCB.isSelected();
             displayArea.repaint();
         }
         if (e.getSource()==controlArea.showGridCB) {
-            displayArea.hudVisible = controlArea.showGridCB.isSelected();
+            displayArea.gridVisible = controlArea.showGridCB.isSelected();
             displayArea.repaint();
         }
         if (e.getSource() == timer)
