@@ -40,6 +40,7 @@ public class SimulationDisplay extends JPanel {
         drawColonies(g, unitSize);
         drawFoodpiles(g, unitSize);
         drawAnts(g, unitSize);
+        drawPheremones(g, unitSize);
         drawPredators(g, unitSize);
         repaint();
     }
@@ -141,6 +142,10 @@ public class SimulationDisplay extends JPanel {
                 g.fillOval(x-diff/2, y-diff/2, pileSize, pileSize);
                 
         }
+    }
+    
+    private void drawPheremones(Graphics g, int unitSize) {
+
     }
 
     private void drawPredators(Graphics g, int unitSize) {
