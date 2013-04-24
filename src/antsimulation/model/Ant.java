@@ -37,9 +37,8 @@ public class Ant {
     	else
     	{
     		//This is not ever going to be called until flee has been implemented
-    		if(predatorNear())
+    		if(predatorNearandFlee())
     		{
-    			flee();
     		}
     		else
     		{
@@ -138,7 +137,7 @@ public class Ant {
     }
     
     //This will eventually check for nearby predators at a distance of 3
-    private boolean predatorNear(){
+    private boolean predatorNearandFlee(){
     	boolean predatorNear=false;
     	for(int x = xLoc-3;x<xLoc+4;++x)
     	{
@@ -149,6 +148,17 @@ public class Ant {
     	        	Predator nextPred=field.predators.get(i);
     	        	if(y==nextPred.yLoc && x==nextPred.xLoc){
     	        		predatorNear=true;
+    	        		int runDistx = (xLoc-x);
+    	        		int runDisty = (yLoc-y);
+    	        		if(yLoc+runDisty>=0 && yLoc+runDisty <= field.height)
+    	        		{
+    	        			yLoc+=runDisty;
+    	        		}
+    	        		if(xLoc+runDistx>=0 && xLoc+runDistx <= field.width)
+    	        		{
+    	        			xLoc+=runDistx;
+    	        		}
+    	        		break;
     	        	}
     	           
     	        }
@@ -206,12 +216,6 @@ public class Ant {
     	}
     }
     
-    private void flee() {
-    	
-    	
-    	
-    	System.out.println("error! this has not yet been implemented!");
-    }
     //this doesn't make a ton of sense to me
     //if we are laying pheromone it's going to be the phreromone strength value... all well
     private void layPheromone() {
@@ -226,7 +230,7 @@ public class Ant {
     private void followPheromones() {
     		//no pheromones to follow, or curiosity dictates wander
     		Random curiosity = new Random();
-    		if(field.pheromones[faction][xLoc][yLoc]<=0 || curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity")){
+    		if(field.getPheromoneAt(faction,xLoc,yLoc)<=0 || curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity")){
     			wander();
     		}
     		else{
