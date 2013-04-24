@@ -129,7 +129,7 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
         timer.setDelay((int)(1/frequency));
     }
 
-    public void startSimulation() {
+    private void startSimulation() {
         ParameterSet p = parameterArea.getParameterSet();
         if (p != null) {
             parameterArea.lock();
@@ -140,7 +140,7 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
             timer.start();
         }
     }
-    public void stopSimulation() {
+    private void stopSimulation() {
         timer.stop();
         controller.stopSimulation();
         displayArea.clearImage();

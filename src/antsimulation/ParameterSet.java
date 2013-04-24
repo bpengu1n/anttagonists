@@ -41,7 +41,7 @@ public class ParameterSet {
     public static float[] MAX_VALS = {
 	1, 1000, 1000, 1000, 100,
         100, 700, 100, 100, 1,
-        1000, 500, 500, 7, 20,
+        1000, 125, 125, 4, 20,
         50, 100, 5
     };
     public static float[] DEFAULT_VALS = {

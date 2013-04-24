@@ -28,15 +28,15 @@ public class SimulationDisplay extends JPanel {
     
     public void update(java.util.Observable o) {
         field = (antsimulation.model.Field)o;
+        int unitWidth = PREFERREDSIZE / field.width;
+        int unitHeight = PREFERREDSIZE / field.width;
+        int unitSize = (unitWidth<unitHeight) ? unitWidth : unitHeight;
         if (dispImage == null)
-            dispImage = new BufferedImage(PREFERREDSIZE,PREFERREDSIZE, BufferedImage.TYPE_INT_RGB);
+            dispImage = new BufferedImage(unitSize*field.width,unitSize*field.height, BufferedImage.TYPE_INT_RGB);
         Graphics g = dispImage.getGraphics();
         g.setColor(Color.white);
         g.fillRect(0,0, dispImage.getWidth(), dispImage.getHeight());
         //begin drawing
-        int unitWidth = dispImage.getWidth() / field.width;
-        int unitHeight = dispImage.getHeight() / field.width;
-        int unitSize = (unitWidth<unitHeight) ? unitWidth : unitHeight;
         drawColonies(g, unitSize);
         drawFoodpiles(g, unitSize);
         drawAnts(g, unitSize);
@@ -49,32 +49,34 @@ public class SimulationDisplay extends JPanel {
     {
         super.paintComponent(g);
         if (dispImage != null) {
-            g.drawImage(dispImage, 0,0, PREFERREDSIZE,PREFERREDSIZE, this);
+            int offsetX = (PREFERREDSIZE-dispImage.getWidth())/2;
+            int offsetY = (PREFERREDSIZE-dispImage.getHeight())/2;
+            g.drawImage(dispImage, offsetX,offsetY, dispImage.getWidth(),dispImage.getHeight(), this);
+            if(gridVisible)
+                paintGrid(g, field, offsetX,offsetY);
             if(hudVisible)
                 hud.paint(g, field);
-            if(gridVisible)
-                paintGrid(g, field);
         }
     }
     
-    private void paintGrid(Graphics g, Field field) 
+    private void paintGrid(Graphics g, Field field, int offsetX, int offsetY) 
     {
         int unitWidth = dispImage.getWidth() / field.width;
         int unitHeight = dispImage.getHeight() / field.width;
         int unitSize = (unitWidth<unitHeight) ? unitWidth : unitHeight;
-        for(int i = 0; i <= field.height+1 ; i++)
+        for(int i = 0; i <= field.height ; i++)
         {
             g.drawLine(
-                    unitSize*i, 
-                    0, 
-                    unitSize*i, 
-                    field.height*(unitSize+1)
+                    offsetX + unitSize*i,
+                    offsetY, 
+                    offsetX + unitSize*i,
+                    offsetY + field.height*(unitSize)
                     );
             g.drawLine(
-                    0, 
-                    unitSize*i, 
-                    field.height*(unitSize+1), 
-                    unitSize*i
+                    offsetX, 
+                    offsetY + unitSize*i, 
+                    offsetX + field.height*(unitSize), 
+                    offsetY + unitSize*i
                     );
         }
     }
@@ -157,6 +159,5 @@ public class SimulationDisplay extends JPanel {
                 g.fillRect(x+(unitSize/4), y+(unitSize/4), unitSize/2, unitSize/2);
         }
     }
-
     
 }

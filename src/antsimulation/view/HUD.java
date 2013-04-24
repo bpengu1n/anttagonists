@@ -6,6 +6,9 @@ import antsimulation.model.Field;
 public class HUD {
     public void paint(Graphics g, java.util.Observable o) {
         antsimulation.model.Field field = (antsimulation.model.Field)o;
+        g.setColor(Color.WHITE);
+        g.fillRoundRect(0, 0, 95, 60, 7, 7);
+        
         g.setColor(Color.BLACK);
         Font oldFont = g.getFont();
         g.setFont(new Font("serif", Font.BOLD, 14));
@@ -31,6 +34,7 @@ public class HUD {
         
 
         //g.drawRect(0,0,90,60);
+        
         g.drawRoundRect(0, 0, 95, 60, 7, 7);
         
         g.setFont(oldFont);

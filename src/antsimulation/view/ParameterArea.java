@@ -22,9 +22,9 @@ public class ParameterArea extends JPanel {
 	"AntCuriosity", "ReproductionRate", "PredatorSkill", "PredatorFrequency"
     };
     private final String[] BOXNAMES = {
-	"AntStarvation", "AntHunger", "AntLifetime", "ReproductionCost", "PheromoneStrength",
-        "PheromoneDecay", "PredatorHunger", "Size", "MaxColonies", "StartAntsPerColony",
-        "StartFoodPiles", "StartFoodPileSize", "StartPredators"
+        "Size", "MaxColonies", "StartAntsPerColony", "StartFoodPiles",
+        "StartPredators", "StartFoodPileSize", "PheromoneStrength", "PheromoneDecay",
+	"PredatorHunger", "AntStarvation", "AntHunger", "AntLifetime", "ReproductionCost"
     };
     
     public ParameterArea(View mstr) {
@@ -130,15 +130,11 @@ public class ParameterArea extends JPanel {
                 else
                     val = Double.parseDouble(boxes[i].getText());
             } catch (NumberFormatException e) {
-                ////
                 master.setStatus("Bad Format: "+BOXNAMES[i]+" must be a"+ (mustBeInt ? "n integer." :" number."));
-                System.out.println("Popup here-bad format");
                 return null;
             }
             if (val < min || val > max) {
-                ////
                 master.setStatus("Bad Value: "+BOXNAMES[i]+" must be"+(mustBeInt?" an integer":"")+" between "+min+" and "+max+".");
-                System.out.println("Popup here-out of range");
                 return null;
             }
             p.adjustParameter(ParameterSet.PARAMETER_NAMES[parameterIndex], val, false);
