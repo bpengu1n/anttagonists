@@ -2,11 +2,7 @@ STUFF TO DO
 -----------
 Brian
 	-drop and display pheromones
-    -don't let ants wander off the grid (maybe they already don't, I don't know)
 Cameron
-	-make the HUD togglable
-	-make Gridlines toggleable
-  	-DON'T draw these in update().  Draw them in paintComponent().  That way, even if the simulation is paused, it can be updated
 	-ParameterSetTest will need fixing (line 28 once read as follows):
 		public float expectedValue = ParameterSet.PARAMETER_DEFAULT_VALUE;
 		I just put in a constant, so it would compile.  But it is wrong.
