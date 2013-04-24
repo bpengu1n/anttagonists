@@ -16,7 +16,6 @@ public class AntTest {
 	
 	@Test
 	public void testAntconstructor(){
-		
 		ParameterSet pSet = new ParameterSet();
 		Field testField = new Field(pSet);
 		for(int testNum=0; testNum<100;++testNum)

@@ -104,7 +104,7 @@ public class Field extends java.util.Observable {
         			i = predators.indexOf(findNext)-1;
         		}
         		else
-        			ants.remove(nextPred);
+        			predators.remove(nextPred);
     		}
         }
         while(colonyIter.hasNext()) {
