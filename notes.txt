@@ -2,7 +2,6 @@ STUFF TO DO
 -----------
 Brian
 	-drop and display pheromones
-    -don't let ants wander off the grid (maybe they already don't, I don't know)
 Cameron
 	-make the HUD togglable
 	-make Gridlines toggleable

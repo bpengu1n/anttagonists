@@ -44,8 +44,46 @@ public class Ant {
     		else
     		{
     			if(hasFood)
-    			{
-    				headHome();
+    			{ 
+    				Random curiosity = new Random();
+    				//check to see if the ant will move randomly or towards the nest
+    				if(curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity"))
+    				{
+	    				//head home algorithm
+	    				//this could be put into another function
+	    				//I just don't want to go through the work of making 10 more diagrams
+	    				Iterator<Colony> colonyIter = field.colonies.listIterator();
+	    		    	Colony myColony= field.colonies.get(0);
+	    		    	while(colonyIter.hasNext()) {
+	    		            Colony nextColony = colonyIter.next();
+	    		            if(nextColony.faction==faction)
+	    		            {
+	    		            	myColony=nextColony;
+	    		            	break;
+	    		            }
+	    		        }
+	    		    	if(myColony.xLoc > xLoc){
+	    		    		xLoc+=1;
+	    		    	}
+	    		    	else if(myColony.xLoc < xLoc)
+	    		    	{
+	    		    		xLoc-=1;
+	    		    	}
+	    		    	if(myColony.yLoc > yLoc)
+	    		    	{
+	    		    		yLoc+=1;
+	    		    	}
+	    		    	else if(myColony.yLoc < yLoc)
+	    		    	{
+	    		    		yLoc-=1;
+	    		    	}
+	    		    	///end head home algorithm
+    				}
+    				//instead of heading home they move randomly
+    				else
+    				{
+    					wander();
+    				}
     				layPheromone();
         			for(Iterator<Colony> i = field.colonies.iterator(); i.hasNext(); ) {
         				Colony colony = i.next();
@@ -99,9 +137,26 @@ public class Ant {
     	killme=true;
     }
     
-    //This will eventually check for nearby predators
+    //This will eventually check for nearby predators at a distance of 3
     private boolean predatorNear(){
-    	return false;
+    	boolean predatorNear=false;
+    	for(int x = xLoc-3;x<xLoc+4;++x)
+    	{
+    		for(int y = yLoc-3;y<yLoc+4;++y)
+    		{
+    			for(int i=0; i<field.predators.size();++i)
+    	        {
+    	        	Predator nextPred=field.predators.get(i);
+    	        	if(y==nextPred.yLoc && x==nextPred.xLoc){
+    	        		predatorNear=true;
+    	        	}
+    	           
+    	        }
+    		}
+    	}
+    	
+    	
+    	return predatorNear;
     }
 
     public void takeFood(Foodpile pile) {
@@ -117,35 +172,6 @@ public class Ant {
     public void giveFood(Colony home) {
     	home.foodCount++;
     	hasFood=false;
-    }
-    
-    //this will take the ant home but the randomness will affect it's ability to do so
-    private void headHome(){
-    	Iterator<Colony> colonyIter = field.colonies.listIterator();
-    	Colony myColony= field.colonies.get(0);
-    	while(colonyIter.hasNext()) {
-            Colony nextColony = colonyIter.next();
-            if(nextColony.faction==faction)
-            {
-            	myColony=nextColony;
-            	break;
-            }
-        }
-    	if(myColony.xLoc > xLoc){
-    		xLoc+=1;
-    	}
-    	else if(myColony.xLoc < xLoc)
-    	{
-    		xLoc-=1;
-    	}
-    	if(myColony.yLoc > yLoc)
-    	{
-    		yLoc+=1;
-    	}
-    	else if(myColony.yLoc < yLoc)
-    	{
-    		yLoc-=1;
-    	}
     }
     
     
@@ -181,6 +207,9 @@ public class Ant {
     }
     
     private void flee() {
+    	
+    	
+    	
     	System.out.println("error! this has not yet been implemented!");
     }
     //this doesn't make a ton of sense to me
@@ -195,8 +224,9 @@ public class Ant {
     //my code does this by finding the strongest trail that isn't the current strength + pheromone decay strength
     //if there isn't that stronger trail it will check to see if the trail is the downword gradient curr strength - pheromone decay strength
     private void followPheromones() {
-    		//no pheromones to follow, wander
-    		if(field.pheromones[faction][xLoc][yLoc]<=0){
+    		//no pheromones to follow, or curiosity dictates wander
+    		Random curiosity = new Random();
+    		if(field.pheromones[faction][xLoc][yLoc]<=0 || curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity")){
     			wander();
     		}
     		else{
