@@ -24,6 +24,8 @@ public class Field extends java.util.Observable {
         width = (int)parameters.checkParameter("xSize");
         height = (int)parameters.checkParameter("ySize");
         initialize();
+        //create our pheromone array
+        pheromones= new double[(int)parameters.checkParameter("MaxColonies")][width+1][height+1];
     }
     
     public void initialize() {
@@ -49,6 +51,8 @@ public class Field extends java.util.Observable {
     
     public void update() {
         changed = false;
+        //Calling our decayPheromones decays all of the pheromones left in the field (if any)
+        decayPheromones();
         //Iterator<Ant> antIter = ants.listIterator();
         //Iterator<Predator> predatorIter = predators.listIterator();
         Iterator<Colony> colonyIter = colonies.listIterator();
@@ -122,5 +126,26 @@ public class Field extends java.util.Observable {
 
     public double getPheromoneAt(int faction, int x, int y) { return pheromones[faction][x][y]; }
     public void setPheromoneAt(int faction, int x, int y, double value) { pheromones[faction][x][y] = value; }
-    private void decayPheromones() {}
+    private void decayPheromones() { 
+    	for(int i=0;i<parameters.checkParameter("MaxColonies");++i){
+    		for(int j=0;j<width;++j){
+    			for(int k=0; k<height;++k){
+    				//we do this just to make sure and keep the pheromones from becoming negative
+    				if(pheromones[i][j][k]<=0)
+    				{
+    					pheromones[i][j][k]=0;
+    				}
+    				else
+    				{
+    					pheromones[i][j][k]-=parameters.checkParameter("PheromoneDecay");
+    					//if the pheromones at this location are now negative or zero, set them to zero
+    					if(pheromones[i][j][k]<=0)
+        				{
+        					pheromones[i][j][k]=0;
+        				}
+    				}
+    			}
+    		}
+    	}
+    }
 }

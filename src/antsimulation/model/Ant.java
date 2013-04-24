@@ -45,7 +45,7 @@ public class Ant {
     		{
     			if(hasFood)
     			{
-    				wander();
+    				headHome();
     				layPheromone();
         			for(Iterator<Colony> i = field.colonies.iterator(); i.hasNext(); ) {
         				Colony colony = i.next();
@@ -69,6 +69,7 @@ public class Ant {
     		        	if(nextPile.xLoc ==xLoc && nextPile.yLoc ==yLoc)
         				{
         					takeFood(nextPile);
+        					layPheromone();
         					break;
         				}
     		        	//check to see if the foodpile we are looking at is empty
@@ -118,6 +119,36 @@ public class Ant {
     	hasFood=false;
     }
     
+    //this will take the ant home but the randomness will affect it's ability to do so
+    private void headHome(){
+    	Iterator<Colony> colonyIter = field.colonies.listIterator();
+    	Colony myColony= field.colonies.get(0);
+    	while(colonyIter.hasNext()) {
+            Colony nextColony = colonyIter.next();
+            if(nextColony.faction==faction)
+            {
+            	myColony=nextColony;
+            	break;
+            }
+        }
+    	if(myColony.xLoc > xLoc){
+    		xLoc+=1;
+    	}
+    	else if(myColony.xLoc < xLoc)
+    	{
+    		xLoc-=1;
+    	}
+    	if(myColony.yLoc > yLoc)
+    	{
+    		yLoc+=1;
+    	}
+    	else if(myColony.yLoc < yLoc)
+    	{
+    		yLoc-=1;
+    	}
+    }
+    
+    
     public void wander() {
     	Random generator = new Random();
     	int xRand=generator.nextInt(3)-1;
@@ -157,6 +188,9 @@ public class Ant {
     private void layPheromone() {
     	field.setPheromoneAt(faction,xLoc,yLoc, field.parameters.checkParameter("PheromoneStrength"));
     }
+    
+    
+    
     //we would like to follow a trail down the gradient but also follow the strongest trail
     //my code does this by finding the strongest trail that isn't the current strength + pheromone decay strength
     //if there isn't that stronger trail it will check to see if the trail is the downword gradient curr strength - pheromone decay strength
@@ -281,7 +315,7 @@ public class Ant {
     				}
     			}
     	    	//check to see if there was movement
-    	    	if(newY==yLoc&&newX==xLoc){
+    	    	if(newY==yLoc && newX==xLoc){
     	    		//This would only happen if the ant found nothing left to follow
     	    		wander();
     	    	}
