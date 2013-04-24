@@ -10,12 +10,13 @@ Cameron
 		public float expectedValue = ParameterSet.PARAMETER_DEFAULT_VALUE;
 		I just put in a constant, so it would compile.  But it is wrong.
 
+Steve
+	-improve dispaly
+		make ants scale with the grid
+
 OTHERS - Please Claim
 -Add an output file
 		-see the input file stuff to get an idea how, or just look online.
-
--improve dispaly
-	make ants scale with the grid
 
 -make the simulation stop itself when all ants are dead and all colonies depleted
 	(pass a new command to the controller?)
