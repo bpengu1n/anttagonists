@@ -26,11 +26,11 @@ public class FoodpileTest {
 			
 			foodpileTest = new Foodpile(arg1, arg2, arg3, arg4);
 			
-			if(foodpileTest.xLoc!=arg1)
+			if(foodpileTest.getxLoc()!=arg1)
 				fail("FoodPile.xLoc is not properly instanciated.");
-			if(foodpileTest.yLoc!=arg2)
+			if(foodpileTest.getyLoc()!=arg2)
 				fail("FoodPile.yLoc is not properly instanciated.");
-			if(foodpileTest.foodCount!=arg3)
+			if(foodpileTest.getFoodCount()!=arg3)
 				fail("FoodPile.foodCount is not properly instanciated.");
 			if(!foodpileTest.field.equals(arg4))
 				fail("FoodPile.field is not properly instanciated.");
@@ -52,7 +52,7 @@ public class FoodpileTest {
 			foodpileTest = new Foodpile(0,0,foodCount,null);
 			foodpileTest.decrement();
 			
-			if(foodpileTest.foodCount != (foodCount-1))
+			if(foodpileTest.getFoodCount() != (foodCount-1))
 				fail("FoodPile.foodCount is not properly decremented.");
 		}
 		

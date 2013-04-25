@@ -57,7 +57,7 @@ public class Field extends java.util.Observable {
         	Ant nextAnt=ants.get(i);
         	nextAnt.update();
                 changed = true;
-        	if(nextAnt.killme)
+        	if(nextAnt.getKillme())
     		{
         		if(i+1 <ants.size())
         		{

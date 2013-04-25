@@ -88,8 +88,8 @@ public class SimulationDisplay extends JPanel {
         {
             colony = field.colonies.get(i);
 
-            x = colony.xLoc * unitSize;
-            y = colony.yLoc * unitSize;
+            x = colony.getxLoc() * unitSize;
+            y = colony.getyLoc() * unitSize;
             g.setColor(Color.orange);
 
             g.fillArc(x-(unitSize), y-(unitSize), unitSize, unitSize*2, 0, 180);
@@ -100,10 +100,10 @@ public class SimulationDisplay extends JPanel {
         int x, y;
         for(int i = 0; i < field.ants.size(); i++)
         {
-                x = field.ants.get(i).xLoc * unitSize;
-                y = field.ants.get(i).yLoc * unitSize;
+                x = field.ants.get(i).getxLoc() * unitSize;
+                y = field.ants.get(i).getyLoc() * unitSize;
 
-                switch(field.ants.get(i).faction)
+                switch(field.ants.get(i).getFaction())
                 {
                 case 1:
                         g.setColor(Color.blue);
@@ -133,10 +133,10 @@ public class SimulationDisplay extends JPanel {
         for(int i = 0; i < field.foodpiles.size(); i++)
         {
                 foodPile = field.foodpiles.get(i);
-                pileSize = (int)(unitSize*foodScale*foodPile.foodCount);
+                pileSize = (int)(unitSize*foodScale*foodPile.getFoodCount());
 
-                x = foodPile.xLoc * unitSize;
-                y = foodPile.yLoc * unitSize;
+                x = foodPile.getxLoc() * unitSize;
+                y = foodPile.getyLoc() * unitSize;
                 g.setColor(Color.green);
                 
                 diff = pileSize-unitSize;

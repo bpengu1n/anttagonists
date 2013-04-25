@@ -4,18 +4,18 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class Ant {
-    public int xLoc, yLoc; //Location
-    public boolean hasFood;
-    public int framesSinceAte, framesToLive;
-    public Field.Dir dir;
-    public int faction;
+    private int xLoc, yLoc; //Location
+    private boolean hasFood;
+    private int framesSinceAte, framesToLive;
+    private Field.Dir dir;
+    private int faction;
     private Field field;
-    public boolean killme=false;
+    private boolean killme=false;
     //constructor
     public Ant(int theFaction, int theX, int theY, int framesofLife, Field f){
-        faction=theFaction;
-    	xLoc=theX;
-    	yLoc=theY;
+        setFaction(theFaction);
+    	setxLoc(theX);
+    	setyLoc(theY);
     	framesToLive=framesofLife;
     	hasFood=false;
     	framesSinceAte=0;
@@ -42,35 +42,7 @@ public class Ant {
    				//check to see if the ant will move randomly or towards the nest
    				if(curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity"))
    				{
-    				//head home algorithm
-    				//this could be put into another function
-    				//I just don't want to go through the work of making 10 more diagrams
-    				Iterator<Colony> colonyIter = field.colonies.listIterator();
-    		    	Colony myColony= field.colonies.get(0);
-    		    	while(colonyIter.hasNext()) {
-    		            Colony nextColony = colonyIter.next();
-    		            if(nextColony.faction==faction)
-    		            {
-    		            	myColony=nextColony;
-    		            	break;
-    		            }
-    		        }
-    		    	if(myColony.xLoc > xLoc){
-    		    		xLoc+=1;
-    		    	}
-    		    	else if(myColony.xLoc < xLoc)
-    		    	{
-    		    		xLoc-=1;
-    		    	}
-    		    	if(myColony.yLoc > yLoc)
-    		    	{
-    		    		yLoc+=1;
-    		    	}
-    		    	else if(myColony.yLoc < yLoc)
-    		    	{
-    		    		yLoc-=1;
-    		    	}
-    		    	///end head home algorithm
+    				headHome();
    				}
    				//instead of heading home they move randomly
    				else
@@ -80,7 +52,7 @@ public class Ant {
    				layPheromone();
        			for(Iterator<Colony> i = field.colonies.iterator(); i.hasNext(); ) {
        				Colony colony = i.next();
-       				if(colony.xLoc ==xLoc && colony.yLoc ==yLoc && colony.faction == faction)
+       				if(colony.getxLoc() ==getxLoc() && colony.getyLoc() ==getyLoc() && colony.getFaction() == getFaction())
        				{
        					giveFood(colony);
        					if(framesSinceAte>20)
@@ -97,7 +69,7 @@ public class Ant {
    		        {
    		        	Foodpile nextPile=field.foodpiles.get(i);
    		        	//if we find a food pile we get food!
-   		        	if(nextPile.xLoc ==xLoc && nextPile.yLoc ==yLoc)
+   		        	if(nextPile.getxLoc() ==getxLoc() && nextPile.getyLoc() ==getyLoc())
        				{
      					takeFood(nextPile);
        					layPheromone();
@@ -105,7 +77,7 @@ public class Ant {
        				}
    		        	//check to see if the foodpile we are looking at is empty
    		        	//if it is, we go ahead and clean it up
-   		        	if(nextPile.killme)
+   		        	if(nextPile.isKillme())
    		    		{
    		        		if(i+1 <field.foodpiles.size())
    		        		{
@@ -126,7 +98,7 @@ public class Ant {
 
     public void die() {
     	//field.ants.remove(this);
-    	killme=true;
+    	setKillme(true);
     }
     
 
@@ -136,12 +108,12 @@ public class Ant {
     }
 
     public void eatFood(Colony home) {
-    	home.foodCount--;
+    	home.setFoodCount(home.getFoodCount() - 1);
     	framesSinceAte=0;
     }
     
     public void giveFood(Colony home) {
-    	home.foodCount++;
+    	home.setFoodCount(home.getFoodCount() + 1);
     	hasFood=false;
     }
     
@@ -152,11 +124,11 @@ public class Ant {
     	int yRand=generator.nextInt(3)-1;
     	//This will move the ants to a random position
     	//it will keep ants from leaving the field
-    	if(xRand+xLoc < field.getWidth() && xRand+xLoc >= 0){
-    		xLoc= xRand + xLoc;
+    	if(xRand+getxLoc() < field.getWidth() && xRand+getxLoc() >= 0){
+    		setxLoc(xRand + getxLoc());
     	}
-    	if(yRand+yLoc < field.getHeight() && yRand+yLoc >= 0){
-    		yLoc= yRand + yLoc;
+    	if(yRand+getyLoc() < field.getHeight() && yRand+getyLoc() >= 0){
+    		setyLoc(yRand + getyLoc());
     	}
     	if(xRand>0)
     	{
@@ -180,10 +152,38 @@ public class Ant {
     //this doesn't make a ton of sense to me
     //if we are laying pheromone it's going to be the phreromone strength value... all well
     private void layPheromone() {
-    	field.setPheromoneAt(faction,xLoc,yLoc, field.parameters.checkParameter("PheromoneStrength"));
+    	field.setPheromoneAt(getFaction(),getxLoc(),getyLoc(), field.parameters.checkParameter("PheromoneStrength"));
     }
     
-    
+  //head home algorithm
+    private void headHome(){
+    	
+		Iterator<Colony> colonyIter = field.colonies.listIterator();
+    	Colony myColony= field.colonies.get(0);
+    	while(colonyIter.hasNext()) {
+            Colony nextColony = colonyIter.next();
+            if(nextColony.getFaction()==getFaction())
+            {
+            	myColony=nextColony;
+            	break;
+            }
+        }
+    	if(myColony.getxLoc() > getxLoc()){
+    		setxLoc(getxLoc() + 1);
+    	}
+    	else if(myColony.getxLoc() < getxLoc())
+    	{
+    		setxLoc(getxLoc() - 1);
+    	}
+    	if(myColony.getyLoc() > getyLoc())
+    	{
+    		setyLoc(getyLoc() + 1);
+    	}
+    	else if(myColony.getyLoc() < getyLoc())
+    	{
+    		setyLoc(getyLoc() - 1);
+    	}
+    }
     
     //we would like to follow a trail down the gradient but also follow the strongest trail
     //my code does this by finding the strongest trail that isn't the current strength + pheromone decay strength
@@ -191,12 +191,12 @@ public class Ant {
     private void followPheromones() {
     		//no pheromones to follow, or curiosity dictates wander
     		Random curiosity = new Random();
-    		if(field.getPheromoneAt(faction,xLoc,yLoc)<=0 /*|| curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity")*/){
+    		if(field.getPheromoneAt(getFaction(),getxLoc(),getyLoc())<=0 /*|| curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity")*/){
     			wander();
     		}
     		else{
     			//pheromone level at our current position
-    			double curPheromone = field.getPheromoneAt(faction,xLoc,yLoc);
+    			double curPheromone = field.getPheromoneAt(getFaction(),getxLoc(),getyLoc());
     			//we would like to find something greater than this
     			double curMax=curPheromone+field.parameters.checkParameter("PheromoneDecay");
     			//This is the lower value that is on the downward gradient
@@ -211,7 +211,7 @@ public class Ant {
     				}
     			}
     	    	//check to see if there was movement
-    	    	if(oldY==yLoc && oldX==xLoc){
+    	    	if(oldY==getyLoc() && oldX==getxLoc()){
     	    		//This would only happen if the ant found nothing left to follow
     	    		wander();
     	    	}
@@ -219,18 +219,50 @@ public class Ant {
     }
     private double pheromoneCheck(int x, int y, double curMax, double downPheromone){
     	if(x>=0 && y>=0 && x<field.getHeight() && y<field.getWidth()){
-			if(field.getPheromoneAt(faction,x,y)>curMax)
+			if(field.getPheromoneAt(getFaction(),x,y)>curMax)
 			{
-				xLoc=x;
-				yLoc=y;
-				curMax=field.getPheromoneAt(faction,x,y);
+				setxLoc(x);
+				setyLoc(y);
+				curMax=field.getPheromoneAt(getFaction(),x,y);
 			}
-			else if(field.getPheromoneAt(faction,x,y)==downPheromone)
+			else if(field.getPheromoneAt(getFaction(),x,y)==downPheromone)
 			{
-				xLoc=x;
-				yLoc=x;
+				setxLoc(x);
+				setyLoc(y);
 			}
 		}
     	return curMax;
     }
+
+	public boolean getKillme() {
+		return killme;
+	}
+
+	public void setKillme(boolean killme) {
+		this.killme = killme;
+	}
+
+	public int getFaction() {
+		return faction;
+	}
+
+	public void setFaction(int faction) {
+		this.faction = faction;
+	}
+
+	public int getxLoc() {
+		return xLoc;
+	}
+
+	public void setxLoc(int xLoc) {
+		this.xLoc = xLoc;
+	}
+
+	public int getyLoc() {
+		return yLoc;
+	}
+
+	public void setyLoc(int yLoc) {
+		this.yLoc = yLoc;
+	}
 }

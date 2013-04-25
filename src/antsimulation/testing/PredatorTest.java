@@ -73,7 +73,7 @@ public class PredatorTest {
 			
 			predatorTest.eatAnt(antTest);
 			
-			if(!antTest.killme)
+			if(!antTest.getKillme())
 				fail("Predator.eatAnt does not set killme flag.");
 			if(predatorTest.hunger != hunger-1)
 				fail("Predator.eatAnt does not decrement hunger.");

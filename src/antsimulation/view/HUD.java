@@ -21,7 +21,7 @@ public class HUD {
         
         String antCountStr = "Ants: " + field.ants.size();
         for(int i = 0; i < field.foodpiles.size(); i++)
-        	foodTotal+=field.foodpiles.get(i).foodCount;
+        	foodTotal+=field.foodpiles.get(i).getFoodCount();
         String foodCountStr = "Total Food: " + foodTotal;
         String pileCountStr = "Food Piles: " + field.foodpiles.size();
         

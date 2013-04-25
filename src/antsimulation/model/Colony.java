@@ -2,27 +2,27 @@ package antsimulation.model;
 
 public class Colony {
     private int framesSinceAntBorn;
-    public int faction;
-    public int xLoc, yLoc; //Location
-    public int foodCount;
+    private int faction;
+    private int xLoc, yLoc; //Location
+    private int foodCount;
     private Field field;
 
     //initializes the location and faction of the colony
     public Colony(int theFaction, int theX, int theY, Field f)
     {
         field = f;
-    	faction=theFaction;
-    	xLoc=theX;
-    	yLoc=theY;
+    	setFaction(theFaction);
+    	setxLoc(theX);
+    	setyLoc(theY);
     	framesSinceAntBorn=0;
-    	foodCount=100;
+    	setFoodCount(100);
     }
     //update checks to see if conditions are filled for ant birthing
     //it also adjusts the framesSinceAntBorn appropriately
     public void update() {
-    	if(framesSinceAntBorn==10 && foodCount >10)
+    	if(framesSinceAntBorn==10 && getFoodCount() >10)
     	{
-    		foodCount-=10;
+    		setFoodCount(getFoodCount() - 10);
     		birthAnt();
     		framesSinceAntBorn=0;//This maybe should be tied to a parameter
     	}
@@ -34,6 +34,30 @@ public class Colony {
     	
     }
     private void birthAnt() {
-    	field.ants.add(new Ant (faction, xLoc, yLoc, (int) field.parameters.checkParameter("AntLifetime"), field));
+    	field.ants.add(new Ant (getFaction(), getxLoc(), getyLoc(), (int) field.parameters.checkParameter("AntLifetime"), field));
     }
+	public int getFaction() {
+		return faction;
+	}
+	public void setFaction(int faction) {
+		this.faction = faction;
+	}
+	public int getxLoc() {
+		return xLoc;
+	}
+	public void setxLoc(int xLoc) {
+		this.xLoc = xLoc;
+	}
+	public int getyLoc() {
+		return yLoc;
+	}
+	public void setyLoc(int yLoc) {
+		this.yLoc = yLoc;
+	}
+	public int getFoodCount() {
+		return foodCount;
+	}
+	public void setFoodCount(int foodCount) {
+		this.foodCount = foodCount;
+	}
 }
