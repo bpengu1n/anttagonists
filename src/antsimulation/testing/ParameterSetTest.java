@@ -34,8 +34,8 @@ public class ParameterSetTest {
 		
 		for(int i = 0; i < ParameterSet.PARAMETER_NAMES.length; i++)
 		{
-			if( !(pSet.checkParameter(ParameterSet.PARAMETER_NAMES[i]) == expectedValue) )
-				fail(ParameterSet.PARAMETER_NAMES[i] + " was not initialized to default value.\nIt may have a custom value or was not initialized correctly.");
+			
+			assertTrue(ParameterSet.PARAMETER_NAMES[i] + " was not initialized to default value.\nIt may have a custom value or was not initialized correctly.",(pSet.checkParameter(ParameterSet.PARAMETER_NAMES[i]) == expectedValue));
 		}
 	}
 	
@@ -50,8 +50,7 @@ public class ParameterSetTest {
 				expectedValue = new Random(new Date().getTime()).nextFloat();
 				
 				pSet.adjustParameter(ParameterSet.PARAMETER_NAMES[i], expectedValue, true);
-				if( !(pSet.checkParameter(ParameterSet.PARAMETER_NAMES[i]) == expectedValue) )
-					fail(ParameterSet.PARAMETER_NAMES[i] + " was not correctly adjusted");
+				assertTrue(ParameterSet.PARAMETER_NAMES[i] + " was not correctly adjusted",(pSet.checkParameter(ParameterSet.PARAMETER_NAMES[i]) == expectedValue));
 			}
 	}
 
@@ -66,8 +65,7 @@ public class ParameterSetTest {
 				expectedValue = new Random(new Date().getTime()).nextFloat();
 				
 				pSet.adjustParameter(ParameterSet.PARAMETER_NAMES[i], expectedValue, true);
-				if( !(pSet.checkParameter(ParameterSet.PARAMETER_NAMES[i]) == expectedValue) )
-					fail(ParameterSet.PARAMETER_NAMES[i] + " was not correctly adjusted");
+				assertTrue(ParameterSet.PARAMETER_NAMES[i] + " was not correctly adjusted",(pSet.checkParameter(ParameterSet.PARAMETER_NAMES[i]) == expectedValue));
 			}
 	}
 

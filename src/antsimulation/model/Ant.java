@@ -16,9 +16,9 @@ public class Ant {
         setFaction(theFaction);
     	setxLoc(theX);
     	setyLoc(theY);
-    	framesToLive=framesofLife;
-    	hasFood=false;
-    	framesSinceAte=0;
+    	setFramesToLive(framesofLife);
+    	setHasFood(false);
+    	setFramesSinceAte(0);
     	field = f;
     }
     
@@ -30,13 +30,13 @@ public class Ant {
     //needs to implement some follow pheromone logic
     //
     public void update() {
-    	if(framesSinceAte==(int)field.parameters.checkParameter("AntStarvation") || framesToLive==0)
+    	if(getFramesSinceAte()==(int)field.parameters.checkParameter("AntStarvation") || getFramesToLive()==0)
     	{
     		die();
     	}
     	else
     	{
-   			if(hasFood)
+   			if(getHasFood())
    			{ 
    				Random curiosity = new Random();
    				//check to see if the ant will move randomly or towards the nest
@@ -55,7 +55,7 @@ public class Ant {
        				if(colony.getxLoc() ==getxLoc() && colony.getyLoc() ==getyLoc() && colony.getFaction() == getFaction())
        				{
        					giveFood(colony);
-       					if(framesSinceAte>20)
+       					if(getFramesSinceAte()>20)
        						eatFood(colony);
        					break;
        				}
@@ -91,8 +91,8 @@ public class Ant {
    		        }
    			}
    		}
-    	++framesSinceAte;
-    	--framesToLive;
+    	setFramesSinceAte(getFramesSinceAte() + 1);
+    	setFramesToLive(getFramesToLive() - 1);
     	
     }
 
@@ -103,18 +103,18 @@ public class Ant {
     
 
     public void takeFood(Foodpile pile) {
-    	hasFood=true;
+    	setHasFood(true);
 		pile.decrement();
     }
 
     public void eatFood(Colony home) {
     	home.setFoodCount(home.getFoodCount() - 1);
-    	framesSinceAte=0;
+    	setFramesSinceAte(0);
     }
     
     public void giveFood(Colony home) {
     	home.setFoodCount(home.getFoodCount() + 1);
-    	hasFood=false;
+    	setHasFood(false);
     }
     
     
@@ -264,5 +264,29 @@ public class Ant {
 
 	public void setyLoc(int yLoc) {
 		this.yLoc = yLoc;
+	}
+
+	public boolean getHasFood() {
+		return hasFood;
+	}
+
+	public void setHasFood(boolean hasFood) {
+		this.hasFood = hasFood;
+	}
+
+	public int getFramesSinceAte() {
+		return framesSinceAte;
+	}
+
+	public void setFramesSinceAte(int framesSinceAte) {
+		this.framesSinceAte = framesSinceAte;
+	}
+
+	public int getFramesToLive() {
+		return framesToLive;
+	}
+
+	public void setFramesToLive(int framesToLive) {
+		this.framesToLive = framesToLive;
 	}
 }

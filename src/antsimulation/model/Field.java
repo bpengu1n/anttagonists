@@ -44,7 +44,7 @@ public class Field extends java.util.Observable {
     }
     
     public void update() {
-        changed = false;
+        setChanged(false);
         //Calling our decayPheromones decays all of the pheromones left in the field (if any)
         decayPheromones();
         //Iterator<Ant> antIter = ants.listIterator();
@@ -56,7 +56,7 @@ public class Field extends java.util.Observable {
         {
         	Ant nextAnt=ants.get(i);
         	nextAnt.update();
-                changed = true;
+                setChanged(true);
         	if(nextAnt.getKillme())
     		{
         		if(i+1 <ants.size())
@@ -72,7 +72,7 @@ public class Field extends java.util.Observable {
         while(colonyIter.hasNext()) {
             Colony nextColony = colonyIter.next();
             nextColony.update();
-            changed = true;
+            setChanged(true);
         }
         
         //if (ants.size() != 0)
@@ -122,5 +122,13 @@ public class Field extends java.util.Observable {
 
 	public void setWidth(int width) {
 		this.width = width;
+	}
+
+	public boolean getChanged() {
+		return changed;
+	}
+
+	public void setChanged(boolean changed) {
+		this.changed = changed;
 	}
 }

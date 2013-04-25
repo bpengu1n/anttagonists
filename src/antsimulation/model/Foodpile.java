@@ -7,7 +7,7 @@ public class Foodpile {
     private boolean killme=false;
     
     public Foodpile(int theX, int theY, int food, Field f) {
-        field = f;
+        setField(f);
         setxLoc(theX);
         setyLoc(theY);
         setFoodCount(food);
@@ -50,5 +50,13 @@ public class Foodpile {
 
 	public void setFoodCount(int foodCount) {
 		this.foodCount = foodCount;
+	}
+
+	public Field getField() {
+		return field;
+	}
+
+	public void setField(Field field) {
+		this.field = field;
 	}
 }
