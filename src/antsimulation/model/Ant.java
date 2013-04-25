@@ -11,22 +11,22 @@ public class Ant {
     private int faction;
     private Field field;
     private boolean killme=false;
+
     //constructor
     public Ant(int theFaction, int theX, int theY, int framesofLife, Field f){
-        setFaction(theFaction);
-    	setxLoc(theX);
-    	setyLoc(theY);
-    	setFramesToLive(framesofLife);
-    	setHasFood(false);
-    	setFramesSinceAte(0);
+        faction = theFaction;
+    	xLoc = theX;
+    	yLoc = theY;
+    	framesToLive = framesofLife;
+    	hasFood = false;
+    	framesSinceAte = 0;
     	field = f;
     }
     
     //update does a lot
-    //1. it figures out if it's time to die of natural causes (non predator murder)
-    //2. figures out whether or not to flee
-    //3. checks to see if has food and then sees if it can place it in its colony. It will also lay pheromone
-    //4. wanders and sees if it can pick up food
+    //1. it figures out if it's time to die of natural causes
+    //2. checks to see if has food and then sees if it can place it in its colony. It will also lay pheromone
+    //3. wanders and sees if it can pick up food
     //needs to implement some follow pheromone logic
     //
     public void update() {
@@ -91,44 +91,44 @@ public class Ant {
    		        }
    			}
    		}
-    	setFramesSinceAte(getFramesSinceAte() + 1);
-    	setFramesToLive(getFramesToLive() - 1);
+        framesSinceAte++;
+        framesToLive--;
     	
     }
 
+    //this is public for future expansion (ie, predators)
     public void die() {
-    	//field.ants.remove(this);
-    	setKillme(true);
+    	killme = true;
     }
     
 
-    public void takeFood(Foodpile pile) {
-    	setHasFood(true);
-		pile.decrement();
+    private void takeFood(Foodpile pile) {
+    	hasFood = true;
+	pile.decrement();
     }
 
-    public void eatFood(Colony home) {
+    private void eatFood(Colony home) {
     	home.setFoodCount(home.getFoodCount() - 1);
-    	setFramesSinceAte(0);
+    	framesSinceAte = 0;
     }
     
-    public void giveFood(Colony home) {
+    private void giveFood(Colony home) {
     	home.setFoodCount(home.getFoodCount() + 1);
-    	setHasFood(false);
+    	hasFood = false;
     }
     
     
-    public void wander() {
+    private void wander() {
     	Random generator = new Random();
     	int xRand=generator.nextInt(3)-1;
     	int yRand=generator.nextInt(3)-1;
     	//This will move the ants to a random position
     	//it will keep ants from leaving the field
     	if(xRand+getxLoc() < field.getWidth() && xRand+getxLoc() >= 0){
-    		setxLoc(xRand + getxLoc());
+    		xLoc += xRand;
     	}
     	if(yRand+getyLoc() < field.getHeight() && yRand+getyLoc() >= 0){
-    		setyLoc(yRand + getyLoc());
+    		yLoc += yRand;
     	}
     	if(xRand>0)
     	{
@@ -169,19 +169,19 @@ public class Ant {
             }
         }
     	if(myColony.getxLoc() > getxLoc()){
-    		setxLoc(getxLoc() + 1);
+    		xLoc++;
     	}
     	else if(myColony.getxLoc() < getxLoc())
     	{
-    		setxLoc(getxLoc() - 1);
+    		xLoc--;
     	}
     	if(myColony.getyLoc() > getyLoc())
     	{
-    		setyLoc(getyLoc() + 1);
+    		yLoc++;
     	}
     	else if(myColony.getyLoc() < getyLoc())
     	{
-    		setyLoc(getyLoc() - 1);
+    		yLoc--;
     	}
     }
     
@@ -225,14 +225,14 @@ public class Ant {
     	if(x>=0 && y>=0 && x<field.getHeight() && y<field.getWidth()){
 			if(field.getPheromoneAt(getFaction(),x,y)>curMax)
 			{
-				setxLoc(x);
-				setyLoc(y);
+				xLoc = x;
+				yLoc = y;
 				curMax=field.getPheromoneAt(getFaction(),x,y);
 			}
 			else if(field.getPheromoneAt(getFaction(),x,y)==downPheromone)
 			{
-				setxLoc(x);
-				setyLoc(y);
+				xLoc = x;
+				yLoc = y;
 			}
 		}
     	return curMax;
@@ -242,55 +242,56 @@ public class Ant {
 		return killme;
 	}
 
+        public int getFaction() {
+		return faction;
+	}
+        
+        public int getxLoc() {
+		return xLoc;
+	}
+
+        public int getyLoc() {
+		return yLoc;
+	}
+
+        //for JUnit testing
 	public void setKillme(boolean killme) {
 		this.killme = killme;
 	}
 
-	public int getFaction() {
-		return faction;
-	}
-
-	public void setFaction(int faction) {
-		this.faction = faction;
-	}
-
-	public int getxLoc() {
-		return xLoc;
-	}
-
-	public void setxLoc(int xLoc) {
-		this.xLoc = xLoc;
-	}
-
-	public int getyLoc() {
-		return yLoc;
-	}
-
-	public void setyLoc(int yLoc) {
-		this.yLoc = yLoc;
-	}
-
+        //for JUnit testing
 	public boolean getHasFood() {
 		return hasFood;
 	}
 
+        //for JUnit testing
 	public void setHasFood(boolean hasFood) {
 		this.hasFood = hasFood;
 	}
 
+        //for JUnit testing
 	public int getFramesSinceAte() {
 		return framesSinceAte;
 	}
 
+        //for JUnit testing
 	public void setFramesSinceAte(int framesSinceAte) {
 		this.framesSinceAte = framesSinceAte;
 	}
 
+        //for JUnit testing
 	public int getFramesToLive() {
 		return framesToLive;
 	}
 
+        //for JUnit testing
 	public void setFramesToLive(int framesToLive) {
 		this.framesToLive = framesToLive;
 	}
+        
+        //wrappers for private functions, used for JUnit testing
+        public void jUnitTesttakeFood(Foodpile p) { takeFood(p); }
+        public void jUnitTesteatFood(Colony c) { eatFood(c); }
+        public void jUnitTestgiveFood(Colony c) { giveFood(c); }
+        public void jUnitTestwander() { wander(); }
 }

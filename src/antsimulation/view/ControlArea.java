@@ -9,7 +9,7 @@ public class ControlArea extends JPanel {
     private final int BUTTONWIDTH = 140;
     private final int PREFERREDHEIGHT = 300;
     
-    public JButton startStopButton, pauseResumeButton, generateOutput, loadScenarioButton, freeplayButton, resetParametersButton;
+    public JButton startStopButton, pauseResumeButton, loadScenarioButton, freeplayButton, resetParametersButton;
     public JSlider speedSlider;
     public JCheckBox showHudCB, showGridCB;
     
@@ -34,11 +34,6 @@ public class ControlArea extends JPanel {
         pauseResumeButton.addActionListener(listener);
         add(pauseResumeButton);
                 
-        generateOutput = new JButton("Generate Output Data");
-        generateOutput.setPreferredSize(new Dimension(BUTTONWIDTH, 25));
-        generateOutput.addActionListener(listener);
-        add(generateOutput);
-        
         loadScenarioButton = new JButton("Load Scenario");
         loadScenarioButton.setPreferredSize(new Dimension(BUTTONWIDTH, 25));
         loadScenarioButton.addActionListener(listener);
@@ -81,7 +76,6 @@ public class ControlArea extends JPanel {
         startStopButton.setText(simRunning ? "Stop Simulation" : "Start Simulation");
         pauseResumeButton.setText(paused ? "Resume" : "Pause");
         pauseResumeButton.setEnabled(simRunning);
-        generateOutput.setEnabled(simRunning && paused);
         loadScenarioButton.setEnabled(!simRunning);
         freeplayButton.setEnabled(!simRunning);
         resetParametersButton.setEnabled(!simRunning);

@@ -37,8 +37,8 @@ public class SimulationDisplay extends JPanel {
         g.setColor(Color.white);
         g.fillRect(0,0, dispImage.getWidth(), dispImage.getHeight());
         //begin drawing
-        drawColonies(g, unitSize);
         drawFoodpiles(g, unitSize);
+        drawColonies(g, unitSize);
         drawAnts(g, unitSize);
         drawPheremones(g, unitSize);
         repaint();
@@ -87,10 +87,9 @@ public class SimulationDisplay extends JPanel {
         for(int i = 0; i < field.colonies.size(); i++)
         {
             colony = field.colonies.get(i);
-
             x = colony.getxLoc() * unitSize;
             y = colony.getyLoc() * unitSize;
-            switch(field.colonies.get(i).getFaction())
+            switch(colony.getFaction())
             {
             case 1:
                     g.setColor(Color.blue);
@@ -109,7 +108,7 @@ public class SimulationDisplay extends JPanel {
                     break;
             }
 
-            g.fillArc(x+(unitSize), y+(unitSize), unitSize, unitSize*2, 0, 180);
+            g.fillArc(x, y, unitSize, unitSize*2, 0, 180);
         }
     }
 
@@ -156,8 +155,8 @@ public class SimulationDisplay extends JPanel {
                 y = foodPile.getyLoc() * unitSize;
                 g.setColor(Color.green);
                 
-                diff = pileSize-unitSize;
-                g.fillOval(x-diff/2, y-diff/2, pileSize, pileSize);
+                diff = unitSize-pileSize;
+                g.fillOval(x+diff/2, y+diff/2, pileSize, pileSize);
                 
         }
     }
@@ -169,42 +168,48 @@ public class SimulationDisplay extends JPanel {
         
         for(int x = 0 ; x < field.getWidth(); x++)
         {
-    		for(int y = 0 ; y < field.getWidth(); y++)
-        	{
-    			while((field.getPheromoneAt(faction, x, y)) != -1)
-    			{
-    				switch(faction)
+            for(int y = 0 ; y < field.getWidth(); y++)
+            {
+    		while((field.getPheromoneAt(faction, x, y)) != -1)
+    		{   //we loop through each faction, here
+                    switch(faction)
                     {
-                    case 1:
+                        case 1:
                             g.setColor(Color.blue);
                             break;
-                    case 2: 
-                            g.setColor(Color.red);
-                            break;
-                    case 3:
-                            g.setColor(Color.yellow);
-                            break;
-                    case 4:
-                            g.setColor(Color.pink);
-                            break;
-                    default:
-                            g.setColor(Color.magenta);
-                            break;
+                        case 2: 
+                                g.setColor(Color.red);
+                                break;
+                        case 3:
+                                g.setColor(Color.yellow);
+                                break;
+                        case 4:
+                                g.setColor(Color.pink);
+                                break;
+                        default:
+                                g.setColor(Color.magenta);
+                                break;
                     }
-   
-    				pheromone = field.getPheromoneAt(faction, x, y);
-    				percentStrength = pheromone / field.parameters.checkParameter("PheromoneStrength");
+                    pheromone = field.getPheromoneAt(faction, x, y);
+                    percentStrength = pheromone / field.parameters.checkParameter("PheromoneStrength");
                     size = (int)(unitSize* percentStrength);
-                    
-                    diff = size - unitSize;
+                    diff = unitSize - size;
                     if(pheromone!=0)
-                    	g.drawOval((x*unitSize)-diff/2, (y*unitSize)-diff/2, size, size);
-    				
-    				faction++;
-    			}
-    			faction=0;
-        	}
+                        g.drawOval((x*unitSize)+diff/2, (y*unitSize)+diff/2, size, size);
+                                faction++;
+                }
+    		faction=0;
+            }
     	} 
     }
+
+    public void setHUDVisible(boolean vis) {
+        hudVisible = vis;
+        repaint();
+    }
     
+    public void setGridVisible(boolean vis) {
+        gridVisible = vis;
+        repaint();
+    }
 }

@@ -9,14 +9,12 @@ public class Simulation {
         field = new Field(p);
         view = v;
         field.addObserver(view);
+        elapsedFrames = 0;
         view.update(field,null);
     }
 
     public void update() {
+        elapsedFrames++;
         field.update();
-    }
-
-    public boolean generateOutputFile(String filename) {
-        return true;
     }
 }

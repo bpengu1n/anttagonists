@@ -58,10 +58,6 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
             else
                 pauseSimulation();
         }
-        if (e.getSource() == controlArea.generateOutput) {
-            controller.generateOutputFile("Output.txt");
-            System.out.println("Output");
-        }
         if (e.getSource() == controlArea.loadScenarioButton) {
             //ask which file to load, and load it
             JFileChooser fc = new JFileChooser();
@@ -80,12 +76,10 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
             resetParameterArea();
         
         if (e.getSource()==controlArea.showHudCB) {
-            displayArea.hudVisible = controlArea.showHudCB.isSelected();
-            displayArea.repaint();
+            displayArea.setHUDVisible(controlArea.showHudCB.isSelected());
         }
         if (e.getSource()==controlArea.showGridCB) {
-            displayArea.gridVisible = controlArea.showGridCB.isSelected();
-            displayArea.repaint();
+            displayArea.setGridVisible(controlArea.showGridCB.isSelected());
         }
         if (e.getSource() == timer)
             controller.updateSimulation();

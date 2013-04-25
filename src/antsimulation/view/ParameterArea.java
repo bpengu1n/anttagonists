@@ -19,12 +19,12 @@ public class ParameterArea extends JPanel {
     private boolean[] boxesEditable;
 
     private final String[] SLIDERNAMES = {
-	"AntCuriosity", "ReproductionRate", "PredatorSkill", "PredatorFrequency"
+	"AntCuriosity", "ReproductionRate"
     };
     private final String[] BOXNAMES = {
         "Size", "MaxColonies", "StartAntsPerColony", "StartFoodPiles",
-        "StartPredators", "StartFoodPileSize", "PheromoneStrength", "PheromoneDecay",
-	"PredatorHunger", "AntStarvation", "AntHunger", "AntLifetime", "ReproductionCost"
+        "StartFoodPileSize", "PheromoneStrength", "PheromoneDecay", "AntStarvation",
+        "AntHunger", "AntLifetime", "ReproductionCost"
     };
     
     public ParameterArea(View mstr) {

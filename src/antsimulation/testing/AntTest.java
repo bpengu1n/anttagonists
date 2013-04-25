@@ -71,7 +71,7 @@ public class AntTest {
 			Foodpile testPile= new Foodpile(xVal, yVal, (int)pSet.checkParameter("StartFoodPileSize"),testField);
 			
 			testAnt.setHasFood(false);
-			testAnt.takeFood(testPile);
+			testAnt.jUnitTesttakeFood(testPile);
 			//Checks to make sure ant is now carrying food
 			assertTrue("Ant is NOT carrying food after taking food from pile",testAnt.getHasFood());
 			
@@ -96,7 +96,7 @@ public class AntTest {
 			
 			//Checks to make sure the colony food count decreases
 			int beforeEat=testColony.getFoodCount();
-			testAnt.eatFood(testColony);
+			testAnt.jUnitTesteatFood(testColony);
 			assertTrue("eatFood has failed to decrease the foodCount of the colony!",beforeEat-1==testColony.getFoodCount());
 		}
 	}
@@ -117,7 +117,7 @@ public class AntTest {
 			
 			//giving ant food
 			testAnt.setHasFood(true);
-			testAnt.giveFood(testColony);
+			testAnt.jUnitTestgiveFood(testColony);
 			//Checks to make sure the ant no longer carries food
 			assertTrue("Ant still has food and giveFood has failed!", !testAnt.getHasFood());
 			
@@ -139,7 +139,7 @@ public class AntTest {
 			Ant testAnt=new Ant(faction,xVal,yVal,antLife, testField);
 			
 			for(int wanderIteration = 0; wanderIteration < 100; wanderIteration++)
-				testAnt.wander();
+				testAnt.jUnitTestwander();
 			
 			//Here we check to see if ant has moved after 100 iterations, this can occasionally fail.
 			assertTrue("testAnt.wander did not move the ant on testNum:"+testNum,testAnt.getxLoc() != xVal || testAnt.getyLoc() != yVal );

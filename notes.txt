@@ -1,39 +1,37 @@
 STUFF TO DO
 -----------
+ 
+ASK ALI:
+	public antsimulation.ParameterSet parameters;
+    public java.util.List<Ant> ants;
+    public java.util.List<Foodpile> foodpiles;
+    public java.util.List<Colony> colonies;
+
 Joseph
-  -grid centers in the view
+  -make sure there are no globals(waiting to hear from Ali)
   -update documents
-  -make Controller not an applet -> nevermind!
-  -remove "generate output" button
-  -make sure there are NO GLOBALS
-  -add comments around some points of code to help keep it clear for the grader what we're trying
+  -JUnit Test for setStatus
 
 Brian
-	-clean up ant movement
-		-I think ants wanter one to far
-	-clean code so primvate functions are used
-	-kill predators
+	-clean code so private functions are used
 
 Cameron
-	DONE-pheromone display
-	DONE-ParameterSetTest will need fixing 
 	-image display (NEED IMAGES FIRST)
 
 Steve
-	-improve dispaly
-		make ants scale with the grid
-		   "I believe ants already scale with the size of the grid. The larger the area the smaller the ants. Note how they always fit nicely inside the grid?" --Cameron
 	-make images
-		lower priority (scaling sucks)
+		lower priority (scaling sucks to do)
 		
 Benjamin
 	-make sure that unneccecary parameters are trimmed
-	-make sure all changes suggested in A5 are applied (ie, field.width -> field.getWidth())
+	-make sure all changes suggested in A5 are applied
 	-test all neccecary parameters, that they work; find reasonalbe MIN_VALS and MAX_VALS
 			
 OTHERS
 ------
 -JUnit Testing!!
+-make HUD more useful (more important)
+-make ants less curious when they have food (lower priority)
 -make the simulation stop itself when all ants are dead and all colonies depleted
 	(pass a new command to the controller?)
 	low priority
@@ -48,4 +46,3 @@ View and Parameterset: use File, not String
 
 JUnit Testing needed (/ideas)
 -----------------------------
--setting the status label
