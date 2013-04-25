@@ -1,215 +1,90 @@
 package antsimulation.view;
-
-import antsimulation.model.*;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.image.*;
+import java.util.Timer;
 
-public class SimulationDisplay extends JPanel {
-    private static int PREFERREDSIZE = 500;
-    
-    public boolean hudVisible, gridVisible;
-    private HUD hud;
-    private BufferedImage dispImage;
-    protected antsimulation.model.Field field;
+import antsimulation.model.Colony;
+import antsimulation.model.Field;
 
-    public SimulationDisplay() {
-        setPreferredSize(new Dimension(PREFERREDSIZE, PREFERREDSIZE));
-        setBackground(Color.GREEN);
+public class HUD {
+    public void paint(Graphics g, java.util.Observable o) {
+        antsimulation.model.Field field = (antsimulation.model.Field)o;
         
-        hud = new HUD();
-        hudVisible = true;
-    }
-    
-    public void clearImage() {
-        dispImage = null;
-        repaint();
-    }
-    
-    public void update(java.util.Observable o) {
-        field = (antsimulation.model.Field)o;
-        int unitWidth = PREFERREDSIZE / field.getWidth();
-        int unitHeight = PREFERREDSIZE / field.getWidth();
-        int unitSize = (unitWidth<unitHeight) ? unitWidth : unitHeight;
-        if (dispImage == null)
-            dispImage = new BufferedImage(unitSize*field.getWidth(),unitSize*field.getHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics g = dispImage.getGraphics();
-        g.setColor(Color.white);
-        g.fillRect(0,0, dispImage.getWidth(), dispImage.getHeight());
-        //begin drawing
-        drawFoodpiles(g, unitSize);
-        drawColonies(g, unitSize);
-        drawAnts(g, unitSize);
-        drawPheremones(g, unitSize);
-        repaint();
-    }
-    
-    @Override
-    public void paintComponent(Graphics g) 
-    {
-        super.paintComponent(g);
-        if (dispImage != null) {
-            int offsetX = (PREFERREDSIZE-dispImage.getWidth())/2;
-            int offsetY = (PREFERREDSIZE-dispImage.getHeight())/2;
-            g.drawImage(dispImage, offsetX,offsetY, dispImage.getWidth(),dispImage.getHeight(), this);
-            if(gridVisible)
-                paintGrid(g, field, offsetX,offsetY);
-            if(hudVisible)
-                hud.paint(g, field);
-        }
-    }
-    
-    private void paintGrid(Graphics g, Field field, int offsetX, int offsetY) 
-    {
-        int unitWidth = dispImage.getWidth() / field.getWidth();
-        int unitHeight = dispImage.getHeight() / field.getWidth();
-        int unitSize = (unitWidth<unitHeight) ? unitWidth : unitHeight;
-        for(int i = 0; i <= field.getHeight() ; i++)
-        {
-            g.drawLine(
-                    offsetX + unitSize*i,
-                    offsetY, 
-                    offsetX + unitSize*i,
-                    offsetY + field.getHeight()*(unitSize)
-                    );
-            g.drawLine(
-                    offsetX, 
-                    offsetY + unitSize*i, 
-                    offsetX + field.getHeight()*(unitSize), 
-                    offsetY + unitSize*i
-                    );
-        }
-    }
-
-    private void drawColonies(Graphics g, int unitSize) {
-        int x, y;
+        FontMetrics fm = g.getFontMetrics();
+        int fontHeight = fm.getHeight(); 
+        
+        int hudWidth = 210;
+        int hudHeight = (int)((field.parameters.checkParameter("MaxColonies")+2)*fontHeight)+5;
+        
+        g.setColor(Color.WHITE);
+        g.fillRoundRect(0, 0, hudWidth, hudHeight, 7, 7);
+        
+        g.setColor(Color.BLACK);
+        Font oldFont = g.getFont();
+        g.setFont(new Font("serif", Font.BOLD, 14));
+        
+        int foodTotal=0;
+        int y = 0;
+        int x = 3;
+        
+        //Draw Running Time
+        String runningTimeStr = "Time Simulated: " + "ENTER TIME HERE";
+        y+=fontHeight;
+        g.drawString(runningTimeStr, x, y);
+        
+        //Draw Food Pile Count
+        for(int i = 0; i < field.foodpiles.size(); i++)
+            foodTotal+=field.foodpiles.get(i).getFoodCount();
+        String pileCountStr = "Food Remaining: " + foodTotal;
+ 
+        y+=fontHeight;
+        g.drawString(pileCountStr, x, y);
+        
+        //Draw Colony food storage and ant count
+        String colonyStr;
         Colony colony;
-        for(int i = 0; i < field.colonies.size(); i++)
-        {
-            colony = field.colonies.get(i);
-            x = colony.getxLoc() * unitSize;
-            y = colony.getyLoc() * unitSize;
+        for(int col = 0; col < field.parameters.checkParameter("MaxColonies"); col++)
+    	{
+        	
+        	colony = field.colonies.get(col);
+        	
             switch(colony.getFaction())
             {
             case 0:
-                    g.setColor(Color.blue);
+            		colonyStr = "Blue Colony: ";
                     break;
             case 1: 
-                    g.setColor(Color.red);
+            		colonyStr = "Red Colony: ";
                     break;
             case 2:
-                    g.setColor(Color.ORANGE);
+            		colonyStr = "Orange Colony: ";
                     break;
             case 3:
-                    g.setColor(Color.pink);
+            		colonyStr = "Pink Colony: ";
                     break;
             default:
-                    g.setColor(Color.magenta);
+            		colonyStr = "Magenta Colony: ";
                     break;
             }
-
-            g.fillArc(x, y, unitSize, unitSize*2, 0, 180);
-        }
-    }
-
-    private void drawAnts(Graphics g, int unitSize) {
-        int x, y;
-        for(int i = 0; i < field.ants.size(); i++)
-        {
-                x = field.ants.get(i).getxLoc() * unitSize;
-                y = field.ants.get(i).getyLoc() * unitSize;
-
-                switch(field.ants.get(i).getFaction())
-                {
-                case 0:
-                        g.setColor(Color.blue);
-                        break;
-                case 1: 
-                        g.setColor(Color.red);
-                        break;
-                case 2:
-                        g.setColor(Color.ORANGE);
-                        break;
-                case 3:
-                        g.setColor(Color.pink);
-                        break;
-                default:
-                        g.setColor(Color.magenta);
-                        break;
-                }
-                g.fillRect(x+(unitSize/4), y+(unitSize/4), unitSize/2, unitSize/2);
-        }
-    }
-
-    private void drawFoodpiles(Graphics g, int unitSize) {
-        int x, y, pileSize, diff;
-        float foodScale=.13f;
-        Foodpile foodPile;
-                       
-        for(int i = 0; i < field.foodpiles.size(); i++)
-        {
-                foodPile = field.foodpiles.get(i);
-                pileSize = (int)(unitSize*foodScale*foodPile.getFoodCount());
-
-                x = foodPile.getxLoc() * unitSize;
-                y = foodPile.getyLoc() * unitSize;
-                g.setColor(Color.green);
-                
-                diff = unitSize-pileSize;
-                g.fillOval(x+diff/2, y+diff/2, pileSize, pileSize);
-                
-        }
-    }
-    
-    private void drawPheremones(Graphics g, int unitSize) 
-    {
-        double pheromone, percentStrength;
-        int faction = 0, size, diff;
+        	
+            //append food count
+        	colonyStr += colony.getFoodCount() + " food, ";
+        	
+        	//count ants of colony col
+        	int colonyAnts = 0;
+        	for(int i = 0; i < field.ants.size(); i++)
+        	{
+        		if(field.ants.get(i).getFaction() == col)
+        			colonyAnts++;
+        	}
+        	//append ant count
+        	colonyStr += colonyAnts + " ants";
+            
+        	y+=fontHeight;
+        	g.drawString(colonyStr, x, y);
+    	}
         
-        for(int x = 0 ; x < field.getWidth(); x++)
-        {
-            for(int y = 0 ; y < field.getWidth(); y++)
-            {
-        	while((field.getPheromoneAt(faction, x, y)) != -1)
-    		{   //we loop through each faction, here
-                    switch(faction)
-                    {
-                        case 0:
-                            g.setColor(Color.blue);
-                            break;
-                        case 1: 
-                                g.setColor(Color.red);
-                                break;
-                        case 2:
-                                g.setColor(Color.ORANGE);
-                                break;
-                        case 3:
-                                g.setColor(Color.pink);
-                                break;
-                        default:
-                                g.setColor(Color.magenta);
-                                break;
-                    }
-                    pheromone = field.getPheromoneAt(faction, x, y);
-                    percentStrength = pheromone / field.parameters.checkParameter("PheromoneStrength");
-                    size = (int)(unitSize* percentStrength);
-                    diff = unitSize - size;
-                    if(pheromone!=0)
-                        g.drawOval((x*unitSize)+diff/2, (y*unitSize)+diff/2, size, size);
-                                faction++;
-                }
-    		faction=0;
-            }
-    	} 
-    }
-
-    public void setHUDVisible(boolean vis) {
-        hudVisible = vis;
-        repaint();
-    }
-    
-    public void setGridVisible(boolean vis) {
-        gridVisible = vis;
-        repaint();
+        g.drawRoundRect(0, 0, hudWidth, hudHeight, 7, 7);
+        
+        g.setFont(oldFont);
     }
 }
