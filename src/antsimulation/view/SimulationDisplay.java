@@ -151,7 +151,7 @@ public class SimulationDisplay extends JPanel {
         int faction = 0, size, diff;
         
         for(int x = 0 ; x < field.getWidth(); x++)
-    	{
+        {
     		for(int y = 0 ; y < field.getWidth(); y++)
         	{
     			while((field.getPheromoneAt(faction, x, y)) != -1)
