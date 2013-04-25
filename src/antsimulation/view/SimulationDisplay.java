@@ -90,7 +90,24 @@ public class SimulationDisplay extends JPanel {
 
             x = colony.getxLoc() * unitSize;
             y = colony.getyLoc() * unitSize;
-            g.setColor(Color.orange);
+            switch(field.colonies.get(i).getFaction())
+            {
+            case 1:
+                    g.setColor(Color.blue);
+                    break;
+            case 2: 
+                    g.setColor(Color.red);
+                    break;
+            case 3:
+                    g.setColor(Color.yellow);
+                    break;
+            case 4:
+                    g.setColor(Color.pink);
+                    break;
+            default:
+                    g.setColor(Color.magenta);
+                    break;
+            }
 
             g.fillArc(x+(unitSize), y+(unitSize), unitSize, unitSize*2, 0, 180);
         }
