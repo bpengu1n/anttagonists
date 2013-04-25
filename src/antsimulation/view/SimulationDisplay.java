@@ -91,16 +91,16 @@ public class SimulationDisplay extends JPanel {
             y = colony.getyLoc() * unitSize;
             switch(colony.getFaction())
             {
-            case 1:
+            case 0:
                     g.setColor(Color.blue);
                     break;
-            case 2: 
+            case 1: 
                     g.setColor(Color.red);
                     break;
-            case 3:
-                    g.setColor(Color.yellow);
+            case 2:
+                    g.setColor(Color.ORANGE);
                     break;
-            case 4:
+            case 3:
                     g.setColor(Color.pink);
                     break;
             default:
@@ -121,16 +121,16 @@ public class SimulationDisplay extends JPanel {
 
                 switch(field.ants.get(i).getFaction())
                 {
-                case 1:
+                case 0:
                         g.setColor(Color.blue);
                         break;
-                case 2: 
+                case 1: 
                         g.setColor(Color.red);
                         break;
-                case 3:
-                        g.setColor(Color.yellow);
+                case 2:
+                        g.setColor(Color.ORANGE);
                         break;
-                case 4:
+                case 3:
                         g.setColor(Color.pink);
                         break;
                 default:
@@ -170,20 +170,20 @@ public class SimulationDisplay extends JPanel {
         {
             for(int y = 0 ; y < field.getWidth(); y++)
             {
-    		while((field.getPheromoneAt(faction, x, y)) != -1)
+        	while((field.getPheromoneAt(faction, x, y)) != -1)
     		{   //we loop through each faction, here
                     switch(faction)
                     {
-                        case 1:
+                        case 0:
                             g.setColor(Color.blue);
                             break;
-                        case 2: 
+                        case 1: 
                                 g.setColor(Color.red);
                                 break;
-                        case 3:
-                                g.setColor(Color.yellow);
+                        case 2:
+                                g.setColor(Color.ORANGE);
                                 break;
-                        case 4:
+                        case 3:
                                 g.setColor(Color.pink);
                                 break;
                         default:
