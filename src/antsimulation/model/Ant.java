@@ -36,96 +36,89 @@ public class Ant {
     	}
     	else
     	{
-    		//This is not ever going to be called until flee has been implemented
-    		if(predatorNearandFlee())
-    		{
-    		}
-    		else
-    		{
-    			if(hasFood)
-    			{ 
-    				Random curiosity = new Random();
-    				//check to see if the ant will move randomly or towards the nest
-    				if(curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity"))
-    				{
-	    				//head home algorithm
-	    				//this could be put into another function
-	    				//I just don't want to go through the work of making 10 more diagrams
-	    				Iterator<Colony> colonyIter = field.colonies.listIterator();
-	    		    	Colony myColony= field.colonies.get(0);
-	    		    	while(colonyIter.hasNext()) {
-	    		            Colony nextColony = colonyIter.next();
-	    		            if(nextColony.faction==faction)
-	    		            {
-	    		            	myColony=nextColony;
-	    		            	break;
-	    		            }
-	    		        }
-	    		    	if(myColony.xLoc > xLoc){
-	    		    		xLoc+=1;
-	    		    	}
-	    		    	else if(myColony.xLoc < xLoc)
-	    		    	{
-	    		    		xLoc-=1;
-	    		    	}
-	    		    	if(myColony.yLoc > yLoc)
-	    		    	{
-	    		    		yLoc+=1;
-	    		    	}
-	    		    	else if(myColony.yLoc < yLoc)
-	    		    	{
-	    		    		yLoc-=1;
-	    		    	}
-	    		    	///end head home algorithm
-    				}
-    				//instead of heading home they move randomly
-    				else
-    				{
-    					wander();
-    				}
-    				layPheromone();
-        			for(Iterator<Colony> i = field.colonies.iterator(); i.hasNext(); ) {
-        				Colony colony = i.next();
-        				if(colony.xLoc ==xLoc && colony.yLoc ==yLoc && colony.faction == faction)
-        				{
-        					giveFood(colony);
-        					if(framesSinceAte>20)
-        						eatFood(colony);
-        					break;
-        				}
-        			}
-    			}
-    			else
-    			{
-    				followPheromones();
-    				//so new we check to see if there is any food in our new location
-    				for(int i=0; i<field.foodpiles.size();++i)
-    		        {
-    		        	Foodpile nextPile=field.foodpiles.get(i);
-    		        	//if we find a food pile we get food!
-    		        	if(nextPile.xLoc ==xLoc && nextPile.yLoc ==yLoc)
-        				{
-        					takeFood(nextPile);
-        					layPheromone();
-        					break;
-        				}
-    		        	//check to see if the foodpile we are looking at is empty
-    		        	//if it is, we go ahead and clean it up
-    		        	if(nextPile.killme)
-    		    		{
-    		        		if(i+1 <field.foodpiles.size())
-    		        		{
-    		        			Foodpile findNext = field.foodpiles.get(i+1);
-    		        			field.foodpiles.remove(nextPile);
-    		        			i = field.foodpiles.indexOf(findNext)-1;
-    		        		}
-    		        		else
-    		        			field.foodpiles.remove(nextPile);
-    		    		}
+   			if(hasFood)
+   			{ 
+   				Random curiosity = new Random();
+   				//check to see if the ant will move randomly or towards the nest
+   				if(curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity"))
+   				{
+    				//head home algorithm
+    				//this could be put into another function
+    				//I just don't want to go through the work of making 10 more diagrams
+    				Iterator<Colony> colonyIter = field.colonies.listIterator();
+    		    	Colony myColony= field.colonies.get(0);
+    		    	while(colonyIter.hasNext()) {
+    		            Colony nextColony = colonyIter.next();
+    		            if(nextColony.faction==faction)
+    		            {
+    		            	myColony=nextColony;
+    		            	break;
+    		            }
     		        }
-    			}
-    		}
-    	}
+    		    	if(myColony.xLoc > xLoc){
+    		    		xLoc+=1;
+    		    	}
+    		    	else if(myColony.xLoc < xLoc)
+    		    	{
+    		    		xLoc-=1;
+    		    	}
+    		    	if(myColony.yLoc > yLoc)
+    		    	{
+    		    		yLoc+=1;
+    		    	}
+    		    	else if(myColony.yLoc < yLoc)
+    		    	{
+    		    		yLoc-=1;
+    		    	}
+    		    	///end head home algorithm
+   				}
+   				//instead of heading home they move randomly
+   				else
+   				{
+   					wander();
+   				}
+   				layPheromone();
+       			for(Iterator<Colony> i = field.colonies.iterator(); i.hasNext(); ) {
+       				Colony colony = i.next();
+       				if(colony.xLoc ==xLoc && colony.yLoc ==yLoc && colony.faction == faction)
+       				{
+       					giveFood(colony);
+       					if(framesSinceAte>20)
+       						eatFood(colony);
+       					break;
+       				}
+       			}
+   			}
+   			else
+   			{
+   				followPheromones();
+   				//so new we check to see if there is any food in our new location
+   				for(int i=0; i<field.foodpiles.size();++i)
+   		        {
+   		        	Foodpile nextPile=field.foodpiles.get(i);
+   		        	//if we find a food pile we get food!
+   		        	if(nextPile.xLoc ==xLoc && nextPile.yLoc ==yLoc)
+       				{
+     					takeFood(nextPile);
+       					layPheromone();
+       					break;
+       				}
+   		        	//check to see if the foodpile we are looking at is empty
+   		        	//if it is, we go ahead and clean it up
+   		        	if(nextPile.killme)
+   		    		{
+   		        		if(i+1 <field.foodpiles.size())
+   		        		{
+  		        			Foodpile findNext = field.foodpiles.get(i+1);
+   		        			field.foodpiles.remove(nextPile);
+   		        			i = field.foodpiles.indexOf(findNext)-1;
+   		        		}
+   		        		else
+   		        			field.foodpiles.remove(nextPile);
+   		    		}
+   		        }
+   			}
+   		}
     	++framesSinceAte;
     	--framesToLive;
     	
@@ -136,38 +129,6 @@ public class Ant {
     	killme=true;
     }
     
-    //This will eventually check for nearby predators at a distance of 3
-    private boolean predatorNearandFlee(){
-    	boolean predatorNear=false;
-    	for(int x = xLoc-3;x<xLoc+4;++x)
-    	{
-    		for(int y = yLoc-3;y<yLoc+4;++y)
-    		{
-    			for(int i=0; i<field.predators.size();++i)
-    	        {
-    	        	Predator nextPred=field.predators.get(i);
-    	        	if(y==nextPred.yLoc && x==nextPred.xLoc){
-    	        		predatorNear=true;
-    	        		int runDistx = (xLoc-x);
-    	        		int runDisty = (yLoc-y);
-    	        		if(yLoc+runDisty>=0 && yLoc+runDisty <= field.height)
-    	        		{
-    	        			yLoc+=runDisty;
-    	        		}
-    	        		if(xLoc+runDistx>=0 && xLoc+runDistx <= field.width)
-    	        		{
-    	        			xLoc+=runDistx;
-    	        		}
-    	        		break;
-    	        	}
-    	           
-    	        }
-    		}
-    	}
-    	
-    	
-    	return predatorNear;
-    }
 
     public void takeFood(Foodpile pile) {
     	hasFood=true;
@@ -191,11 +152,11 @@ public class Ant {
     	int yRand=generator.nextInt(3)-1;
     	//This will move the ants to a random position
     	//it will keep ants from leaving the field
-    	if(xRand+xLoc <= field.width && xRand+xLoc >= 0){
-    		xLoc= (xRand + xLoc)%field.width;
+    	if(xRand+xLoc < field.getWidth() && xRand+xLoc >= 0){
+    		xLoc= xRand + xLoc;
     	}
-    	if(yRand+yLoc <= field.height && yRand+yLoc >= 0){
-    		yLoc= (yRand + yLoc)%field.height;
+    	if(yRand+yLoc < field.getHeight() && yRand+yLoc >= 0){
+    		yLoc= yRand + yLoc;
     	}
     	if(xRand>0)
     	{
@@ -230,7 +191,7 @@ public class Ant {
     private void followPheromones() {
     		//no pheromones to follow, or curiosity dictates wander
     		Random curiosity = new Random();
-    		if(field.getPheromoneAt(faction,xLoc,yLoc)<=0 || curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity")){
+    		if(field.getPheromoneAt(faction,xLoc,yLoc)<=0 /*|| curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity")*/){
     			wander();
     		}
     		else{
@@ -241,122 +202,35 @@ public class Ant {
     			//This is the lower value that is on the downward gradient
     			double downPheromone = curPheromone-field.parameters.checkParameter("PheromoneDecay");
     			
-    			//The possible new location
-    			int newX=xLoc;
-    			int newY=yLoc;
-    			//x+1,y
-    			if(xLoc+1<=field.width){
-    				if(field.getPheromoneAt(faction,xLoc+1,yLoc)>curMax)
-    				{
-    					newX=xLoc+1;
-    					curMax=field.getPheromoneAt(faction,xLoc+1,yLoc);
-    				}
-    				else if(field.getPheromoneAt(faction,xLoc+1,yLoc)==downPheromone)
-    				{
-    					newX=xLoc+1;
-    				}
-    			}
-    	    	//x+1,y+1
-    			if(xLoc+1<=field.width && yLoc+1<=field.height){
-    				if(field.getPheromoneAt(faction,xLoc+1,yLoc+1)>curMax)
-    				{
-    					newX=xLoc+1;
-    					newY=yLoc+1;
-    					curMax=field.getPheromoneAt(faction,xLoc+1,yLoc+1);
-    				}
-    				else if(field.getPheromoneAt(faction,xLoc+1,yLoc+1)==downPheromone)
-    				{
-    					newX=xLoc+1;
-    					newY=yLoc+1;
-    				}
-    			}
-    	    	//x+1,y-1
-    			if(xLoc+1<=field.width && yLoc-1>=0){
-    				if(field.getPheromoneAt(faction,xLoc+1,yLoc-1)>curMax)
-    				{
-    					newX=xLoc+1;
-    					newY=yLoc-1;
-    					curMax=field.getPheromoneAt(faction,xLoc+1,yLoc-1);
-    				}
-    				else if(field.getPheromoneAt(faction,xLoc+1,yLoc-1)==downPheromone)
-    				{
-    					newX=xLoc+1;
-    					newY=yLoc-1;
-    				}
-    			}
-    	    	//x-1,y
-    	    	if(xLoc-1>=0){
-    				if(field.getPheromoneAt(faction,xLoc-1,yLoc)>curMax)
-    				{
-    					newX=xLoc-1;
-    					curMax=field.getPheromoneAt(faction,xLoc-1,yLoc);
-    				}
-    				else if(field.getPheromoneAt(faction,xLoc-1,yLoc)==downPheromone)
-    				{
-    					newX=xLoc-1;
-    				}
-    			}
-    	    	//x-1,y+1
-    	    	if(xLoc-1>=0 && yLoc+1<=field.height){
-    				if(field.getPheromoneAt(faction,xLoc-1,yLoc+1)>curMax)
-    				{
-    					newX=xLoc-1;
-    					newY=yLoc+1;
-    					curMax=field.getPheromoneAt(faction,xLoc+1,yLoc);
-    				}
-    				else if(field.getPheromoneAt(faction,xLoc+1,yLoc)==downPheromone)
-    				{
-    					newX=xLoc-1;
-    					newY=yLoc+1;
-    				}
-    			}
-    	    	//x-1,y-1
-    	    	if(xLoc-1>=0 && yLoc-1>=0){
-    				if(field.getPheromoneAt(faction,xLoc-1,yLoc-1)>curMax)
-    				{
-    					newX=xLoc-1;
-    					newY=yLoc-1;
-    					curMax=field.getPheromoneAt(faction,xLoc-1,yLoc-1);
-    				}
-    				else if(field.getPheromoneAt(faction,xLoc-1,yLoc-1)==downPheromone)
-    				{
-    					newX=xLoc-1;
-    					newY=yLoc-1;
-    				}
-    			}
-    	    	//x,y+1
-    	    	if(yLoc+1<=field.height){
-    				if(field.getPheromoneAt(faction,xLoc,yLoc+1)>curMax)
-    				{
-    					newY=yLoc+1;
-    					curMax=field.getPheromoneAt(faction,xLoc,yLoc+1);
-    				}
-    				else if(field.getPheromoneAt(faction,xLoc,yLoc+1)==downPheromone)
-    				{
-    					newY=yLoc+1;
-    				}
-    			}
-    	    	//x,y-1
-    	    	if(yLoc-1>=0){
-    				if(field.getPheromoneAt(faction,xLoc,yLoc-1)>curMax)
-    				{
-    					newY=yLoc-1;
-    					curMax=field.getPheromoneAt(faction,xLoc,yLoc-1);
-    				}
-    				else if(field.getPheromoneAt(faction,xLoc,yLoc-1)==downPheromone)
-    				{
-    					newY=yLoc-1;
+    			//used to check for movement
+    			int oldX=xLoc;
+    			int oldY=yLoc;
+    			for(int i=oldX-1;i<oldX+2;++i){
+    				for(int j=oldY-1;j<oldY+2;++j){
+    					curMax=pheromoneCheck(i,j,curMax,downPheromone);
     				}
     			}
     	    	//check to see if there was movement
-    	    	if(newY==yLoc && newX==xLoc){
+    	    	if(oldY==yLoc && oldX==xLoc){
     	    		//This would only happen if the ant found nothing left to follow
     	    		wander();
     	    	}
-    	    	else{
-    	    		xLoc=newX;
-    	    		yLoc=newY;
-    	    	}
     		}
+    }
+    private double pheromoneCheck(int x, int y, double curMax, double downPheromone){
+    	if(x>=0 && y>=0 && x<field.getHeight() && y<field.getWidth()){
+			if(field.getPheromoneAt(faction,x,y)>curMax)
+			{
+				xLoc=x;
+				yLoc=y;
+				curMax=field.getPheromoneAt(faction,x,y);
+			}
+			else if(field.getPheromoneAt(faction,x,y)==downPheromone)
+			{
+				xLoc=x;
+				yLoc=x;
+			}
+		}
+    	return curMax;
     }
 }

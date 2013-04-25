@@ -28,11 +28,11 @@ public class SimulationDisplay extends JPanel {
     
     public void update(java.util.Observable o) {
         field = (antsimulation.model.Field)o;
-        int unitWidth = PREFERREDSIZE / field.width;
-        int unitHeight = PREFERREDSIZE / field.width;
+        int unitWidth = PREFERREDSIZE / field.getWidth();
+        int unitHeight = PREFERREDSIZE / field.getWidth();
         int unitSize = (unitWidth<unitHeight) ? unitWidth : unitHeight;
         if (dispImage == null)
-            dispImage = new BufferedImage(unitSize*field.width,unitSize*field.height, BufferedImage.TYPE_INT_RGB);
+            dispImage = new BufferedImage(unitSize*field.getWidth(),unitSize*field.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g = dispImage.getGraphics();
         g.setColor(Color.white);
         g.fillRect(0,0, dispImage.getWidth(), dispImage.getHeight());
@@ -41,7 +41,6 @@ public class SimulationDisplay extends JPanel {
         drawFoodpiles(g, unitSize);
         drawAnts(g, unitSize);
         drawPheremones(g, unitSize);
-        drawPredators(g, unitSize);
         repaint();
     }
     
@@ -62,21 +61,21 @@ public class SimulationDisplay extends JPanel {
     
     private void paintGrid(Graphics g, Field field, int offsetX, int offsetY) 
     {
-        int unitWidth = dispImage.getWidth() / field.width;
-        int unitHeight = dispImage.getHeight() / field.width;
+        int unitWidth = dispImage.getWidth() / field.getWidth();
+        int unitHeight = dispImage.getHeight() / field.getWidth();
         int unitSize = (unitWidth<unitHeight) ? unitWidth : unitHeight;
-        for(int i = 0; i <= field.height ; i++)
+        for(int i = 0; i <= field.getHeight() ; i++)
         {
             g.drawLine(
                     offsetX + unitSize*i,
                     offsetY, 
                     offsetX + unitSize*i,
-                    offsetY + field.height*(unitSize)
+                    offsetY + field.getHeight()*(unitSize)
                     );
             g.drawLine(
                     offsetX, 
                     offsetY + unitSize*i, 
-                    offsetX + field.height*(unitSize), 
+                    offsetX + field.getHeight()*(unitSize), 
                     offsetY + unitSize*i
                     );
         }
@@ -148,21 +147,6 @@ public class SimulationDisplay extends JPanel {
     
     private void drawPheremones(Graphics g, int unitSize) {
 
-    }
-
-    private void drawPredators(Graphics g, int unitSize) {
-        int x, y;
-        Predator predator;
-        for(int i = 0; i < field.predators.size(); i++)
-        {
-                predator = field.predators.get(i);
-
-                x = predator.xLoc * unitSize;
-                y = predator.yLoc * unitSize;
-                g.setColor(Color.black);
-
-                g.fillRect(x+(unitSize/4), y+(unitSize/4), unitSize/2, unitSize/2);
-        }
     }
     
 }
