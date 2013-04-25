@@ -191,7 +191,11 @@ public class Ant {
     private void followPheromones() {
     		//no pheromones to follow, or curiosity dictates wander
     		Random curiosity = new Random();
-    		if(field.getPheromoneAt(getFaction(),getxLoc(),getyLoc())<=0 /*|| curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity")*/){
+    		if(field.getPheromoneAt(getFaction(),getxLoc(),getyLoc())<=0 ){
+    			wander();
+    		}
+    		else if(curiosity.nextDouble()<field.parameters.checkParameter("AntCuriosity"))
+    		{
     			wander();
     		}
     		else{
