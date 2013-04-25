@@ -15,16 +15,14 @@ Brian
 	-kill predators
 
 Cameron
-	-pheromone display
-	-image display
-	-ParameterSetTest will need fixing (line 28 once read as follows):
-		public float expectedValue = ParameterSet.PARAMETER_DEFAULT_VALUE;
-			I just put in a constant, so it would compile.  But it is wrong.
-		-> or just delete the thing, or replace it with something different
+	DONE-pheromone display
+	DONE-ParameterSetTest will need fixing 
+	-image display (NEED IMAGES FIRST)
 
 Steve
 	-improve dispaly
 		make ants scale with the grid
+		   "I believe ants already scale with the size of the grid. The larger the area the smaller the ants. Note how they always fit nicely inside the grid?" --Cameron
 	-make images
 		lower priority (scaling sucks)
 		
