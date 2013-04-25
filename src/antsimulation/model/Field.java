@@ -83,8 +83,16 @@ public class Field extends java.util.Observable {
     }
     
 
-    public double getPheromoneAt(int faction, int x, int y) { return pheromones[faction][x][y]; }
-    public void setPheromoneAt(int faction, int x, int y, double value) { pheromones[faction][x][y] = value; }
+       public double getPheromoneAt(int faction, int x, int y) 
+    {
+    	try {
+    		return pheromones[faction][x][y];
+         } catch(ArrayIndexOutOfBoundsException e) {
+            return -1;
+         }
+    	 
+	}
+	public void setPheromoneAt(int faction, int x, int y, double value) { pheromones[faction][x][y] = value; }
     private void decayPheromones() { 
     	for(int i=0;i<parameters.checkParameter("MaxColonies");++i){
     		for(int j=0;j<getWidth();++j){
