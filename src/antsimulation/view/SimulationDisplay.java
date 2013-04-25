@@ -92,7 +92,7 @@ public class SimulationDisplay extends JPanel {
             y = colony.getyLoc() * unitSize;
             g.setColor(Color.orange);
 
-            g.fillArc(x-(unitSize), y-(unitSize), unitSize, unitSize*2, 0, 180);
+            g.fillArc(x+(unitSize), y+(unitSize), unitSize, unitSize*2, 0, 180);
         }
     }
 
@@ -145,8 +145,49 @@ public class SimulationDisplay extends JPanel {
         }
     }
     
-    private void drawPheremones(Graphics g, int unitSize) {
-
+    private void drawPheremones(Graphics g, int unitSize) 
+    {
+        double pheromone, percentStrength;
+        int faction = 0, size, diff;
+        
+        for(int x = 0 ; x < field.getWidth(); x++)
+    	{
+    		for(int y = 0 ; y < field.getWidth(); y++)
+        	{
+    			while((field.getPheromoneAt(faction, x, y)) != -1)
+    			{
+    				switch(faction)
+                    {
+                    case 1:
+                            g.setColor(Color.blue);
+                            break;
+                    case 2: 
+                            g.setColor(Color.red);
+                            break;
+                    case 3:
+                            g.setColor(Color.yellow);
+                            break;
+                    case 4:
+                            g.setColor(Color.pink);
+                            break;
+                    default:
+                            g.setColor(Color.magenta);
+                            break;
+                    }
+   
+    				pheromone = field.getPheromoneAt(faction, x, y);
+    				percentStrength = pheromone / field.parameters.checkParameter("PheromoneStrength");
+                    size = (int)(unitSize* percentStrength);
+                    
+                    diff = size - unitSize;
+                    if(pheromone!=0)
+                    	g.drawOval((x*unitSize)-diff/2, (y*unitSize)-diff/2, size, size);
+    				
+    				faction++;
+    			}
+    			faction=0;
+        	}
+    	} 
     }
     
 }
