@@ -1,6 +1,16 @@
 STUFF TO DO
 -----------
 
+-we want everything done by 7:00pm
+-let Joseph know about ANY changes that could affect the requrements doc, the
+
+
+Brian
+	DONE
+
+Cameron
+	DONE
+
 Joseph
   -update documents
 		"Ants do not eat outside the nest."
@@ -8,28 +18,18 @@ Joseph
 		do we need to include getters and setters in the class diagrams?
 			no, we don't
 	
-Brian
-	???
-
-Cameron
-	-image display (NEED IMAGES FIRST)
-
 Steve
-	-make images
-		lower priority (scaling sucks to do)
+	-image display and scaling
 		
 Benjamin
-	-make sure that unneccecary parameters are trimmed
-	-test all neccecary parameters, that they work; find reasonalbe MIN_VALS and MAX_VALS
-			
-OTHERS
-------
--JUnit Testing
-   -add new tests ("Every test case has a self-descriptive name")
--make ants less curious when they have food (lower priority)
--make the simulation stop itself when all ants are dead and all colonies depleted
-	(pass a new command to the controller?)
-	low priority
+	-finish any JUnit testing (One assertion each; "every test case has a self-descriptive name")
+	-ideas:
+		-colony
+		-simulation?
+		-simulationDisplay?
+		-parameterArea?
+	-check the requirements to be sure we have enough
+
 
 Diagram Changes Needed
 ----------------------------
@@ -38,10 +38,3 @@ add +generateFromFile()
 everything under View
 ParameterArea.editable -> killed
 View and Parameterset: use File, not String
-
-JUnit Testing needed (/ideas)
------------------------------
--colony
--simulation?
--simulationDisplay
--parameterArea

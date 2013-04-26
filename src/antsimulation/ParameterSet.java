@@ -9,9 +9,6 @@ ReproductionRate:	Indicates the tendency of the colony to produce new ants.
 ReproductionCost:	Indicates the amount of food required to produce a new ant.
 PheromoneStrength:	Indicates the initial strength of pheromones.
 PheromoneDecay: 	Indicates how quickly pheromones decay.
-PredatorHunger:         Indicates how much a predator will eat before leaving the field.
-PredatorSkill:		Indicates the probability of a predator successfully eating a ant.
-PredatorFrequency:	Indicates how likely it is for a predator to appear on the field.
 xSize, ySize:           Gives the size of the field
 MaxColonies:            Gives the number of colonies on the field
 StartAntsPerColony:     Gives the initial number of ants per colony initially on the field
@@ -28,33 +25,28 @@ public class ParameterSet {
     //static contsants
     public static String[] PARAMETER_NAMES = {
 	"AntCuriosity", "AntStarvation", "AntHunger", "AntLifetime", "ReproductionRate",
-	"ReproductionCost", "PheromoneStrength", "PheromoneDecay", "PredatorHunger", "PredatorSkill",
-	"PredatorFrequency", "xSize", "ySize", "MaxColonies", "StartAntsPerColony",
-        "StartFoodPiles", "StartFoodPileSize", "StartPredators"
+	"ReproductionCost", "PheromoneStrength", "PheromoneDecay", "xSize", "ySize",
+        "MaxColonies", "StartAntsPerColony", "StartFoodPiles", "StartFoodPileSize", "StartPredators"
     };
     public static boolean[] MUSTBEINT = {   //restricts the possible values for a parameter
         false, true, true, true, true,
-        true, false, false, true, false,
-        true, true, true, true, true,
-        true, true, true
+        true, false, false, true, true,
+        true, true, true, true, true
     };
     public static float[] MIN_VALS = {  //restricts the possible values for a parameter
 	0, 1, 0, 1, 0,
-        0, 0, 0, 0, 0,
-        0, 1, 1, 1, 1,
-        0, 1, 0
+        0, 0, 0, 1, 1,
+        1, 1, 0, 1, 0
     };
     public static float[] MAX_VALS = {  //restricts the possible values for a parameter
 	1, 1000, 1000, 1000, 100,
-        50, 700, 100, 100, 1,
-        1000, 125, 125, 4, 20,
-        50, 100, 5
+        50, 700, 100, 125, 125,
+        4, 20, 50, 100, 5
     };
     public static float[] DEFAULT_VALS = {
         .2f, 400, 100, 700, 50,
-        4, 250, 5, 30, .5f,
-        200, 30, 30, 3, 6,
-        5, 10, 1
+        4, 250, 5, 30, 30,
+        3, 6, 5, 10, 1
     };
     
     private static char COMMENTCHARACTER = '#'; //this marks lines to ignore in the Scenario file
