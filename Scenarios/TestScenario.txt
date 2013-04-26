@@ -1,5 +1,4 @@
-# "TestScenario"
-# ANT SIMULATION SCENARIO FILE
+# "TestScenario" ant simulation scenario file
 # NAME = VALUE , EDITABLE
 AntCuriosity = .5 , true
 AntStarvation = 400 , true

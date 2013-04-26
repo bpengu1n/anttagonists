@@ -4,11 +4,11 @@ import java.util.*;
 
 public class Field extends java.util.Observable {
     public enum Dir {UP, DOWN, LEFT, RIGHT};
-    public antsimulation.ParameterSet parameters;
-    public java.util.List<Ant> ants;
-    public java.util.List<Foodpile> foodpiles;
-    public java.util.List<Colony> colonies;
+    private antsimulation.ParameterSet parameters;
     private int width, height;
+    private java.util.List<Ant> ants;
+    private java.util.List<Foodpile> foodpiles;
+    private java.util.List<Colony> colonies;
     private double[][][] pheromones;    //pheromones[faction][x][y]
     private boolean changed = false;    //used for JUnit testing
     private Random generator;
@@ -45,32 +45,27 @@ public class Field extends java.util.Observable {
         changed = false;
         //Calling our decayPheromones decays all of the pheromones left in the field (if any)
         decayPheromones();
-        Iterator<Colony> colonyIter = colonies.listIterator();
-        
         // Iterate through all lists, call .update() on each
         for(int i=0; i<ants.size();++i)
         {
-        	Ant nextAnt=ants.get(i);
-        	nextAnt.update();
+        	ants.get(i).update();
                 changed = true;
-        	if(nextAnt.getKillme())
-    		{
-        		if(i+1 <ants.size())
-        		{
-        			Ant findNext = ants.get(i+1);
-        			ants.remove(nextAnt);
-        			i = ants.indexOf(findNext)-1;
-        		}
-        		else
-        			ants.remove(nextAnt);
-    		}
         }
-        while(colonyIter.hasNext()) {
-            Colony nextColony = colonyIter.next();
-            nextColony.update();
+        //update colonies
+        for(int i=0; i<colonies.size();++i) {
+            colonies.get(i).update();
             changed = true;
         }
-        
+        //clean up dead ants and foodpiles
+        for (int j=ants.size()-1; j>=0; j--) {
+            if (ants.get(j).getKillme())
+                ants.remove(j);
+        }
+        for (int j=foodpiles.size()-1; j>=0; j--) {
+            if (foodpiles.get(j).getKillme())
+                foodpiles.remove(j);
+        }
+        //wrapup
         setChanged();   //inherited from Observable
         notifyObservers();  // Sets hasChanged() to false
     }
@@ -120,5 +115,27 @@ public class Field extends java.util.Observable {
     
     public boolean getChanged() {
 	return changed;
+    }
+    
+    public antsimulation.ParameterSet getParameterSet() {
+        return parameters;
+    }
+    
+    public List<Ant> getAntList() {
+        return ants;
+    }
+    
+    public List<Foodpile> getFoodpileList() {
+        return foodpiles;
+    }
+    
+    public int getNumOfColonies() {
+        return colonies.size();
+    }
+    
+    public Colony getColony(int faction) {
+        if (faction < colonies.size())
+            return colonies.get(faction);
+        return null;
     }
 }

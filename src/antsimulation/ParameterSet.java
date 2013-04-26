@@ -1,4 +1,4 @@
-/**
+/*
  * PARAMETER LIST
 PARAMETER:			DESCRIPTION
 AntCuriosity:		Indicates the tendency of ants to leave the pheromone trails and wander the field at random.
@@ -32,34 +32,34 @@ public class ParameterSet {
 	"PredatorFrequency", "xSize", "ySize", "MaxColonies", "StartAntsPerColony",
         "StartFoodPiles", "StartFoodPileSize", "StartPredators"
     };
-    public static float[] MIN_VALS = {
-	0, 1, 0, 1, 0,
-        0, 0, 0, 0, 0,
-        0, 1, 1, 1, 1,
-        0, 1, 0
-    };
-    public static float[] MAX_VALS = {
-	1, 1000, 1000, 1000, 100,
-        100, 700, 100, 100, 1,
-        1000, 125, 125, 4, 20,
-        50, 100, 5
-    };
-    public static float[] DEFAULT_VALS = {
-        .5f, 400, 100, 700, 50,
-        50, 250, 5, 30, .5f,
-        200, 30, 30, 3, 6,
-        5, 10, 1
-    };
-    public static boolean[] MUSTBEINT = {
+    public static boolean[] MUSTBEINT = {   //restricts the possible values for a parameter
         false, true, true, true, true,
         true, false, false, true, false,
         true, true, true, true, true,
         true, true, true
     };
+    public static float[] MIN_VALS = {  //restricts the possible values for a parameter
+	0, 1, 0, 1, 0,
+        0, 0, 0, 0, 0,
+        0, 1, 1, 1, 1,
+        0, 1, 0
+    };
+    public static float[] MAX_VALS = {  //restricts the possible values for a parameter
+	1, 1000, 1000, 1000, 100,
+        50, 700, 100, 100, 1,
+        1000, 125, 125, 4, 20,
+        50, 100, 5
+    };
+    public static float[] DEFAULT_VALS = {
+        .2f, 400, 100, 700, 50,
+        4, 250, 5, 30, .5f,
+        200, 30, 30, 3, 6,
+        5, 10, 1
+    };
     
-    private static char COMMENTCHARACTER = '#';
+    private static char COMMENTCHARACTER = '#'; //this marks lines to ignore in the Scenario file
 
-    public Parameter[] parameters;
+    private Parameter[] parameters;
 
     public static int indexOf(String name) {
         return Arrays.asList(ParameterSet.PARAMETER_NAMES).indexOf(name);

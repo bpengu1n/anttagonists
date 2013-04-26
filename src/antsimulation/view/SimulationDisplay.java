@@ -8,10 +8,10 @@ import java.awt.image.*;
 public class SimulationDisplay extends JPanel {
     private static int PREFERREDSIZE = 500;
     
-    public boolean hudVisible, gridVisible;
     private HUD hud;
     private BufferedImage dispImage;
-    protected antsimulation.model.Field field;
+    private antsimulation.model.Field field;
+    private boolean hudVisible, gridVisible;
 
     public SimulationDisplay() {
         setPreferredSize(new Dimension(PREFERREDSIZE, PREFERREDSIZE));
@@ -84,9 +84,9 @@ public class SimulationDisplay extends JPanel {
     private void drawColonies(Graphics g, int unitSize) {
         int x, y;
         Colony colony;
-        for(int i = 0; i < field.colonies.size(); i++)
+        for(int i = 0; i < field.getNumOfColonies(); i++)
         {
-            colony = field.colonies.get(i);
+            colony = field.getColony(i);
             x = colony.getxLoc() * unitSize;
             y = colony.getyLoc() * unitSize;
             switch(colony.getFaction())
@@ -114,12 +114,12 @@ public class SimulationDisplay extends JPanel {
 
     private void drawAnts(Graphics g, int unitSize) {
         int x, y;
-        for(int i = 0; i < field.ants.size(); i++)
+        for(int i = 0; i < field.getAntList().size(); i++)
         {
-                x = field.ants.get(i).getxLoc() * unitSize;
-                y = field.ants.get(i).getyLoc() * unitSize;
+                x = field.getAntList().get(i).getxLoc() * unitSize;
+                y = field.getAntList().get(i).getyLoc() * unitSize;
 
-                switch(field.ants.get(i).getFaction())
+                switch(field.getAntList().get(i).getFaction())
                 {
                 case 0:
                         g.setColor(Color.blue);
@@ -146,9 +146,9 @@ public class SimulationDisplay extends JPanel {
         float foodScale=.13f;
         Foodpile foodPile;
                        
-        for(int i = 0; i < field.foodpiles.size(); i++)
+        for(int i = 0; i < field.getFoodpileList().size(); i++)
         {
-                foodPile = field.foodpiles.get(i);
+                foodPile = field.getFoodpileList().get(i);
                 pileSize = (int)(unitSize*foodScale*foodPile.getFoodCount());
 
                 x = foodPile.getxLoc() * unitSize;
@@ -191,7 +191,7 @@ public class SimulationDisplay extends JPanel {
                                 break;
                     }
                     pheromone = field.getPheromoneAt(faction, x, y);
-                    percentStrength = pheromone / field.parameters.checkParameter("PheromoneStrength");
+                    percentStrength = pheromone / field.getParameterSet().checkParameter("PheromoneStrength");
                     size = (int)(unitSize* percentStrength);
                     diff = unitSize - size;
                     if(pheromone!=0)

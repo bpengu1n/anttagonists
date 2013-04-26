@@ -2,18 +2,16 @@ STUFF TO DO
 -----------
  
 ASK ALI:
-	public antsimulation.ParameterSet parameters;
-    public java.util.List<Ant> ants;
-    public java.util.List<Foodpile> foodpiles;
-    public java.util.List<Colony> colonies;
+	do we need to include getters and setters in the class diagrams?
 
 Joseph
-  -make sure there are no globals(waiting to hear from Ali)
   -update documents
+		"Ants do not eat outside the nest."
+		"Ants do not seek the nest, even when hungry, unless they have food.  However, they will eat if they stumble upon the nest while hungry."
   -JUnit Test for setStatus
 
 Brian
-	-clean code so private functions are used
+	???
 
 Cameron
 	-image display (NEED IMAGES FIRST)
@@ -30,7 +28,8 @@ Benjamin
 OTHERS
 ------
 -JUnit Testing!!
--make HUD more useful (more important)
+   -split out the old tests ("One assertion for one test case")
+   -add new tests ("Every test case has a self-descriptive name")
 -make ants less curious when they have food (lower priority)
 -make the simulation stop itself when all ants are dead and all colonies depleted
 	(pass a new command to the controller?)

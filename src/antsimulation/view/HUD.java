@@ -2,7 +2,6 @@ package antsimulation.view;
 import java.awt.*;
 
 import antsimulation.model.Colony;
-import antsimulation.model.Field;
 
 public class HUD {
     public void paint(Graphics g, java.util.Observable o) {
@@ -12,7 +11,7 @@ public class HUD {
         int fontHeight = fm.getHeight(); 
         
         g.setColor(Color.WHITE);
-        g.fillRoundRect(0, 0, 210, (int)((field.parameters.checkParameter("MaxColonies")+1)*fontHeight)+5, 7, 7);
+        g.fillRoundRect(0, 0, 210, (int)((field.getParameterSet().checkParameter("MaxColonies")+1)*fontHeight)+5, 7, 7);
         
         g.setColor(Color.BLACK);
         Font oldFont = g.getFont();
@@ -24,8 +23,8 @@ public class HUD {
         int x = 3;
         
         //Draw Food Pile Count
-        for(int i = 0; i < field.foodpiles.size(); i++)
-            foodTotal+=field.foodpiles.get(i).getFoodCount();
+        for(int i = 0; i < field.getFoodpileList().size(); i++)
+            foodTotal+=field.getFoodpileList().get(i).getFoodCount();
         String pileCountStr = "Food Remaining: " + foodTotal;
  
         y+=fontHeight;
@@ -34,10 +33,10 @@ public class HUD {
         //Draw Colony food storage and ant count
         String colonyStr;
         Colony colony;
-        for(int col = 0; col < field.parameters.checkParameter("MaxColonies"); col++)
+        for(int col = 0; col < field.getParameterSet().checkParameter("MaxColonies"); col++)
     	{
         	
-        	colony = field.colonies.get(col);
+        	colony = field.getColony(col);
         	
             switch(colony.getFaction())
             {
@@ -63,9 +62,9 @@ public class HUD {
         	
         	//count ants of colony col
         	int colonyAnts = 0;
-        	for(int i = 0; i < field.ants.size(); i++)
+        	for(int i = 0; i < field.getAntList().size(); i++)
         	{
-        		if(field.ants.get(i).getFaction() == col)
+        		if(field.getAntList().get(i).getFaction() == col)
         			colonyAnts++;
         	}
         	//append ant count

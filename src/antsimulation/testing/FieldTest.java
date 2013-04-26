@@ -47,9 +47,9 @@ public class FieldTest {
         System.out.println("initialize");
         Field instance = new Field(p);
         instance.initialize();
-        assertTrue("The Initialization test case failed.",instance.ants.size() == p.checkParameter("StartAntsPerColony")
-                    && instance.colonies.size() == p.checkParameter("MaxColonies") 
-                    && instance.foodpiles.size() == p.checkParameter("StartFoodPiles"));
+        assertTrue("The Initialization test case failed.",instance.getAntList().size() == p.checkParameter("StartAntsPerColony")
+                    && instance.getNumOfColonies() == p.checkParameter("MaxColonies") 
+                    && instance.getFoodpileList().size() == p.checkParameter("StartFoodPiles"));
     }
 
     /**

@@ -30,70 +30,58 @@ public class Ant {
     //needs to implement some follow pheromone logic
     //
     public void update() {
-    	if(getFramesSinceAte()==(int)field.parameters.checkParameter("AntStarvation") || getFramesToLive()==0)
+    	if(framesSinceAte==(int)field.getParameterSet().checkParameter("AntStarvation") || framesToLive==0)
     	{
     		die();
     	}
     	else
     	{
-   			if(getHasFood())
-   			{ 
-   				Random curiosity = new Random();
-   				//check to see if the ant will move randomly or towards the nest
-   				if(curiosity.nextDouble()>field.parameters.checkParameter("AntCuriosity"))
-   				{
-    				headHome();
-   				}
-   				//instead of heading home they move randomly
-   				else
-   				{
-   					wander();
-   				}
-   				layPheromone();
-       			for(Iterator<Colony> i = field.colonies.iterator(); i.hasNext(); ) {
-       				Colony colony = i.next();
-       				if(colony.getxLoc() ==getxLoc() && colony.getyLoc() ==getyLoc() && colony.getFaction() == getFaction())
-       				{
-       					giveFood(colony);
-       					if(getFramesSinceAte()>field.parameters.checkParameter("AntHunger"))
-       						eatFood(colony);
-       					break;
-       				}
-       			}
-   			}
-   			else
-   			{
-   				followPheromones();
-   				//so new we check to see if there is any food in our new location
-   				for(int i=0; i<field.foodpiles.size();++i)
-   		        {
-   		        	Foodpile nextPile=field.foodpiles.get(i);
-   		        	//if we find a food pile we get food!
-   		        	if(nextPile.getxLoc() ==getxLoc() && nextPile.getyLoc() ==getyLoc())
-       				{
-     					takeFood(nextPile);
-       					layPheromone();
-       					break;
-       				}
-   		        	//check to see if the foodpile we are looking at is empty
-   		        	//if it is, we go ahead and clean it up
-   		        	if(nextPile.isKillme())
-   		    		{
-   		        		if(i+1 <field.foodpiles.size())
-   		        		{
-  		        			Foodpile findNext = field.foodpiles.get(i+1);
-   		        			field.foodpiles.remove(nextPile);
-   		        			i = field.foodpiles.indexOf(findNext)-1;
-   		        		}
-   		        		else
-   		        			field.foodpiles.remove(nextPile);
-   		    		}
-   		        }
-   			}
-   		}
+            //interact with colony, whether or not the ant has food
+            Colony colony = field.getColony(faction);
+            if(colony!=null && colony.getxLoc() == xLoc&& colony.getyLoc() == yLoc)
+            {
+                if (hasFood)
+                    giveFood(colony);
+                if (getFramesSinceAte()>field.getParameterSet().checkParameter("AntHunger"))
+                    eatFood(colony);
+            }
+            //move.  Motion depends on whether we have food
+            if(hasFood)
+            { 
+                Random curiosity = new Random();
+                //check to see if the ant will move randomly or towards the nest
+                if(curiosity.nextDouble()>field.getParameterSet().checkParameter("AntCuriosity"))
+                {
+                    headHome();
+                }
+                //instead of heading home they move randomly
+                else
+                {
+                    wander();
+                }
+                layPheromone();
+            }
+            else
+            {
+                followPheromones();
+                //so new we check to see if there is any food in our new location
+                java.util.List<Foodpile> foodpiles = field.getFoodpileList();
+                for(int i=0; i<foodpiles.size();++i)
+                {
+                    Foodpile nextPile=foodpiles.get(i);
+                    //if we find a food pile we get food!
+                    if(nextPile.getxLoc() ==getxLoc() && nextPile.getyLoc() ==getyLoc() && nextPile.getFoodCount()>0)
+                    {
+                            takeFood(nextPile);
+                            layPheromone();
+                            break;
+                    }
+                }
+            }
+            
+        }
         framesSinceAte++;
         framesToLive--;
-    	
     }
 
     //this is public for future expansion (ie, predators)
@@ -152,37 +140,22 @@ public class Ant {
     //this doesn't make a ton of sense to me
     //if we are laying pheromone it's going to be the phreromone strength value... all well
     private void layPheromone() {
-    	field.setPheromoneAt(getFaction(),getxLoc(),getyLoc(), field.parameters.checkParameter("PheromoneStrength"));
+    	field.setPheromoneAt(getFaction(),getxLoc(),getyLoc(), field.getParameterSet().checkParameter("PheromoneStrength"));
     }
     
   //head home algorithm
     private void headHome(){
-    	
-		Iterator<Colony> colonyIter = field.colonies.listIterator();
-    	Colony myColony= field.colonies.get(0);
-    	while(colonyIter.hasNext()) {
-            Colony nextColony = colonyIter.next();
-            if(nextColony.getFaction()==getFaction())
-            {
-            	myColony=nextColony;
-            	break;
-            }
-        }
-    	if(myColony.getxLoc() > getxLoc()){
+    	Colony myColony= field.getColony(faction);
+        if (myColony == null)
+            return;
+    	if(myColony.getxLoc() > getxLoc())
     		xLoc++;
-    	}
     	else if(myColony.getxLoc() < getxLoc())
-    	{
     		xLoc--;
-    	}
     	if(myColony.getyLoc() > getyLoc())
-    	{
     		yLoc++;
-    	}
     	else if(myColony.getyLoc() < getyLoc())
-    	{
     		yLoc--;
-    	}
     }
     
     //we would like to follow a trail down the gradient but also follow the strongest trail
@@ -194,7 +167,7 @@ public class Ant {
     		if(field.getPheromoneAt(getFaction(),getxLoc(),getyLoc())<=0 ){
     			wander();
     		}
-    		else if(curiosity.nextDouble()<field.parameters.checkParameter("AntCuriosity"))
+    		else if(curiosity.nextDouble()<field.getParameterSet().checkParameter("AntCuriosity"))
     		{
     			wander();
     		}
@@ -202,9 +175,9 @@ public class Ant {
     			//pheromone level at our current position
     			double curPheromone = field.getPheromoneAt(getFaction(),getxLoc(),getyLoc());
     			//we would like to find something greater than this
-    			double curMax=curPheromone+field.parameters.checkParameter("PheromoneDecay");
+    			double curMax=curPheromone+field.getParameterSet().checkParameter("PheromoneDecay");
     			//This is the lower value that is on the downward gradient
-    			double downPheromone = curPheromone-field.parameters.checkParameter("PheromoneDecay");
+    			double downPheromone = curPheromone-field.getParameterSet().checkParameter("PheromoneDecay");
     			
     			//used to check for movement
     			int oldX=xLoc;

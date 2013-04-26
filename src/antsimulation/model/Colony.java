@@ -34,7 +34,7 @@ public class Colony {
     	
     }
     private void birthAnt() {
-    	field.ants.add(new Ant (getFaction(), getxLoc(), getyLoc(), (int) field.parameters.checkParameter("AntLifetime"), field));
+    	field.getAntList().add(new Ant (getFaction(), getxLoc(), getyLoc(), (int) field.getParameterSet().checkParameter("AntLifetime"), field));
     }
 	public int getFaction() {
 		return faction;

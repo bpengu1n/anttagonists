@@ -201,7 +201,7 @@ public class AntTest {
 			Ant testAnt=new Ant(faction,xVal,yVal,antLife, testField);
 			
 			testAnt.setKillme(false);
-			testAnt.setFramesSinceAte((int)testField.parameters.checkParameter("AntStarvation"));
+			testAnt.setFramesSinceAte((int)testField.getParameterSet().checkParameter("AntStarvation"));
 			//Check to see if ant marks itself for death when starving
 			testAnt.update();
 			assertTrue("Ant did not die of starvation!",testAnt.getKillme());

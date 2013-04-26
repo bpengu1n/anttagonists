@@ -36,7 +36,7 @@ public class Foodpile {
 		this.yLoc = yLoc;
 	}
 
-	public boolean isKillme() {
+	public boolean getKillme() {
 		return killme;
 	}
 
