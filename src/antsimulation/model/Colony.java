@@ -17,12 +17,13 @@ public class Colony {
     	framesSinceAntBorn=0;
     	setFoodCount(100);
     }
+
     //update checks to see if conditions are filled for ant birthing
     //it also adjusts the framesSinceAntBorn appropriately
     public void update() {
-    	if(framesSinceAntBorn==10 && getFoodCount() >10)
+    	if(framesSinceAntBorn==field.getParameterSet().checkParameter("ReproductionRate") && foodCount > field.getParameterSet().checkParameter("ReproductionCost"))
     	{
-    		setFoodCount(getFoodCount() - 10);
+    		foodCount -= field.getParameterSet().checkParameter("ReproductionCost");
     		birthAnt();
     		framesSinceAntBorn=0;//This maybe should be tied to a parameter
     	}

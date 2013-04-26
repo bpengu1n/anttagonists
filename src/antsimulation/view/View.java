@@ -18,6 +18,9 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
     private javax.swing.Timer timer;
     private antsimulation.Controller controller;
     private JLabel statusLabel;
+    
+    //used for JUnit testing only:
+    private boolean updated = false;
 
     public View(antsimulation.Controller c) {
         controller = c;
@@ -96,6 +99,7 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
     //this is for handling notifications (from an Observable)
     public void update(java.util.Observable o, Object arg) {
         displayArea.update(o);
+        setViewUpdated(true);
     }
     
     private void loadScenario(File file) {
@@ -152,5 +156,16 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
         paused = false;
         setStatus("Simulation running");
         timer.start();
+    }
+    
+    //used only for JUnit testing
+    public String getStatus() {
+        return statusLabel.getText();
+    }
+    public void setViewUpdated(boolean b) {
+        updated = b;
+    }
+    public boolean getViewUpdated() {
+        return updated;
     }
 }

@@ -1,15 +1,13 @@
 STUFF TO DO
 -----------
- 
-ASK ALI:
-	do we need to include getters and setters in the class diagrams?
 
 Joseph
   -update documents
 		"Ants do not eat outside the nest."
 		"Ants do not seek the nest, even when hungry, unless they have food.  However, they will eat if they stumble upon the nest while hungry."
-  -JUnit Test for setStatus
-
+		do we need to include getters and setters in the class diagrams?
+			no, we don't
+	
 Brian
 	???
 
@@ -22,13 +20,11 @@ Steve
 		
 Benjamin
 	-make sure that unneccecary parameters are trimmed
-	-make sure all changes suggested in A5 are applied
 	-test all neccecary parameters, that they work; find reasonalbe MIN_VALS and MAX_VALS
 			
 OTHERS
 ------
--JUnit Testing!!
-   -split out the old tests ("One assertion for one test case")
+-JUnit Testing
    -add new tests ("Every test case has a self-descriptive name")
 -make ants less curious when they have food (lower priority)
 -make the simulation stop itself when all ants are dead and all colonies depleted
@@ -45,3 +41,7 @@ View and Parameterset: use File, not String
 
 JUnit Testing needed (/ideas)
 -----------------------------
+-colony
+-simulation?
+-simulationDisplay
+-parameterArea

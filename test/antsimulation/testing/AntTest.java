@@ -79,7 +79,7 @@ public class AntTest {
 	}
 	
 	@Test
-	public void eatFood()
+	public void testEatFood()
 	{
 		ParameterSet pSet = new ParameterSet();
 		Field testField = new Field(pSet);
@@ -100,6 +100,7 @@ public class AntTest {
 			assertTrue("eatFood has failed to decrease the foodCount of the colony!",beforeEat-1==testColony.getFoodCount());
 		}
 	}
+
 	@Test
 	public void testGiveFood()
 	{
@@ -142,7 +143,12 @@ public class AntTest {
 				testAnt.jUnitTestwander();
 			
 			//Here we check to see if ant has moved after 100 iterations, this can occasionally fail.
-			assertTrue("testAnt.wander did not move the ant on testNum:"+testNum,testAnt.getxLoc() != xVal || testAnt.getyLoc() != yVal );
+                        boolean isAtEdge = (testAnt.getxLoc() == 0)
+                                || (testAnt.getxLoc() == testField.getWidth()-1)
+                                || (testAnt.getyLoc() == 0)
+                                || (testAnt.getyLoc() == testField.getHeight()-1);
+                        boolean stayedInPlace = (testAnt.getxLoc() == xVal && testAnt.getyLoc() == yVal);
+			assertTrue("Ant.wander() did not move the ant on testNum:"+testNum, (!stayedInPlace || isAtEdge));
 		}
 	}
 	

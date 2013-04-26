@@ -25,7 +25,7 @@ public class FieldTest {
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
@@ -46,9 +46,7 @@ public class FieldTest {
         ParameterSet p = new ParameterSet();
         System.out.println("initialize");
         Field instance = new Field(p);
-        instance.initialize();
-        assertTrue("The Initialization test case failed.",instance.getAntList().size() == p.checkParameter("StartAntsPerColony")
-                    && instance.getNumOfColonies() == p.checkParameter("MaxColonies") 
+        assertTrue("The Initialization test case failed.", instance.getNumOfColonies() == p.checkParameter("MaxColonies")
                     && instance.getFoodpileList().size() == p.checkParameter("StartFoodPiles"));
     }
 
@@ -62,8 +60,6 @@ public class FieldTest {
         Field instance = new Field(p);
         for (int x=0; x<500; x++)
             instance.update();
-        	assertTrue("The Update test case failed.",instance.getChanged() == true);
+      	assertTrue("The Update test case failed.",instance.getChanged() == true);
     }
-
-
 }

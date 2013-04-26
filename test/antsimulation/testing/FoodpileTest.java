@@ -12,7 +12,7 @@ public class FoodpileTest {
 	private static int RUN_COUNT = 100;
 
 	@Test
-	public void ConstructorTest() 
+	public void testConstructor() 
 	{
 		Random r = new Random();
 		Foodpile foodpileTest;
@@ -31,7 +31,7 @@ public class FoodpileTest {
 	}
 	
 	@Test
-	public void DecrementTest()
+	public void testDecrement()
 	{
 		Random r = new Random();
 		Foodpile foodpileTest;

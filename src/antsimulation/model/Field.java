@@ -26,7 +26,7 @@ public class Field extends java.util.Observable {
         pheromones= new double[(int)parameters.checkParameter("MaxColonies")][getWidth()][getHeight()];
     }
     
-    public void initialize() {
+    private void initialize() {
         // Loops to create colonies and ants
         for (int x = 0; x < parameters.checkParameter("MaxColonies"); x++) {
             colonies.add(new Colony(x, generator.nextInt(width), generator.nextInt(height), this));

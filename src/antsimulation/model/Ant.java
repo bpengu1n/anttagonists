@@ -42,7 +42,7 @@ public class Ant {
             {
                 if (hasFood)
                     giveFood(colony);
-                if (getFramesSinceAte()>field.getParameterSet().checkParameter("AntHunger"))
+                if (getFramesSinceAte()>field.getParameterSet().checkParameter("AntHunger") && colony.getFoodCount()>0)
                     eatFood(colony);
             }
             //move.  Motion depends on whether we have food
@@ -104,12 +104,15 @@ public class Ant {
     	home.setFoodCount(home.getFoodCount() + 1);
     	hasFood = false;
     }
-    
-    
+
     private void wander() {
+        int xRand=0;
+    	int yRand=0;
     	Random generator = new Random();
-    	int xRand=generator.nextInt(3)-1;
-    	int yRand=generator.nextInt(3)-1;
+        while (xRand==0 && yRand==0) {  //don't let the ant stay still
+            xRand=generator.nextInt(3)-1;
+            yRand=generator.nextInt(3)-1;
+        }
     	//This will move the ants to a random position
     	//it will keep ants from leaving the field
     	if(xRand+getxLoc() < field.getWidth() && xRand+getxLoc() >= 0){
@@ -137,7 +140,6 @@ public class Ant {
     	}
     }
     
-    //this doesn't make a ton of sense to me
     //if we are laying pheromone it's going to be the phreromone strength value... all well
     private void layPheromone() {
     	field.setPheromoneAt(getFaction(),getxLoc(),getyLoc(), field.getParameterSet().checkParameter("PheromoneStrength"));
