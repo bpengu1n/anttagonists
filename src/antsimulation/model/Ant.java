@@ -42,7 +42,7 @@ public class Ant {
             {
                 if (hasFood)
                     giveFood(colony);
-                if (getFramesSinceAte()>field.getParameterSet().checkParameter("AntHunger") && colony.getFoodCount()>0)
+                if (framesSinceAte>field.getParameterSet().checkParameter("AntHunger") && colony.getFoodCount()>0)
                     eatFood(colony);
             }
             //move.  Motion depends on whether we have food
@@ -96,8 +96,10 @@ public class Ant {
     }
 
     private void eatFood(Colony home) {
-    	home.setFoodCount(home.getFoodCount() - 1);
-    	framesSinceAte = 0;
+    	if(home.getFoodCount()>0){
+    		home.setFoodCount(home.getFoodCount() - 1);
+    		framesSinceAte = 0;
+    	}
     }
     
     private void giveFood(Colony home) {
