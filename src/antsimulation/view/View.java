@@ -4,9 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.event.*;
+import java.io.*;
 
-public class View extends JPanel implements java.util.Observer, ActionListener, ItemListener, ChangeListener {
-    private boolean simulationRunning;
+public class View extends JPanel implements java.util.Observer, ActionListener, ChangeListener {
+    private int MINMSPERTICK = 10;      //the smaller this is, the better the max speed
+    private int MAXMSPERTICK = 1200;    //the bigger this is, the slower the min speed
+    
+    private boolean simulationRunning, paused;
     private antsimulation.ParameterSet scenario;
     private ParameterArea parameterArea;
     private ControlArea controlArea;
@@ -14,98 +18,154 @@ public class View extends JPanel implements java.util.Observer, ActionListener, 
     private javax.swing.Timer timer;
     private antsimulation.Controller controller;
     private JLabel statusLabel;
-    private JMenuItem saveMI, loadMI, exitMI;
+    
+    //used for JUnit testing only:
+    private boolean updated = false;
 
-    public View(antsimulation.Controller c, boolean isInBrowser) {
+    public View(antsimulation.Controller c) {
         controller = c;
         controlArea = new ControlArea(this);
         parameterArea = new ParameterArea(this);
         displayArea = new SimulationDisplay();
-        timer = new javax.swing.Timer(1000, this);
+        timer = new javax.swing.Timer(150, this);
+        adjustRate(50);
         scenario = new ParameterSet();
-        statusLabel = new JLabel("status");
-        loadMI = new JMenuItem("Load Scenario");
-        loadMI.addActionListener(this);
-        saveMI = new JMenuItem("Save Scenario");
-        saveMI.addActionListener(this);
-        exitMI = new JMenuItem("Exit");
-        exitMI.addActionListener(this);
+        statusLabel = new JLabel("Ready");
         //layout management
         setLayout(new BorderLayout(2,0));
-        JMenuBar mbar = new JMenuBar();
-        JMenu fileM = new JMenu("File");        
-        fileM.add(loadMI);
-        fileM.add(saveMI);
-        fileM.add(exitMI);
-        mbar.add(fileM);
-        add(mbar, BorderLayout.NORTH);
         add(controlArea, BorderLayout.WEST);
         add(displayArea, BorderLayout.CENTER);
         add(parameterArea, BorderLayout.EAST);
         add(statusLabel, BorderLayout.SOUTH);
-        //finalize
+        simulationRunning = false;
+        paused = false;
+        controlArea.updateEnabling(simulationRunning, paused);
         parameterArea.resetParameters(scenario);
-        if (isInBrowser)
-            exitMI.setEnabled(false);
     }
 
     public void setStatus(String s) {
         statusLabel.setText(s);
     }
-    
+
+    //this is to handle button clicks and timer firing
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == exitMI)
-            System.exit(0);
-        if (e.getSource() == controlArea.startButton) {
-            ParameterSet p = parameterArea.getParameterSet();
-            controller.startSimulation(p);
-            timer.start();
+        if (e.getSource() == controlArea.startStopButton) {
+            if (simulationRunning)
+                stopSimulation();
+            else
+                startSimulation();
         }
-        if (e.getSource() == controlArea.stopButton) {
-            controller.stopSimulation();
-            displayArea.clearImage();
-            timer.stop();
+        if (e.getSource() == controlArea.pauseResumeButton) {
+            if (paused)
+                resumeSimulation();
+            else
+                pauseSimulation();
         }
-        if (e.getSource() == controlArea.pauseButton) {
-            timer.stop();
-        }
-        if (e.getSource() == controlArea.resumeButton) {
-            timer.start();
-        }
-        if (e.getSource() == controlArea.generateOutput) {
-            controller.generateOutputFile("Output.txt");
-            System.out.println("Output");
-        }
-        if (e.getSource() == controlArea.loadScenarioButton || e.getSource() == loadMI) {
+        if (e.getSource() == controlArea.loadScenarioButton) {
             //ask which file to load, and load it
-            System.out.println("Load");
+            JFileChooser fc = new JFileChooser();
+            fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            int returnVal = fc.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION)
+                loadScenario(fc.getSelectedFile());
         }
-        if (e.getSource() == controlArea.resetParametersButton) {
+        if (e.getSource() == controlArea.freeplayButton) {
+            //ask which file to load, and load it
+            scenario = new ParameterSet();
             parameterArea.resetParameters(scenario);
-            System.out.println("Restart");
+            setStatus("Loaded \"Freeplay\" scenario.");
         }
-        if (e.getSource() == timer) {
+        if (e.getSource() == controlArea.resetParametersButton)
+            resetParameterArea();
+        
+        if (e.getSource()==controlArea.showHudCB) {
+            displayArea.setHUDVisible(controlArea.showHudCB.isSelected());
+        }
+        if (e.getSource()==controlArea.showGridCB) {
+            displayArea.setGridVisible(controlArea.showGridCB.isSelected());
+        }
+        if (e.getSource() == timer)
             controller.updateSimulation();
-        }
+        //finish up
+        controlArea.updateEnabling(simulationRunning, paused);
     }
 
-    public void itemStateChanged(ItemEvent e) {
-        System.out.println("Item State Changed");
-        controller.updateSimulation();
-    }
-    
+    //this is for handling sliders
     public void stateChanged(ChangeEvent e) {
-        System.out.println("Slider Moved.");
-        //we will make speed changes here
+        if (e.getSource()==controlArea.speedSlider)
+            adjustRate(controlArea.speedSlider.getValue());
     }
     
+    //this is for handling notifications (from an Observable)
     public void update(java.util.Observable o, Object arg) {
         displayArea.update(o);
+        setViewUpdated(true);
     }
     
-    private void loadScenario(String filename) {}
-    private void resetParameterArea() {}
-    private void adjustRate(double speed) {}
-    private void pauseSimulation() {}
-    private void resumeSimulation() {}    
+    private void loadScenario(File file) {
+        if (!file.exists())
+            setStatus("Failed to load scenario file \""+ file.getPath() +"\".");
+        ParameterSet newScenario = ParameterSet.generateFromFile(file);
+        if (newScenario != null) {
+            scenario = newScenario;
+            parameterArea.resetParameters(scenario);
+            setStatus("Loaded scenario \""+file.getPath()+"\".");
+        } else {
+            setStatus("Failed to load scenario file \""+file.getPath()+"\".");
+        }        
+    }
+
+    private void resetParameterArea() {
+        parameterArea.resetParameters(scenario);
+        setStatus("Parameters reset.");
+    }
+
+    private void adjustRate(double percent) {
+        double minFrequency = 1.0/MAXMSPERTICK;
+        double maxFrequency = 1.0/MINMSPERTICK;
+        double frequency = (percent/100)*(maxFrequency-minFrequency) + minFrequency;
+        timer.setDelay((int)(1/frequency));
+    }
+
+    private void startSimulation() {
+        ParameterSet p = parameterArea.getParameterSet();
+        if (p != null) {
+            parameterArea.lock();
+            controller.startSimulation(p);
+            simulationRunning = true;
+            paused = false;
+            setStatus("Simulation running");
+            timer.start();
+        }
+    }
+    private void stopSimulation() {
+        timer.stop();
+        controller.stopSimulation();
+        displayArea.clearImage();
+        simulationRunning = false;
+        paused = false;
+        parameterArea.unlock();
+        setStatus("Simulation stopped.");
+    }
+    private void pauseSimulation() {
+        paused = true;
+        setStatus("Simulation paused");
+        timer.stop();
+    }
+    private void resumeSimulation() {
+        paused = false;
+        setStatus("Simulation running");
+        timer.start();
+    }
+    
+    //used only for JUnit testing
+    public String getStatus() {
+        return statusLabel.getText();
+    }
+    public void setViewUpdated(boolean b) {
+        updated = b;
+    }
+    public boolean getViewUpdated() {
+        return updated;
+    }
 }

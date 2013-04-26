@@ -6,13 +6,15 @@ import java.awt.*;
 import java.awt.image.*;
 
 public class SimulationDisplay extends JPanel {
-    private boolean hudVisible, numbersVisible;
+    private static int PREFERREDSIZE = 500;
+    
     private HUD hud;
     private BufferedImage dispImage;
-    protected antsimulation.model.Field field;
+    private antsimulation.model.Field field;
+    private boolean hudVisible, gridVisible;
 
     public SimulationDisplay() {
-        setPreferredSize(new Dimension(250, 300));
+        setPreferredSize(new Dimension(PREFERREDSIZE, PREFERREDSIZE));
         setBackground(Color.GREEN);
         
         hud = new HUD();
@@ -26,100 +28,188 @@ public class SimulationDisplay extends JPanel {
     
     public void update(java.util.Observable o) {
         field = (antsimulation.model.Field)o;
+        int unitWidth = PREFERREDSIZE / field.getWidth();
+        int unitHeight = PREFERREDSIZE / field.getWidth();
+        int unitSize = (unitWidth<unitHeight) ? unitWidth : unitHeight;
         if (dispImage == null)
-            dispImage = new BufferedImage(250,300, BufferedImage.TYPE_INT_RGB);
+            dispImage = new BufferedImage(unitSize*field.getWidth(),unitSize*field.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g = dispImage.getGraphics();
         g.setColor(Color.white);
         g.fillRect(0,0, dispImage.getWidth(), dispImage.getHeight());
         //begin drawing
-        drawColonies(g);
-        drawAnts(g);
-        drawFoodpiles(g);
-        drawPredators(g);
+        drawFoodpiles(g, unitSize);
+        drawColonies(g, unitSize);
+        drawAnts(g, unitSize);
+        drawPheremones(g, unitSize);
         repaint();
     }
     
-    public void paintComponent(Graphics g) {
+    @Override
+    public void paintComponent(Graphics g) 
+    {
         super.paintComponent(g);
         if (dispImage != null) {
-            g.drawImage(dispImage, 0,0, 250,300, this);
+            int offsetX = (PREFERREDSIZE-dispImage.getWidth())/2;
+            int offsetY = (PREFERREDSIZE-dispImage.getHeight())/2;
+            g.drawImage(dispImage, offsetX,offsetY, dispImage.getWidth(),dispImage.getHeight(), this);
+            if(gridVisible)
+                paintGrid(g, field, offsetX,offsetY);
             if(hudVisible)
-            	hud.paint(g, field);
+                hud.paint(g, field);
+        }
+    }
+    
+    private void paintGrid(Graphics g, Field field, int offsetX, int offsetY) 
+    {
+        int unitWidth = dispImage.getWidth() / field.getWidth();
+        int unitHeight = dispImage.getHeight() / field.getWidth();
+        int unitSize = (unitWidth<unitHeight) ? unitWidth : unitHeight;
+        for(int i = 0; i <= field.getHeight() ; i++)
+        {
+            g.drawLine(
+                    offsetX + unitSize*i,
+                    offsetY, 
+                    offsetX + unitSize*i,
+                    offsetY + field.getHeight()*(unitSize)
+                    );
+            g.drawLine(
+                    offsetX, 
+                    offsetY + unitSize*i, 
+                    offsetX + field.getHeight()*(unitSize), 
+                    offsetY + unitSize*i
+                    );
         }
     }
 
-    private void drawColonies(Graphics g) {
-        int x, y, colonySize = 15;
+    private void drawColonies(Graphics g, int unitSize) {
+        int x, y;
         Colony colony;
-        for(int i = 0; i < field.colonies.size(); i++)
+        for(int i = 0; i < field.getNumOfColonies(); i++)
         {
-                colony = field.colonies.get(i);
+            colony = field.getColony(i);
+            x = colony.getxLoc() * unitSize;
+            y = colony.getyLoc() * unitSize;
+            switch(colony.getFaction())
+            {
+            case 0:
+                    g.setColor(Color.blue);
+                    break;
+            case 1: 
+                    g.setColor(Color.red);
+                    break;
+            case 2:
+                    g.setColor(Color.ORANGE);
+                    break;
+            case 3:
+                    g.setColor(Color.pink);
+                    break;
+            default:
+                    g.setColor(Color.magenta);
+                    break;
+            }
 
-                x = colony.xLoc;
-                y = colony.yLoc;
-                g.setColor(Color.orange);
-
-                g.fillArc(x-(colonySize/2), y-(colonySize), colonySize, colonySize*2, 0, 180);
+            g.fillArc(x, y, unitSize, unitSize*2, 0, 180);
         }
     }
 
-    private void drawAnts(Graphics g) {
-        int x, y, antSize=6;
-        for(int i = 0; i < field.ants.size(); i++)
+    private void drawAnts(Graphics g, int unitSize) {
+        int x, y;
+        for(int i = 0; i < field.getAntList().size(); i++)
         {
-                x = field.ants.get(i).xLoc;
-                y = field.ants.get(i).yLoc;
+                x = field.getAntList().get(i).getxLoc() * unitSize;
+                y = field.getAntList().get(i).getyLoc() * unitSize;
 
-                switch(field.ants.get(i).faction)
+                switch(field.getAntList().get(i).getFaction())
                 {
-                case 1:
+                case 0:
                         g.setColor(Color.blue);
                         break;
-                case 2: 
+                case 1: 
                         g.setColor(Color.red);
                         break;
-                case 3:
-                        g.setColor(Color.yellow);
+                case 2:
+                        g.setColor(Color.ORANGE);
                         break;
-                case 4:
+                case 3:
                         g.setColor(Color.pink);
                         break;
                 default:
                         g.setColor(Color.magenta);
                         break;
                 }
-                g.fillRect(x-(antSize/2), y-(antSize), antSize, antSize);
+                g.fillRect(x+(unitSize/4), y+(unitSize/4), unitSize/2, unitSize/2);
         }
     }
 
-    private void drawFoodpiles(Graphics g) {
-        int x, y, pileSize;
+    private void drawFoodpiles(Graphics g, int unitSize) {
+        int x, y, pileSize, diff;
+        float foodScale=.13f;
         Foodpile foodPile;
-        for(int i = 0; i < field.foodpiles.size(); i++)
+                       
+        for(int i = 0; i < field.getFoodpileList().size(); i++)
         {
-                foodPile = field.foodpiles.get(i);
+                foodPile = field.getFoodpileList().get(i);
+                pileSize = (int)(unitSize*foodScale*foodPile.getFoodCount());
 
-                x = foodPile.xLoc;
-                y = foodPile.yLoc;
+                x = foodPile.getxLoc() * unitSize;
+                y = foodPile.getyLoc() * unitSize;
                 g.setColor(Color.green);
-                pileSize = foodPile.foodCount;
-
-                g.fillOval(x-(pileSize/2), y-(pileSize), pileSize, pileSize);
+                
+                diff = unitSize-pileSize;
+                g.fillOval(x+diff/2, y+diff/2, pileSize, pileSize);
+                
         }
     }
-
-    private void drawPredators(Graphics g) {
-        int x, y, predatorSize = 8;
-        Predator predator;
-        for(int i = 0; i < field.predators.size(); i++)
+    
+    private void drawPheremones(Graphics g, int unitSize) 
+    {
+        double pheromone, percentStrength;
+        int faction = 0, size, diff;
+        
+        for(int x = 0 ; x < field.getWidth(); x++)
         {
-                predator = field.predators.get(i);
+            for(int y = 0 ; y < field.getWidth(); y++)
+            {
+        	while((field.getPheromoneAt(faction, x, y)) != -1)
+    		{   //we loop through each faction, here
+                    switch(faction)
+                    {
+                        case 0:
+                            g.setColor(Color.blue);
+                            break;
+                        case 1: 
+                                g.setColor(Color.red);
+                                break;
+                        case 2:
+                                g.setColor(Color.ORANGE);
+                                break;
+                        case 3:
+                                g.setColor(Color.pink);
+                                break;
+                        default:
+                                g.setColor(Color.magenta);
+                                break;
+                    }
+                    pheromone = field.getPheromoneAt(faction, x, y);
+                    percentStrength = pheromone / field.getParameterSet().checkParameter("PheromoneStrength");
+                    size = (int)(unitSize* percentStrength);
+                    diff = unitSize - size;
+                    if(pheromone!=0)
+                        g.drawOval((x*unitSize)+diff/2, (y*unitSize)+diff/2, size, size);
+                                faction++;
+                }
+    		faction=0;
+            }
+    	} 
+    }
 
-                x = predator.xLoc;
-                y = predator.yLoc;
-                g.setColor(Color.black);
-
-                g.fillRect(x-(predatorSize/2), y-(predatorSize), predatorSize, predatorSize);
-        }
+    public void setHUDVisible(boolean vis) {
+        hudVisible = vis;
+        repaint();
+    }
+    
+    public void setGridVisible(boolean vis) {
+        gridVisible = vis;
+        repaint();
     }
 }

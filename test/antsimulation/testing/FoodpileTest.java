@@ -12,7 +12,7 @@ public class FoodpileTest {
 	private static int RUN_COUNT = 100;
 
 	@Test
-	public void ConstructorTest() 
+	public void testConstructor() 
 	{
 		Random r = new Random();
 		Foodpile foodpileTest;
@@ -26,19 +26,12 @@ public class FoodpileTest {
 			
 			foodpileTest = new Foodpile(arg1, arg2, arg3, arg4);
 			
-			if(foodpileTest.xLoc!=arg1)
-				fail("FoodPile.xLoc is not properly instanciated.");
-			if(foodpileTest.yLoc!=arg2)
-				fail("FoodPile.yLoc is not properly instanciated.");
-			if(foodpileTest.foodCount!=arg3)
-				fail("FoodPile.foodCount is not properly instanciated.");
-			if(!foodpileTest.field.equals(arg4))
-				fail("FoodPile.field is not properly instanciated.");
+			assertTrue("FoodPile is not properly instanciated.",foodpileTest.getxLoc()==arg1 && foodpileTest.getyLoc()==arg2 && foodpileTest.getFoodCount()==arg3 && foodpileTest.getField().equals(arg4));
 		}		
 	}
 	
 	@Test
-	public void DecrementTest()
+	public void testDecrement()
 	{
 		Random r = new Random();
 		Foodpile foodpileTest;
@@ -52,8 +45,7 @@ public class FoodpileTest {
 			foodpileTest = new Foodpile(0,0,foodCount,null);
 			foodpileTest.decrement();
 			
-			if(foodpileTest.foodCount != (foodCount-1))
-				fail("FoodPile.foodCount is not properly decremented.");
+			assertTrue("FoodPile.foodCount is not properly decremented.",foodpileTest.getFoodCount() == (foodCount-1));
 		}
 		
 	}

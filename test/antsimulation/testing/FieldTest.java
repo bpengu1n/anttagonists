@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package antsimulation.model;
+package antsimulation.testing;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import antsimulation.ParameterSet;
+import antsimulation.model.Field;
 
 /**
  *
@@ -24,7 +25,7 @@ public class FieldTest {
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
@@ -45,13 +46,8 @@ public class FieldTest {
         ParameterSet p = new ParameterSet();
         System.out.println("initialize");
         Field instance = new Field(p);
-        instance.initialize();
-
-        if (instance.ants.size() < p.checkParameter("StartAntsPerColony")
-                || instance.colonies.size() < p.checkParameter("MaxColonies") 
-                || instance.foodpiles.size() < p.checkParameter("StartFoodPiles")
-                || instance.predators.size() < p.checkParameter("StartPredators"))
-            fail("The Initialization test case failed.");
+        assertTrue("The Initialization test case failed.", instance.getNumOfColonies() == p.checkParameter("MaxColonies")
+                    && instance.getFoodpileList().size() == p.checkParameter("StartFoodPiles"));
     }
 
     /**
@@ -64,23 +60,6 @@ public class FieldTest {
         Field instance = new Field(p);
         for (int x=0; x<500; x++)
             instance.update();
-        if(instance.changed != true)
-            fail("The Update test case failed.");
+      	assertTrue("The Update test case failed.",instance.getChanged() == true);
     }
-
-    /**
-     * Test of spawnPredator method, of class Field.
-     */
-    @Test
-    public void testSpawnPredator() {
-        ParameterSet p = new ParameterSet();
-        System.out.println("spawnPredator");
-        Field instance = new Field(p);
-        
-        instance.spawnPredator();
-
-        if (instance.predators.size() < p.checkParameter("StartPredators")) 
-            fail("The Spawn Predator test case failed.");
-    }
-
 }
