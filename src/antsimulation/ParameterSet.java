@@ -45,7 +45,7 @@ public class ParameterSet {
         50, 100, 5
     };
     public static float[] DEFAULT_VALS = {
-        .5f, 400, 500, 700, 50,
+        .5f, 400, 100, 700, 50,
         50, 250, 5, 30, .5f,
         200, 30, 30, 3, 6,
         5, 10, 1

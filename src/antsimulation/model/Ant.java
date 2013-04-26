@@ -55,7 +55,7 @@ public class Ant {
        				if(colony.getxLoc() ==getxLoc() && colony.getyLoc() ==getyLoc() && colony.getFaction() == getFaction())
        				{
        					giveFood(colony);
-       					if(getFramesSinceAte()>20)
+       					if(getFramesSinceAte()>field.parameters.checkParameter("AntHunger"))
        						eatFood(colony);
        					break;
        				}
