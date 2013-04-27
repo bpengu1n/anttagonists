@@ -10,8 +10,7 @@ import antsimulation.model.Field;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
+/*
  * @author Steve
  */
 public class ColonyTest {
@@ -36,8 +35,6 @@ public class ColonyTest {
         Colony testColony = new Colony(faction, xLoc, yLoc, testField);
         
         String fail = "Colony Constructor failed";
-        
-        assertTrue(fail, faction != testColony.faction || xLoc != testColony.xLoc || yLoc!=testColony.yLoc);
-        
+        assertTrue(fail, (faction==testColony.getFaction() && xLoc==testColony.getxLoc() && yLoc==testColony.getyLoc()));
     }
 }
