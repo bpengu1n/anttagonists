@@ -4,6 +4,8 @@ import antsimulation.model.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
+import static java.awt.image.ImageObserver.HEIGHT;
+import static java.awt.image.ImageObserver.WIDTH;
 import java.io.*;
 import javax.imageio.ImageIO;
 
@@ -86,10 +88,10 @@ public class SimulationDisplay extends JPanel {
     private void drawColonies(Graphics g, int unitSize) {
         int x, y;
         Colony colony;
-        ImageIcon redCol;
-        ImageIcon blueCol;
-        ImageIcon pinkCol;
-        ImageIcon orangeCol;
+        ImageIcon redCol = new ImageIcon("images/red/hill.png");;
+        ImageIcon blueCol = new ImageIcon("images/blue/hill.png");;
+        ImageIcon pinkCol = new ImageIcon("images/pink/hill.png");;
+        ImageIcon orangeCol = new ImageIcon("images/orange/hill.png");;
         for(int i = 0; i < field.getNumOfColonies(); i++)
         {
             colony = field.getColony(i);
@@ -98,44 +100,52 @@ public class SimulationDisplay extends JPanel {
             switch(colony.getFaction())
             {
             case 0:
-                    blueCol = new ImageIcon("images/blue/hill.png");
-                    blueCol.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
-                    //g.setColor(Color.blue);
+                    drawResized(blueCol,x,y,unitSize,g);
+                    g.setColor(Color.blue);
                     break;
             case 1:
-                    redCol = new ImageIcon("images/red/hill.png");
-                    redCol.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
+                    drawResized(redCol,x,y,unitSize,g);
                     g.setColor(Color.red);
                     break;
             case 2:
-                    orangeCol = new ImageIcon("images/orange/hill.png");
-                    orangeCol.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
+                    drawResized(orangeCol,x,y,unitSize,g);
                     g.setColor(Color.ORANGE);
                     break;
             case 3:
-                    pinkCol = new ImageIcon("images/pink/hill.png");
-                    pinkCol.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
+                    drawResized(pinkCol,x,y,unitSize,g);
                     g.setColor(Color.pink);
                     break;
             default:
-                redCol = new ImageIcon("images/pink/hill.png");
-                redCol.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
+                    drawResized(redCol,x,y,unitSize,g);
                     g.setColor(Color.magenta);
                     break;
             }
 
+            //to do non-image rendering
             //colonyPic.paintIcon(this, g, unitSize, unitSize*2);
             //g.fillArc(x, y, unitSize, unitSize*2, 0, 180);
         }
     }
 
+    private ImageIcon resizeTo(ImageIcon original, int w, int h) {
+        Image img = original.getImage();
+        BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Graphics g = bi.createGraphics();
+        g.drawImage(img, 0, 0, w, h, null);
+        return new ImageIcon(bi);
+    }
+    
+    private void drawResized(ImageIcon original, int x, int y, int unitSize, Graphics g) {
+        resizeTo(original,unitSize,unitSize).paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
+    }
+    
     private void drawAnts(Graphics g, int unitSize) {
         int x, y;
         
-        ImageIcon redAnt;
-        ImageIcon blueAnt;
-        ImageIcon pinkAnt;
-        ImageIcon orangeAnt;
+        ImageIcon redAnt = new ImageIcon("images/red/ant.png");
+        ImageIcon blueAnt = new ImageIcon("images/blue/ant.png");
+        ImageIcon pinkAnt = new ImageIcon("images/pink/ant.png");
+        ImageIcon orangeAnt = new ImageIcon("images/orange/ant.png");
         
         for(int i = 0; i < field.getAntList().size(); i++)
         {
@@ -145,31 +155,27 @@ public class SimulationDisplay extends JPanel {
                 switch(field.getAntList().get(i).getFaction())
                 {
                 case 0:
-                        blueAnt = new ImageIcon("images/blue/ant.png");
-                        blueAnt.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
+                        drawResized(blueAnt,x,y,unitSize,g);
                         g.setColor(Color.blue);
                         break;
                 case 1: 
-                        redAnt = new ImageIcon("images/red/ant.png");
-                        redAnt.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
+                        drawResized(redAnt,x,y,unitSize,g);
                         g.setColor(Color.red);
                         break;
                 case 2:
-                        orangeAnt = new ImageIcon("images/orange/ant.png");
-                        orangeAnt.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
+                        drawResized(orangeAnt,x,y,unitSize,g);
                         g.setColor(Color.ORANGE);
                         break;
                 case 3:
-                        pinkAnt = new ImageIcon("images/pink/ant.png");
-                        pinkAnt.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
+                        drawResized(pinkAnt,x,y,unitSize,g);
                         g.setColor(Color.pink);
                         break;
                 default:
-                        redAnt = new ImageIcon("images/red/ant.png");
-                        redAnt.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
+                        drawResized(redAnt,x,y,unitSize,g);
                         g.setColor(Color.magenta);
                         break;
                 }
+                //this is the non-image version:
                 //g.fillRect(x+(unitSize/4), y+(unitSize/4), unitSize/2, unitSize/2);
         }
     }
