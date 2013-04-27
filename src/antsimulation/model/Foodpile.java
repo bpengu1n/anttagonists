@@ -7,56 +7,37 @@ public class Foodpile {
     private boolean killme=false;
     
     public Foodpile(int theX, int theY, int food, Field f) {
-        setField(f);
-        setxLoc(theX);
-        setyLoc(theY);
-        setFoodCount(food);
+        field = f;
+        xLoc = theX;
+        yLoc = theY;
+        foodCount = food;
     }
     
     public void decrement() {
-    	setFoodCount(getFoodCount() - 1);
-    	if(getFoodCount()==0) {
-    		setKillme(true);
-    	}
+    	foodCount--;
+    	if(getFoodCount()==0)
+            killme = true;
     }
 
-	public int getxLoc() {
-		return xLoc;
-	}
+    public int getxLoc() {
+            return xLoc;
+    }
 
-	public void setxLoc(int xLoc) {
-		this.xLoc = xLoc;
-	}
+    public int getyLoc() {
+            return yLoc;
+    }
 
-	public int getyLoc() {
-		return yLoc;
-	}
+    public boolean getKillme() {
+            return killme;
+    }
 
-	public void setyLoc(int yLoc) {
-		this.yLoc = yLoc;
-	}
+    public int getFoodCount() {
+            return foodCount;
+    }
 
-	public boolean getKillme() {
-		return killme;
-	}
-
-	public void setKillme(boolean killme) {
-		this.killme = killme;
-	}
-
-	public int getFoodCount() {
-		return foodCount;
-	}
-
-	public void setFoodCount(int foodCount) {
-		this.foodCount = foodCount;
-	}
-
-	public Field getField() {
-		return field;
-	}
-
-	public void setField(Field field) {
-		this.field = field;
-	}
+        
+    //for JUnit testing
+    public Field getField() {
+            return field;
+    }
 }

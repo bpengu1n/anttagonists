@@ -10,8 +10,8 @@ public class Field extends java.util.Observable {
     private java.util.List<Foodpile> foodpiles;
     private java.util.List<Colony> colonies;
     private double[][][] pheromones;    //pheromones[faction][x][y]
-    private boolean changed = false;    //used for JUnit testing
     private Random generator;
+    private boolean changed = false;    //used for JUnit testing
     
     public Field(antsimulation.ParameterSet thisParams) {
         parameters = thisParams;

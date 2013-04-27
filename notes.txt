@@ -1,10 +1,6 @@
 STUFF TO DO
 -----------
 
--we want everything done by 7:00pm
--let Joseph know about ANY changes that could affect the requrements doc, the
-
-
 Brian
 	DONE
 
@@ -13,28 +9,9 @@ Cameron
 
 Joseph
   -update documents
-		"Ants do not eat outside the nest."
-		"Ants do not seek the nest, even when hungry, unless they have food.  However, they will eat if they stumble upon the nest while hungry."
-		do we need to include getters and setters in the class diagrams?
-			no, we don't
 	
 Steve
 	-image display and scaling
 		
 Benjamin
 	-finish any JUnit testing (One assertion each; "every test case has a self-descriptive name")
-	-ideas:
-		-colony
-		-simulation?
-		-simulationDisplay?
-		-parameterArea?
-	-check the requirements to be sure we have enough
-
-
-Diagram Changes Needed
-----------------------------
-+parameters -> -parameters
-add +generateFromFile()
-everything under View
-ParameterArea.editable -> killed
-View and Parameterset: use File, not String

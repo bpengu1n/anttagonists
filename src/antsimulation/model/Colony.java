@@ -1,9 +1,9 @@
 package antsimulation.model;
 
 public class Colony {
-    private int framesSinceAntBorn;
     private int faction;
     private int xLoc, yLoc; //Location
+    private int framesSinceAntBorn;
     private int foodCount;
     private Field field;
 
@@ -34,31 +34,40 @@ public class Colony {
     	
     	
     }
+
     private void birthAnt() {
     	field.getAntList().add(new Ant (getFaction(), getxLoc(), getyLoc(), (int) field.getParameterSet().checkParameter("AntLifetime"), field));
     }
-	public int getFaction() {
-		return faction;
-	}
-	public void setFaction(int faction) {
-		this.faction = faction;
-	}
-	public int getxLoc() {
-		return xLoc;
-	}
-	public void setxLoc(int xLoc) {
-		this.xLoc = xLoc;
-	}
-	public int getyLoc() {
-		return yLoc;
-	}
-	public void setyLoc(int yLoc) {
-		this.yLoc = yLoc;
-	}
-	public int getFoodCount() {
-		return foodCount;
-	}
-	public void setFoodCount(int foodCount) {
-		this.foodCount = foodCount;
-	}
+
+    public int getxLoc() {
+            return xLoc;
+    }
+
+    public int getyLoc() {
+            return yLoc;
+    }
+
+    public int getFoodCount() {
+            return foodCount;
+    }
+    
+    public int getFaction() {
+            return faction;
+    }
+
+
+    //JUnit testing functions below here
+    
+    public void setFoodCount(int foodCount) {
+            this.foodCount = foodCount;
+    }    
+    public void setFaction(int faction) {
+        this.faction = faction;
+    }
+    public void setxLoc(int xLoc) {
+            this.xLoc = xLoc;
+    }
+    public void setyLoc(int yLoc) {
+            this.yLoc = yLoc;
+    }
 }

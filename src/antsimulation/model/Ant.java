@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class Ant {
     private int xLoc, yLoc; //Location
+    private Field.Dir dir;
     private boolean hasFood;
     private int framesSinceAte, framesToLive;
-    private Field.Dir dir;
     private int faction;
     private Field field;
     private boolean killme=false;
@@ -24,14 +24,13 @@ public class Ant {
     
     //update does a lot
     //1. it figures out if it's time to die of natural causes
-    //2. checks to see if has food and then sees if it can place it in its colony. It will also lay pheromone
-    //3. wanders and sees if it can pick up food
-    //needs to implement some follow pheromone logic
-    //
+    //2. interact with colony (eat and give food)
+    //3. move--twords the colony if it has food, and following pheromones otherwise
+    //4. lay pheromoes if carrying food
     public void update() {
     	if(framesSinceAte==(int)field.getParameterSet().checkParameter("AntStarvation") || framesToLive==0)
     	{
-    		die();
+            die();
     	}
     	else
     	{
@@ -197,6 +196,7 @@ public class Ant {
     	    	}
     		}
     }
+
     private double pheromoneCheck(int x, int y, double curMax, double downPheromone){
     	if(x>=0 && y>=0 && x<field.getHeight() && y<field.getWidth()){
 			if(field.getPheromoneAt(getFaction(),x,y)>curMax)

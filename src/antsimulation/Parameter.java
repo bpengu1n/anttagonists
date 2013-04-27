@@ -16,8 +16,8 @@ public class Parameter {
     public boolean isEditable() { return isEditable; }
     void setEditable(boolean canEdit) { isEditable = canEdit; }
     public void setValue(double val) { value = val; }
-    public String toString()
-	{
-		return name + " = " + value;
-	}
+    //for debugging
+    public String toString() {
+        return name + " = " + value;
+    }
 }

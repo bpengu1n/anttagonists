@@ -14,8 +14,7 @@ MaxColonies:            Gives the number of colonies on the field
 StartAntsPerColony:     Gives the initial number of ants per colony initially on the field
 StartFoodPiles:         Gives the initial number of food piles
 StartFoodPileSize:      Gives the initial number of food units per food pile
-StartPredators:         Gives the initial number of predators
- */
+*/
 
 package antsimulation;
 import java.util.*;
@@ -26,27 +25,27 @@ public class ParameterSet {
     public static String[] PARAMETER_NAMES = {
 	"AntCuriosity", "AntStarvation", "AntHunger", "AntLifetime", "ReproductionRate",
 	"ReproductionCost", "PheromoneStrength", "PheromoneDecay", "xSize", "ySize",
-        "MaxColonies", "StartAntsPerColony", "StartFoodPiles", "StartFoodPileSize", "StartPredators"
+        "MaxColonies", "StartAntsPerColony", "StartFoodPiles", "StartFoodPileSize"
     };
     public static boolean[] MUSTBEINT = {   //restricts the possible values for a parameter
         false, true, true, true, true,
         true, false, false, true, true,
-        true, true, true, true, true
+        true, true, true, true
     };
     public static float[] MIN_VALS = {  //restricts the possible values for a parameter
 	0, 1, 0, 1, 0,
         0, 0, 0, 1, 1,
-        1, 1, 0, 1, 0
+        1, 1, 0, 1
     };
     public static float[] MAX_VALS = {  //restricts the possible values for a parameter
 	1, 1000, 1000, 1000, 100,
         50, 700, 100, 125, 125,
-        4, 20, 50, 100, 5
+        4, 20, 50, 100
     };
     public static float[] DEFAULT_VALS = {
         .2f, 400, 100, 700, 50,
         4, 250, 5, 30, 30,
-        3, 6, 5, 10, 1
+        3, 6, 5, 10
     };
     
     private static char COMMENTCHARACTER = '#'; //this marks lines to ignore in the Scenario file

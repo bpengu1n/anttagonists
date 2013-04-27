@@ -1,7 +1,7 @@
 package antsimulation.model;
 
 public class Simulation {
-    private int elapsedFrames;
+    private int elapsedFrames;  //not used at present time
     private antsimulation.view.View view;
     private Field field;
 
