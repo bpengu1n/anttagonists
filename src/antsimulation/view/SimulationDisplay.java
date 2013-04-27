@@ -4,6 +4,8 @@ import antsimulation.model.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
+import java.io.*;
+import javax.imageio.ImageIO;
 
 public class SimulationDisplay extends JPanel {
     private static int PREFERREDSIZE = 500;
@@ -84,6 +86,10 @@ public class SimulationDisplay extends JPanel {
     private void drawColonies(Graphics g, int unitSize) {
         int x, y;
         Colony colony;
+        ImageIcon redCol;
+        ImageIcon blueCol;
+        ImageIcon pinkCol;
+        ImageIcon orangeCol;
         for(int i = 0; i < field.getNumOfColonies(); i++)
         {
             colony = field.getColony(i);
@@ -92,28 +98,45 @@ public class SimulationDisplay extends JPanel {
             switch(colony.getFaction())
             {
             case 0:
-                    g.setColor(Color.blue);
+                    blueCol = new ImageIcon("images/blue/hill.png");
+                    blueCol.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
+                    //g.setColor(Color.blue);
                     break;
-            case 1: 
+            case 1:
+                    redCol = new ImageIcon("images/red/hill.png");
+                    redCol.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
                     g.setColor(Color.red);
                     break;
             case 2:
+                    orangeCol = new ImageIcon("images/orange/hill.png");
+                    orangeCol.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
                     g.setColor(Color.ORANGE);
                     break;
             case 3:
+                    pinkCol = new ImageIcon("images/pink/hill.png");
+                    pinkCol.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
                     g.setColor(Color.pink);
                     break;
             default:
+                redCol = new ImageIcon("images/pink/hill.png");
+                redCol.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
                     g.setColor(Color.magenta);
                     break;
             }
 
-            g.fillArc(x, y, unitSize, unitSize*2, 0, 180);
+            //colonyPic.paintIcon(this, g, unitSize, unitSize*2);
+            //g.fillArc(x, y, unitSize, unitSize*2, 0, 180);
         }
     }
 
     private void drawAnts(Graphics g, int unitSize) {
         int x, y;
+        
+        ImageIcon redAnt;
+        ImageIcon blueAnt;
+        ImageIcon pinkAnt;
+        ImageIcon orangeAnt;
+        
         for(int i = 0; i < field.getAntList().size(); i++)
         {
                 x = field.getAntList().get(i).getxLoc() * unitSize;
@@ -122,22 +145,32 @@ public class SimulationDisplay extends JPanel {
                 switch(field.getAntList().get(i).getFaction())
                 {
                 case 0:
+                        blueAnt = new ImageIcon("images/blue/ant.png");
+                        blueAnt.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
                         g.setColor(Color.blue);
                         break;
                 case 1: 
+                        redAnt = new ImageIcon("images/red/ant.png");
+                        redAnt.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
                         g.setColor(Color.red);
                         break;
                 case 2:
+                        orangeAnt = new ImageIcon("images/orange/ant.png");
+                        orangeAnt.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
                         g.setColor(Color.ORANGE);
                         break;
                 case 3:
+                        pinkAnt = new ImageIcon("images/pink/ant.png");
+                        pinkAnt.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
                         g.setColor(Color.pink);
                         break;
                 default:
+                        redAnt = new ImageIcon("images/red/ant.png");
+                        redAnt.paintIcon(this, g, x-(unitSize/2), y-(unitSize/2));
                         g.setColor(Color.magenta);
                         break;
                 }
-                g.fillRect(x+(unitSize/4), y+(unitSize/4), unitSize/2, unitSize/2);
+                //g.fillRect(x+(unitSize/4), y+(unitSize/4), unitSize/2, unitSize/2);
         }
     }
 
@@ -145,6 +178,7 @@ public class SimulationDisplay extends JPanel {
         int x, y, pileSize, diff;
         float foodScale=.13f;
         Foodpile foodPile;
+        //ImageIcon foodImg = new ImageIcon("images/terrain/food.png");
                        
         for(int i = 0; i < field.getFoodpileList().size(); i++)
         {
@@ -170,7 +204,7 @@ public class SimulationDisplay extends JPanel {
         {
             for(int y = 0 ; y < field.getWidth(); y++)
             {
-        	while((field.getPheromoneAt(faction, x, y)) != -1)
+            while((field.getPheromoneAt(faction, x, y)) != -1)
     		{   //we loop through each faction, here
                     switch(faction)
                     {
