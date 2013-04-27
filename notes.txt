@@ -14,4 +14,4 @@ Steve
 	-image display and scaling
 		
 Benjamin
-	-finish any JUnit testing (One assertion each; "every test case has a self-descriptive name")
+	DONE
