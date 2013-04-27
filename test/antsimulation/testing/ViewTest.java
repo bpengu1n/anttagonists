@@ -37,8 +37,8 @@ public class ViewTest {
      * Test of update method, of class View.
      */
     @Test
-    public void testUpdate() {
-        System.out.println("update");
+    public void testUpdateView() {
+        System.out.println("update view");
         antsimulation.ParameterSet p = new antsimulation.ParameterSet();
         antsimulation.model.Field field = new antsimulation.model.Field(p);
         antsimulation.Controller c = new antsimulation.Controller();

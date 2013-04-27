@@ -31,7 +31,7 @@ public class FoodpileTest {
 	}
 	
 	@Test
-	public void testDecrement()
+	public void testDecrementFoodPile()
 	{
 		Random r = new Random();
 		Foodpile foodpileTest;

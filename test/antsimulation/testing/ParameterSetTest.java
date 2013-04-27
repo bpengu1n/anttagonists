@@ -37,7 +37,7 @@ public class ParameterSetTest {
 	}
 
 	@Test
-	public void testCheckParameter() 
+	public void testCheckParameterAdjustment() 
 	{
 		ParameterSet pSet = new ParameterSet();
 		
